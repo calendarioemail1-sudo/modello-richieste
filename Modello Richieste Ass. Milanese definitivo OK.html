@@ -10,15 +10,24 @@
        VARIABILI E COLORI BASE
     ===========================*/
     :root{
-      --primary:#0056b3;
-      --bg-light:#f4f6fa;
-      --text-dark:#1e2a3a;
+      --primary:#0047a8;
+      --bg-light:#edf1f7;
+      --text-dark:#1a2540;
       --accent:#1c7ed6;
-      --danger:#dc3545;
-      --radius:10px;
-      --hover-green:#d4edda;
-      --hover-green-text:#155724;
-      --card-bg:#fff;
+      --danger:#e03545;
+      --radius:12px;
+      --hover-green:#d0f0dc;
+      --hover-green-text:#0f5132;
+      --card-bg:#ffffff;
+      --grad-primary: linear-gradient(135deg, #0047a8 0%, #1c7ed6 100%);
+      --grad-body: linear-gradient(160deg, #dde8f8 0%, #edf1f7 50%, #e8eef8 100%);
+      --grad-section: linear-gradient(160deg, #ffffff 0%, #f5f8ff 100%);
+      --grad-danger: linear-gradient(135deg, #e03545 0%, #ff6b6b 100%);
+      --grad-success: linear-gradient(135deg, #1a9e50 0%, #2ecc71 100%);
+      --grad-checkbox: linear-gradient(135deg, #eef3fb 0%, #dde8f8 100%);
+      --grad-checked: linear-gradient(135deg, #d0f0dc 0%, #b6e8cb 100%);
+      --shadow-card: 0 4px 20px rgba(0,71,168,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      --shadow-btn: 0 4px 14px rgba(0,71,168,0.25);
     }
 
     /* ==========================
@@ -26,28 +35,33 @@
     ===========================*/
     @media (prefers-color-scheme: dark) {
       :root {
-        --primary:#4da3ff;
-        --bg-light:#121826;
-        --text-dark:#bb6b0f;
-        --accent:#3d8bfd;
+        --primary:#5ab0ff;
+        --bg-light:#0e1622;
+        --text-dark:#c9a04a;
+        --accent:#4da6ff;
         --danger:#ff5c5c;
         --hover-green:#1d3b2f;
         --hover-green-text:#b8f5c7;
-        --card-bg:#1e2533;
+        --card-bg:#182030;
+        --grad-body: linear-gradient(160deg, #0e1622 0%, #121e30 50%, #0e1622 100%);
+        --grad-section: linear-gradient(160deg, #182030 0%, #1a2540 100%);
+        --grad-checkbox: linear-gradient(135deg, #1e2a40 0%, #243050 100%);
+        --grad-checked: linear-gradient(135deg, #1d3b2f 0%, #224535 100%);
+        --shadow-card: 0 4px 20px rgba(0,0,0,0.3), 0 1px 4px rgba(0,0,0,0.2);
       }
       body {
-        background:var(--bg-light);
+        background: var(--grad-body);
         color:var(--text-dark);
       }
       input, select, textarea {
-        background:#2a3245;
-        color:#24056e;
-        border:1px solid #444;
+        background:#1e2a40;
+        color:#c9a04a;
+        border:1px solid #2e3d58;
       }
-      .section { background:var(--card-bg); }
-      .checkbox-label { background:#2a3245; }
-      .checkbox-label:hover { background:var(--hover-green); color:var(--hover-green-text); }
-      .info-docs { background:#2a3245; color:#ddd; }
+      .section { background: var(--grad-section); }
+      .checkbox-label { background: var(--grad-checkbox); }
+      .checkbox-label:hover { background:var(--grad-checked); color:var(--hover-green-text); }
+      .info-docs { background:#1e2a40; color:#aaa; }
     }
 
     /* ==========================
@@ -56,7 +70,7 @@
     *{box-sizing:border-box}
     body{
       font-family:Inter,system-ui,sans-serif;
-      background:var(--bg-light);
+      background: var(--grad-body);
       margin:0;
       padding:0;
       color:var(--text-dark);
@@ -72,11 +86,16 @@
   .input-disabled{ opacity:0.6; }
 
     h1{
-      color:var(--primary);
       font-size:1.8em;
       margin:10px 0;
-      font-weight:700;
+      font-weight:800;
       text-align:center;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing:-0.02em;
+      filter: drop-shadow(0 2px 8px rgba(0,71,168,0.12));
     }
     h3{
       color:var(--primary);
@@ -101,21 +120,30 @@
 
     /* CARD SECTIONS */
     .section{
-      background:var(--card-bg);
+      background: var(--grad-section);
       padding:10px 14px;
       border-radius:var(--radius);
-      box-shadow:0 2px 6px rgba(0,0,0,0.06);
-      overflow:visible; /* rimosso scroll interno */
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(28,126,214,0.08);
+      overflow:visible;
       min-height:auto;
+      transition: box-shadow .2s;
+    }
+    .section:hover{
+      box-shadow: 0 8px 28px rgba(0,71,168,0.12), 0 2px 6px rgba(0,0,0,0.06);
     }
 
     h2{
-      border-left:3px solid var(--accent);
+      border-left: 3px solid transparent;
+      border-image: var(--grad-primary) 1;
       padding-left:6px;
       font-size:1em;
       margin:4px 0;
-      color:var(--primary);
-      font-weight:700;
+      font-weight:800;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     label{
@@ -131,23 +159,24 @@
       padding:6px 8px;
       font-size:0.9em;
       font-weight: bold !important;
-      border:1px solid #ccc;
+      border:1px solid #ccd6e8;
       border-radius:var(--radius);
       margin-top:4px;
-      transition:border-color .18s, box-shadow .18s;
-      background:#fff;
+      transition:border-color .18s, box-shadow .18s, background .18s;
+      background:rgba(255,255,255,0.9);
     }
 
-    /* bordo rosso per campi invalidi: applicato SOLO quando si tenta l'invio via Gmail/Outlook */
+    /* bordo rosso per campi invalidi */
     input.invalid, select.invalid, textarea.invalid{
       border:2px solid var(--danger) !important;
-      box-shadow:0 0 0 3px rgba(220,53,69,0.06);
+      box-shadow:0 0 0 3px rgba(224,53,69,0.08);
     }
 
     input:focus, select:focus, textarea:focus{
       border-color:var(--accent);
       outline:none;
-      box-shadow:0 0 0 3px rgba(28,126,214,0.08);
+      box-shadow:0 0 0 3px rgba(28,126,214,0.14);
+      background:#ffffff;
     }
 
     /* RIGHE INLINE */
@@ -161,25 +190,20 @@
     /* RIGA PREMI */
     .premio-row{
       display:flex;
-      gap:10px; /* leggermente più compatto ma leggibile */
+      gap:10px;
       align-items:center;
       margin-top:4px;
-      flex-wrap:wrap; /* consente il wrap su schermi stretti */
+      flex-wrap:wrap;
     }
-    /* variante con gap maggiore per distribuire più spazio tra le colonne */
     .premio-row.premio-spread{ gap:16px; }
 
-    /* Colonna interna usata nelle righe degli importi: assicura comportamento responsive
-       e larghezze minime per evitare collassi sui campi numerici. */
     .premio-col{
       display:flex;
       flex-direction:column;
       gap:6px;
-      flex:1 1 160px; /* grow, shrink, base */
+      flex:1 1 160px;
       min-width:140px;
     }
-
-    /* layout standard per le righe degli importi (flex-based) */
 
     .checkbox-grid{
       display:grid;
@@ -187,37 +211,38 @@
       margin-top:6px;
     }
 
-    /* checkbox label improved: show input at right but accessible */
+    /* checkbox label */
     .checkbox-label{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      background:#eef2f7;
+      background: var(--grad-checkbox);
       padding:6px 8px;
-      border-radius:6px;
+      border-radius:8px;
       font-weight:700;
       text-transform:uppercase;
       cursor:pointer;
-      transition:background-color .25s, color .25s;
+      transition:background .25s, color .25s, box-shadow .2s, transform .12s;
+      border: 1px solid rgba(28,126,214,0.08);
     }
 
     .checkbox-label:hover{
-      background:var(--hover-green);
+      background: var(--grad-checked);
       color:var(--hover-green-text);
+      box-shadow: 0 2px 8px rgba(0,71,168,0.10);
+      transform: translateY(-1px);
     }
 
     .checkbox-label input {
       margin-left:10px;
-      /* modern accent color for checkboxes */
       accent-color: var(--accent);
       transform:scale(1.05);
     }
 
-    /* Fallback styling for browsers that don't support :has()
-       we toggle .checked in JS when a checkbox is selected */
     .checkbox-label.checked {
-      background:var(--hover-green);
+      background: var(--grad-checked);
       color:var(--hover-green-text);
+      box-shadow: 0 2px 8px rgba(0,100,60,0.12);
     }
 
     .importi{ margin-top:10px; position:relative; }
@@ -233,29 +258,37 @@
     button{
       flex:1;
       padding:8px 16px;
-      border-radius:8px;
+      border-radius:10px;
       border:none;
       color:white;
       font-weight:700;
       cursor:pointer;
-      box-shadow:0 3px 6px rgba(0,0,0,0.08);
+      box-shadow: var(--shadow-btn);
       height:40px;
+      letter-spacing:0.01em;
+      transition: filter .18s, transform .12s, box-shadow .18s;
     }
-    .btn-reset{ background:var(--danger); }
-    .btn-gmail{ background:var(--accent); }
-    .btn-outlook{ background:#28a745; }
+    button:hover{
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,71,168,0.28);
+    }
+    button:active{ transform: translateY(0); filter: brightness(0.97); }
+    .btn-reset{ background: var(--grad-danger); }
+    .btn-gmail{ background: var(--grad-primary); }
+    .btn-outlook{ background: var(--grad-success); }
 
-    /* POPUP ERRORE with fade animation */
+    /* POPUP ERRORE */
     .popup{
       position:fixed;
       top:18px;
       left:50%;
       transform:translateX(-50%);
-      background:var(--danger);
+      background: var(--grad-danger);
       color:white;
       padding:10px 16px;
-      border-radius:10px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.18);
+      border-radius:12px;
+      box-shadow:0 8px 24px rgba(224,53,69,0.28);
       font-weight:700;
       display:none;
       z-index:9999;
@@ -277,13 +310,16 @@
 
     /* BARRA SCORRIMENTO */
     .section::-webkit-scrollbar{ width:6px; }
-    .section::-webkit-scrollbar-thumb{ background:#ccc; border-radius:6px; }
+    .section::-webkit-scrollbar-thumb{
+      background: var(--grad-primary);
+      border-radius:6px;
+    }
 
     .info-docs{
       margin-top:6px;
       font-size:0.85em;
       color:#555;
-      background:#f9f9f9;
+      background: linear-gradient(135deg, #f0f6ff 0%, #e8f0fb 100%);
       border-left:3px solid var(--accent);
       padding:4px 8px;
       border-radius:6px;
@@ -295,7 +331,7 @@
       margin-top:6px;
       font-size:0.85em;
       color:#555;
-      background:#f9f9f9;
+      background: linear-gradient(135deg, #f0f6ff 0%, #e8f0fb 100%);
       border-left:3px solid var(--accent);
       padding:4px 8px;
       border-radius:6px;
@@ -337,25 +373,25 @@
     /* riga che mostra il calcolo RCA a sinistra e il totale a destra */
     .preventivo-row{ display:flex; gap:10px; align-items:center; margin-top:8px; }
     .rca-calc{
-      background:#f1f7ff;
-      border:1px solid #d6e9ff;
+      background: linear-gradient(135deg, #eaf3ff 0%, #ddeeff 100%);
+      border:1px solid #c0d9f5;
       padding:8px 10px;
-      border-radius:8px;
+      border-radius:10px;
       font-size:0.9em;
       color:var(--text-dark);
       min-width:200px;
       text-align:left;
-      box-shadow:0 1px 4px rgba(0,0,0,0.03);
+      box-shadow:0 2px 8px rgba(28,126,214,0.07);
     }
 
     .info-box {
     text-align:relative;
-    background:#fff7cc;
+    background: linear-gradient(135deg, #fffbe6 0%, #fff3cc 100%);
     padding:10px;
     border:1px solid #e6d57a;
     width:100%;
     margin:15px auto;
-    border-radius:8px;
+    border-radius:10px;
     font-size:14px;
     }
     /* Preview email HTML */
@@ -363,19 +399,19 @@
       width:100%;
       max-width:980px;
       background:var(--card-bg);
-      border:1px solid #ddd;
+      border:1px solid #dde8f8;
       padding:12px;
-      border-radius:8px;
-      font-size:16px; /* più grande */
+      border-radius:10px;
+      font-size:16px;
       line-height:1.45;
       color:var(--text-dark);
-      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      box-shadow: var(--shadow-card);
       overflow:auto;
       max-height:60vh;
     }
     .email-preview strong{ font-weight:800; }
     .preview-controls{ display:flex; gap:8px; margin:8px 0 14px; }
-    .btn-small{ padding:6px 10px; font-size:0.9em; height:36px; border-radius:6px; }
+    .btn-small{ padding:6px 10px; font-size:0.9em; height:36px; border-radius:8px; }
     /* Small helper for fieldset legend spacing */
     fieldset { border: none; padding:0; margin:0; }
     legend { font-weight:700; margin-top:6px; padding:0; text-transform:uppercase; }
