@@ -251,7 +251,10 @@
 
 <header>
   <h1>📋 Storico Richieste — Agenzia Giordano & Valenzise</h1>
-  <a href="/">← Torna al Modulo</a>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <a href="/">← Torna al Modulo</a>
+    <button onclick="logout()" style="background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);color:#fff;font-weight:700;font-size:0.85em;padding:6px 14px;border-radius:8px;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">🚪 Esci</button>
+  </div>
 </header>
 
 <div class="container">
@@ -346,11 +349,29 @@
 </div>
 
 <script>
+const SESSION_TOKEN = 'gv_storico_9f3a2b8c1e7d4f6a0b5c2d9e8f1a3b7c';
+
+function checkAuth(){
+  const token = localStorage.getItem('gv_auth_token');
+  if(token !== SESSION_TOKEN){
+    window.location.href = '/login';
+  }
+}
+checkAuth();
+
+function logout(){
+  localStorage.removeItem('gv_auth_token');
+  window.location.href = '/login';
+}
+
 let allData = [];
 
 async function loadData(){
   try{
-    const res = await fetch('/api/get-submissions');
+    const token = localStorage.getItem('gv_auth_token');
+    const res = await fetch('/api/get-submissions', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
     const json = await res.json();
     allData = json.submissions || [];
     document.getElementById('loadingMsg').style.display = 'none';
