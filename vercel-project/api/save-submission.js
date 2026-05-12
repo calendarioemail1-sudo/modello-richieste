@@ -1,12 +1,14 @@
 import { sql } from '@vercel/postgres';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    // Crea la tabella se non esiste
     await sql`
       CREATE TABLE IF NOT EXISTS submissions (
         id SERIAL PRIMARY KEY,
@@ -31,12 +33,13 @@ export default async function handler(req, res) {
       )
     `;
 
+    const body = req.body || {};
     const {
       numero_proposta, tipo_richiesta, nome, cognome, targa, tipo_veicolo,
       email_assicurato, telefono, compagnia_provenienza, frazionamento,
       sconto_richiesto, premio_rca, totale_scontato_rca, preventivo_totale,
       garanzie, note, canale_invio
-    } = req.body;
+    } = body;
 
     await sql`
       INSERT INTO submissions (
@@ -45,10 +48,11 @@ export default async function handler(req, res) {
         sconto_richiesto, premio_rca, totale_scontato_rca, preventivo_totale,
         garanzie, note, canale_invio
       ) VALUES (
-        ${numero_proposta}, ${tipo_richiesta}, ${nome}, ${cognome}, ${targa}, ${tipo_veicolo},
-        ${email_assicurato}, ${telefono}, ${compagnia_provenienza}, ${frazionamento},
-        ${sconto_richiesto}, ${premio_rca}, ${totale_scontato_rca}, ${preventivo_totale},
-        ${garanzie}, ${note}, ${canale_invio}
+        ${numero_proposta || ''}, ${tipo_richiesta || ''}, ${nome || ''}, ${cognome || ''},
+        ${targa || ''}, ${tipo_veicolo || ''}, ${email_assicurato || ''}, ${telefono || ''},
+        ${compagnia_provenienza || ''}, ${frazionamento || ''}, ${sconto_richiesto || ''},
+        ${premio_rca || ''}, ${totale_scontato_rca || ''}, ${preventivo_totale || ''},
+        ${garanzie || ''}, ${note || ''}, ${canale_invio || ''}
       )
     `;
 
