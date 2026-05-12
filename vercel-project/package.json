@@ -1,0 +1,8 @@
+{
+  "name": "agenzia-giordano-valenzise",
+  "version": "1.0.0",
+  "description": "Modello Richieste Assicuratrice Milanese",
+  "dependencies": {
+    "@vercel/postgres": "^0.10.0"
+  }
+}

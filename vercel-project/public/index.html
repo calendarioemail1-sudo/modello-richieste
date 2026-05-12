@@ -1,0 +1,2494 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Richiesta Proposta - Agenzia Giordano & Valenzise (Modificata)</title>
+
+  <style>
+    /* ==========================
+       VARIABILI E COLORI BASE
+    ===========================*/
+    :root{
+      --primary:#0047a8;
+      --bg-light:#edf1f7;
+      --text-dark:#1a2540;
+      --accent:#1c7ed6;
+      --danger:#e03545;
+      --radius:12px;
+      --hover-green:#d0f0dc;
+      --hover-green-text:#0f5132;
+      --card-bg:#ffffff;
+      --grad-primary: linear-gradient(135deg, #0047a8 0%, #1c7ed6 100%);
+      --grad-body: linear-gradient(160deg, #dde8f8 0%, #edf1f7 50%, #e8eef8 100%);
+      --grad-section: linear-gradient(160deg, #ffffff 0%, #f5f8ff 100%);
+      --grad-danger: linear-gradient(135deg, #e03545 0%, #ff6b6b 100%);
+      --grad-success: linear-gradient(135deg, #1a9e50 0%, #2ecc71 100%);
+      --grad-checkbox: linear-gradient(135deg, #eef3fb 0%, #dde8f8 100%);
+      --grad-checked: linear-gradient(135deg, #d0f0dc 0%, #b6e8cb 100%);
+      --shadow-card: 0 4px 20px rgba(0,71,168,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      --shadow-btn: 0 4px 14px rgba(0,71,168,0.25);
+    }
+
+    /* ==========================
+       DARK MODE AUTOMATICA
+    ===========================*/
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary:#5ab0ff;
+        --bg-light:#0e1622;
+        --text-dark:#c9a04a;
+        --accent:#4da6ff;
+        --danger:#ff5c5c;
+        --hover-green:#1d3b2f;
+        --hover-green-text:#b8f5c7;
+        --card-bg:#182030;
+        --grad-body: linear-gradient(160deg, #0e1622 0%, #121e30 50%, #0e1622 100%);
+        --grad-section: linear-gradient(160deg, #182030 0%, #1a2540 100%);
+        --grad-checkbox: linear-gradient(135deg, #1e2a40 0%, #243050 100%);
+        --grad-checked: linear-gradient(135deg, #1d3b2f 0%, #224535 100%);
+        --shadow-card: 0 4px 20px rgba(0,0,0,0.3), 0 1px 4px rgba(0,0,0,0.2);
+      }
+      body {
+        background: var(--grad-body);
+        color:var(--text-dark);
+      }
+      input, select, textarea {
+        background:#1e2a40;
+        color:#c9a04a;
+        border:1px solid #2e3d58;
+      }
+      .section { background: var(--grad-section); }
+      .checkbox-label { background: var(--grad-checkbox); }
+      .checkbox-label:hover { background:var(--grad-checked); color:var(--hover-green-text); }
+      .info-docs { background:#1e2a40; color:#aaa; }
+    }
+
+    /* ==========================
+       STILI GENERALI
+    ===========================*/
+    *{box-sizing:border-box}
+    body{
+      font-family:Inter,system-ui,sans-serif;
+      background: var(--grad-body);
+      margin:0;
+      padding:0;
+      color:var(--text-dark);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      min-height:100vh;
+      width:100vw;
+      overflow-x:hidden;
+    }
+
+  /* Visivo per input impostati come 'disabilitati' tramite readOnly */
+  .input-disabled{ opacity:0.6; }
+
+    h1{
+      font-size:1.8em;
+      margin:10px 0;
+      font-weight:800;
+      text-align:center;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing:-0.02em;
+      filter: drop-shadow(0 2px 8px rgba(0,71,168,0.12));
+    }
+    h3{
+      color:var(--primary);
+      font-size:0.8em;
+      margin:0;
+      font-weight:700;
+      text-align:right
+    }
+
+    /* ==========================
+       LAYOUT A TRE COLONNE
+    ===========================*/
+    .main-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:10px;
+      width:100%;
+      padding:6px;
+      flex-grow:1;
+      align-items:start;
+    }
+
+    /* CARD SECTIONS */
+    .section{
+      background: var(--grad-section);
+      padding:10px 14px;
+      border-radius:var(--radius);
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(28,126,214,0.08);
+      overflow:visible;
+      min-height:auto;
+      transition: box-shadow .2s;
+    }
+    .section:hover{
+      box-shadow: 0 8px 28px rgba(0,71,168,0.12), 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    h2{
+      border-left: 3px solid transparent;
+      border-image: var(--grad-primary) 1;
+      padding-left:6px;
+      font-size:1em;
+      margin:4px 0;
+      font-weight:800;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    label{
+      display:block;
+      margin-top:4px;
+      font-weight:700;
+      font-size:0.95em;
+      text-transform:uppercase;
+    }
+      
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea{
+      width:100%;
+      padding:6px 8px;
+      font-size:0.9em;
+      font-weight: bold !important;
+      border:1px solid #ccd6e8;
+      border-radius:var(--radius);
+      margin-top:4px;
+      transition:border-color .18s, box-shadow .18s, background .18s, transform .15s;
+      background:rgba(255,255,255,0.9);
+    }
+
+    /* bordo rosso per campi invalidi */
+    input.invalid, select.invalid, textarea.invalid{
+      border:2px solid var(--danger) !important;
+      box-shadow:0 0 0 3px rgba(224,53,69,0.08);
+    }
+
+    input[type="text"]:hover, input[type="email"]:hover, input[type="tel"]:hover, input[type="number"]:hover, select:hover, textarea:hover{
+      border-color:#7ab8f0;
+      background: linear-gradient(135deg, #f5faff 0%, #eaf3ff 100%);
+      box-shadow:0 2px 10px rgba(28,126,214,0.10);
+      transform: translateY(-1px);
+    }
+
+    input:focus, select:focus, textarea:focus{
+      border-color:var(--accent);
+      outline:none;
+      box-shadow:0 0 0 3px rgba(28,126,214,0.18), 0 2px 12px rgba(28,126,214,0.12);
+      background:#ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* RIGHE INLINE */
+    .row-inline{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .row-inline > * { flex:1; }
+
+    /* RIGA PREMI */
+    .premio-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-top:4px;
+      flex-wrap:wrap;
+    }
+    .premio-row.premio-spread{ gap:16px; }
+
+    .premio-col{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      flex:1 1 160px;
+      min-width:140px;
+    }
+
+    .checkbox-grid{
+      display:grid;
+      gap:6px;
+      margin-top:6px;
+    }
+
+    /* checkbox label */
+    .checkbox-label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background: var(--grad-checkbox);
+      padding:6px 8px;
+      border-radius:8px;
+      font-weight:700;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:background .25s, color .25s, box-shadow .2s, transform .12s;
+      border: 1px solid rgba(28,126,214,0.08);
+    }
+
+    .checkbox-label:hover{
+      background: var(--grad-checked);
+      color:var(--hover-green-text);
+      box-shadow: 0 2px 8px rgba(0,71,168,0.10);
+      transform: translateY(-1px);
+    }
+
+    .checkbox-label input {
+      margin-left:10px;
+      accent-color: var(--accent);
+      transform:scale(1.05);
+    }
+
+    .checkbox-label.checked {
+      background: var(--grad-checked);
+      color:var(--hover-green-text);
+      box-shadow: 0 2px 8px rgba(0,100,60,0.12);
+    }
+
+    .importi{ margin-top:10px; position:relative; }
+
+    /* BOTTONI */
+    .btn-container{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      width:100%;
+      padding:10px 0 16px;
+    }
+    button{
+      flex:1;
+      padding:8px 16px;
+      border-radius:10px;
+      border:none;
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow: var(--shadow-btn);
+      height:40px;
+      letter-spacing:0.01em;
+      transition: filter .18s, transform .12s, box-shadow .18s;
+    }
+    button:hover{
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0,71,168,0.28);
+    }
+    button:active{ transform: translateY(0); filter: brightness(0.97); }
+    .btn-reset{ background: var(--grad-danger); }
+    .btn-gmail{ background: var(--grad-primary); }
+    .btn-outlook{ background: var(--grad-success); }
+
+    /* POPUP ERRORE */
+    .popup{
+      position:fixed;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      background: var(--grad-danger);
+      color:white;
+      padding:10px 16px;
+      border-radius:12px;
+      box-shadow:0 8px 24px rgba(224,53,69,0.28);
+      font-weight:700;
+      display:none;
+      z-index:9999;
+      opacity:0;
+      transition:opacity .3s ease, transform .25s ease;
+    }
+    .popup.show { display:block; opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width:1100px){
+      .main-grid{ grid-template-columns:1fr 1fr; }
+    }
+
+    @media (max-width:750px){
+      .main-grid{ grid-template-columns:1fr; }
+      h1{ font-size:1.4em; }
+      button{ font-size:0.9em; }
+    }
+
+    /* BARRA SCORRIMENTO */
+    .section::-webkit-scrollbar{ width:6px; }
+    .section::-webkit-scrollbar-thumb{
+      background: var(--grad-primary);
+      border-radius:6px;
+    }
+
+    .info-docs{
+      margin-top:6px;
+      font-size:0.85em;
+      color:#555;
+      background: linear-gradient(135deg, #f0f6ff 0%, #e8f0fb 100%);
+      border-left:3px solid var(--accent);
+      padding:4px 8px;
+      border-radius:6px;
+      font-style:italic;
+    }
+
+    /* Info box espandibile */
+    .info-box{
+      margin-top:6px;
+      font-size:0.85em;
+      color:#555;
+      background: linear-gradient(135deg, #f0f6ff 0%, #e8f0fb 100%);
+      border-left:3px solid var(--accent);
+      padding:4px 8px;
+      border-radius:6px;
+      font-style:italic;
+      max-height:2.5em;
+      overflow:hidden;
+      cursor:pointer;
+      transition:max-height 0.3s ease-in-out;
+      position:relative;
+      padding-right:24px;
+    }
+    .info-box::after{
+      content:'▼';
+      position:absolute;
+      right:8px;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:0.8em;
+      transition:transform 0.3s ease-in-out;
+    }
+    .info-box.expanded{
+      max-height:none;
+    }
+    .info-box.expanded::after{
+      transform:translateY(-50%) rotate(180deg);
+    }
+
+    /* Valore blu calcolato */
+    #preventivoCalcolato{
+      position:relative;
+      display:block;
+      margin-top:4px;
+      text-align:center;
+      font-size:1em;
+      font-weight:700;
+      color:var(--accent);
+    } 
+
+    /* riga che mostra il calcolo RCA a sinistra e il totale a destra */
+    .preventivo-row{ display:flex; gap:10px; align-items:center; margin-top:8px; }
+    .rca-calc{
+      background: linear-gradient(135deg, #eaf3ff 0%, #ddeeff 100%);
+      border:1px solid #c0d9f5;
+      padding:8px 10px;
+      border-radius:10px;
+      font-size:0.9em;
+      color:var(--text-dark);
+      min-width:200px;
+      text-align:left;
+      box-shadow:0 2px 8px rgba(28,126,214,0.07);
+    }
+
+    .info-box {
+    text-align:relative;
+    background: linear-gradient(135deg, #fffbe6 0%, #fff3cc 100%);
+    padding:10px;
+    border:1px solid #e6d57a;
+    width:100%;
+    margin:15px auto;
+    border-radius:10px;
+    font-size:14px;
+    }
+    /* Preview email HTML */
+    .email-preview{
+      width:100%;
+      max-width:980px;
+      background:var(--card-bg);
+      border:1px solid #dde8f8;
+      padding:12px;
+      border-radius:10px;
+      font-size:16px;
+      line-height:1.45;
+      color:var(--text-dark);
+      box-shadow: var(--shadow-card);
+      overflow:auto;
+      max-height:60vh;
+    }
+    .email-preview strong{ font-weight:800; }
+    .preview-controls{ display:flex; gap:8px; margin:8px 0 14px; }
+    .btn-small{ padding:6px 10px; font-size:0.9em; height:36px; border-radius:8px; }
+    /* Small helper for fieldset legend spacing */
+    fieldset { border: none; padding:0; margin:0; }
+    legend { font-weight:700; margin-top:6px; padding:0; text-transform:uppercase; }
+
+    /* ==========================
+       CASELLE DATA MODERNE
+    ===========================*/
+    input[type="date"]{
+      appearance: none;
+      -webkit-appearance: none;
+      background: linear-gradient(135deg, #f3eeff 0%, #ede0ff 100%) !important;
+      border: 2px solid #a78bfa !important;
+      border-radius: 10px !important;
+      padding: 7px 12px 7px 38px !important;
+      font-size: 0.92em !important;
+      font-weight: 700 !important;
+      color: #5b21b6 !important;
+      -webkit-text-fill-color: #5b21b6 !important;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat !important;
+      background-position: 10px center !important;
+      background-size: 18px !important;
+      box-shadow: 0 2px 10px rgba(124,58,237,0.18), inset 0 1px 3px rgba(124,58,237,0.06) !important;
+      transition: border-color .18s, box-shadow .18s, background .18s, transform .15s !important;
+      min-width: 160px;
+      letter-spacing: 0.02em;
+    }
+
+    input[type="date"]:hover{
+      background: linear-gradient(135deg, #ede0ff 0%, #ddd0ff 100%) !important;
+      border-color: #7c3aed !important;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.28), inset 0 1px 3px rgba(124,58,237,0.08) !important;
+      transform: translateY(-2px);
+    }
+
+    input[type="date"]:focus{
+      background: linear-gradient(135deg, #e8d5ff 0%, #d8c0ff 100%) !important;
+      border-color: #6d28d9 !important;
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.22), 0 4px 16px rgba(124,58,237,0.22) !important;
+      transform: translateY(-2px);
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator{
+      opacity: 0;
+      width: 28px;
+      cursor: pointer;
+      position: absolute;
+      left: 0;
+    }
+
+    input[type="date"]::-webkit-datetime-edit{
+      color: #5b21b6 !important;
+      font-weight: 700 !important;
+    }
+
+    input[type="date"]::-webkit-datetime-edit-fields-wrapper{
+      padding: 0;
+    }
+
+    input[type="date"]::-webkit-datetime-edit-text{
+      color: #a78bfa !important;
+      padding: 0 2px;
+    }
+
+    input[type="date"]::-webkit-datetime-edit-month-field,
+    input[type="date"]::-webkit-datetime-edit-day-field,
+    input[type="date"]::-webkit-datetime-edit-year-field{
+      color: #5b21b6 !important;
+      border-radius: 3px;
+      padding: 1px 2px;
+    }
+
+    input[type="date"]::-webkit-datetime-edit-month-field:focus,
+    input[type="date"]::-webkit-datetime-edit-day-field:focus,
+    input[type="date"]::-webkit-datetime-edit-year-field:focus{
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      outline: none;
+      border-radius: 3px;
+    }
+
+    @media (prefers-color-scheme: dark){
+      input[type="date"]{
+        background: linear-gradient(135deg, #2d1f50 0%, #3b1f6e 100%) !important;
+        border-color: #7c3aed !important;
+        color: #d8b4fe !important;
+        -webkit-text-fill-color: #d8b4fe !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23d8b4fe' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E") !important;
+      }
+      input[type="date"]::-webkit-datetime-edit,
+      input[type="date"]::-webkit-datetime-edit-month-field,
+      input[type="date"]::-webkit-datetime-edit-day-field,
+      input[type="date"]::-webkit-datetime-edit-year-field{
+        color: #d8b4fe !important;
+        -webkit-text-fill-color: #d8b4fe !important;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div style="display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 12px;max-width:1400px;">
+    <h1 style="flex:1;">Richiesta Proposta - Agenzia Giordano & Valenzise</h1>
+    <a href="/storico" style="text-decoration:none;background:var(--grad-primary);color:#fff;font-weight:700;font-size:0.85em;padding:7px 16px;border-radius:8px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,71,168,0.2);transition:filter .18s;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">📋 Storico Richieste</a>
+  </div>
+
+  <!-- Popup errore validazione (usiamo una classe .show per animazione) -->
+  <div id="popupErrore" class="popup" role="alert" aria-live="assertive">⚠️ Compila tutti i campi obbligatori.</div>
+
+  <!-- FORM PRINCIPALE -->
+  <form id="polizzaForm" style="width:100%; display:flex; flex-direction:column; align-items:center; flex-grow:1;">
+
+    <!-- Griglia a 3 sezioni (layout invariato rispetto alla versione originale) -->
+    <div class="main-grid">
+
+      <!-- SEZIONE DATI ASSICURATO -->
+      <div class="section" id="sezione-dati">
+        <h2>Dati Assicurato</h2>
+        <h3>*I CAMPI CON LA FRECCIA SONO SELEZIONABILI CON IL MENU' A TENDINA</h3> 
+        <!-- Campi principali -->
+        <div class="row-inline">
+          <div>
+        <label for="numeroProposta">NUMERO PROPOSTA:</label>
+          <input id="numeroProposta" name="numeroProposta" type="text" required pattern="\d{7}" maxlength="7" inputmode="numeric" title="Inserisci esattamente 7 cifre numeriche">
+          </div>
+          
+          <div>
+            <label for="tipoRichiesta">TIPO PROPOSTA:</label>
+            <select id="tipoRichiesta" name="tipoRichiesta" required>
+              <option value="Nuova Proposta">Nuova Proposta</option>
+              <option value="Rinnovo">Rinnovo</option>
+              <option value="Sostituzione">Sostituzione</option>
+            </select>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-end; flex:0 0 auto; padding-left:8px;">
+            <label for="cointestato" style="font-weight:700; text-transform:uppercase; margin-bottom:4px; white-space:nowrap;">COINTESTATO:</label>
+            <input id="cointestato" name="cointestato" type="checkbox" style="width:18px; height:18px; cursor:pointer;">
+          </div>
+        </div>
+
+        <div class="row-inline">
+          <div>
+            <label for="nome">NOME (SEPARARE CON , SE COINTESTATO):</label>
+            <input id="nome" name="nome" type="text" required>
+          </div>
+          <div>
+            <label for="cognome">COGNOME (SEPARARE CON , SE COINTESTATO):</label>
+            <input id="cognome" name="cognome" type="text" required>
+          </div>
+          
+        </div>
+
+        <div class="row-inline">
+          <div>
+            <label for="Targa">TARGA:</label>
+            <input id="Targa" name="Targa" type="text">
+          </div>
+          <div>
+            <label for="tipoVeicolo">TIPO VEICOLO:</label>
+            <select id="tipoVeicolo" name="tipoVeicolo">
+              <option value="Autovettura" selected>Autovettura</option>
+              <option value="Ciclomotore">Ciclomotore</option>
+              <option value="Autocarro">Autocarro</option>
+              <option value="Targa prova">Targa prova</option>
+              <!-- "Carrelli" rimosso come richiesto -->
+              <option value="Macchine agricole">Macchine agricole</option>
+              <option value="Natanti">Natanti</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row-inline">
+          <div>
+            <label for="email">EMAIL ASSICURATO:</label>
+            <input id="email" name="email" type="email" required>
+          </div>
+          <div>
+            <label for="telefono">TELEFONO ASSICURATO:</label>
+            <input id="telefono" name="telefono" type="tel" required inputmode="numeric" pattern="[0-9]{6,15}" title="Solo numeri (6-15 cifre)">
+          </div>
+        </div>
+
+        <!-- IMPORTO DA PASS -->
+        <div class="importi">
+          <h2>Importo da Pass</h2>
+           <h3>*INSERIRE SEMPRE TUTTI I VALORI ANNUALI SELEZIONARE ALLA FINE IL FRAZ. SEMESTRALE</h3>
+          <!-- select per provenienza attestato -->
+          <div class="row-inline" style="align-items:center;">
+            <div style="min-width:280px;">
+              <label for="provenienzaAttestato">PROVENIENZA ATTESTATO:</label>
+              <select id="provenienzaAttestato" name="provenienzaAttestato" required>
+                <option value="ATTESTATO DI RISCHIO IN CORSO DI VALIDITA'">ATTESTATO DI RISCHIO IN CORSO DI VALIDITA'</option>
+                <option value="ASSENZA ATTESTATO DI RISCHIO">ASSENZA ATTESTATO DI RISCHIO</option>
+                <option value="ATTESTATO DI RISCHIO COINTESTATO">ATTESTATO DI RISCHIO COINTESTATO</option>
+                <option value="ATTESTATO DI RISCHIO DERIVANTE DA SOGGETTO PORTATORE DI HANDICAP">ATTESTATO DI RISCHIO DERIVANTE DA SOGGETTO PORTATORE DI HANDICAP</option>
+                <option value="ATTESTATO DI RISCHIO DERIVANTE DA VEICOLO INVENDUTO O SUCCESSIVO A RITROVAMENTO">ATTESTATO DI RISCHIO DERIVANTE DA VEICOLO INVENDUTO O SUCCESSIVO A RITROVAMENTO</option>
+                <option value="ATTESTATO DI RISCHIO IN CORSO DI VALIDITA' PROVENIENZA BERSANI">ATTESTATO DI RISCHIO IN CORSO DI VALIDITA' PROVENIENZA BERSANI</option>
+                <option value="DECRETO BERSANI">DECRETO BERSANI</option>
+                <option value="PRIMA IMMATRICOLAZIONE">PRIMA IMMATRICOLAZIONE</option>
+                <option value="VOLTURA AL PUBBLICO REGISTRO AUTOMOBILISTICO">VOLTURA AL PUBBLICO REGISTRO AUTOMOBILISTICO</option>
+              </select>
+            </div>
+            <div style="min-width:180px;">
+              <label for="TipoGuida">TIPO GUIDA:</label>
+              <select id="TipoGuida" name="TipoGuida">
+                <option value="Guida Libera">Guida Libera</option>
+                <option value="Guida Esperta">Guida Esperta</option>
+              </select>
+            </div>
+          </div>
+          <div class="premio-row">
+          <label>Data scadenza vecchia polizza</label>
+            <input type="date" id="dataScadenzaVecchia">
+
+            <label>Data effetto nuova polizza</label>
+            <input type="date" id="dataEffetto" required>
+            </div>
+          
+          <div class="premio-row premio-spread">
+              <div class="premio-col">
+              <label for="totaleLordo">TOTALE LORDO ANNUO DA PASS</label>
+              <input id="totaleLordo" name="totaleLordo" type="text" placeholder="1 - Totale lordo annuo €" aria-describedby="totaleLordoHelp" style="color:#055cb9;">
+            </div>
+            <div class="premio-col">
+              <label for="calcoloRapidoGaranzieTotali">TOT. IMPONIBILE ANNUO (NETTO)</label>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <input id="calcoloRapidoGaranzieTotali" name="calcoloRapidoGaranzieTotali" type="text" placeholder=" 2 - Totale netto annuo €" aria-describedby="calcoloRapidoHelp" style="flex:1;">
+              </div>
+            </div>
+              <div class="premio-col" style="display:flex;flex-direction:column;">
+                <label for="PremioAssicuratriceMilanese">IMPORTO NETTO ANNUO RCA</label>
+                <input id="PremioAssicuratriceMilanese" name="PremioAssicuratriceMilanese" type="number" placeholder="3 - RCA Netto annuo €" step="0.01" required style="color:#008000;">
+              </div>
+              <div class="premio-col" style="display:flex;flex-direction:column;">
+                <label for="PremioInfortuniEsterni">GARANZIE INF. ANNUE INT. (€):</label>
+                <input id="PremioInfortuniEsterni" name="PremioInfortuniEsterni" type="number" placeholder="4 - Infortuni interni Netto annuo €" step="0.01" style="color:#972c92;">
+              </div>
+          </div>
+          
+          <div class="row-inline">
+            <div>
+              <label for="Premio_altre_garanzie_totale">ALTRE GAR. ARD ANNUO (€):</label>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input id="Premio_altre_garanzie_totale" name="Premio_altre_garanzie_totale" type="text" placeholder=€ style="color:#ce4f06; flex:1;">
+                
+              </div>
+            </div>
+            <div>
+              <label for="PremioInfortuniEsterni2">INFORTUNI ESTERNI ANNUO (€):</label>
+              <input id="PremioInfortuniEsterni2" name="PremioInfortuniEsterni2" type="number" placeholder="€" step="0.01" style="color:#8b4789;">
+            </div>
+            <div>
+              <label for="PremioCasaEasy">CASA EASY ANNUO (€):</label>
+              <input id="PremioCasaEasy" name="PremioCasaEasy" type="number" placeholder="€" step="0.01" style="color:#a6a804;">
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <label style="font-size:0.85em;font-weight:700;text-transform:uppercase;">IMPOSTE E SSN ANNUE</label>
+              <div id="display_imposteDiff" style="padding:6px 8px;border-radius:6px;background:#fffef6;border:1px solid #f0e6c2;min-width:140px;text-align:center;font-weight:700;font-size:1.0em;color:#c00;">€ 0,00</div>
+            </div>
+          </div>
+
+          <div class="row-inline">
+            <div>
+              <label for="PremioConcorrenza">PREVENTIVO NUOVO O PREC. RATA ANNUO (€):</label>
+              <input id="PremioConcorrenza" name="PremioConcorrenza" type="number" placeholder="€" step="0.01">
+            </div>
+            <div>
+              <label for="compagniaProvenienza">COMPAGNIA DI PROVENIENZA ANCHE SE RINNOVI:</label>
+              <input id="compagniaProvenienza" name="compagniaProvenienza" type="text" required>
+            </div>
+            <div>
+              <label for="hasPreventivo">PRESENZA PREVENTIVO:</label>
+              <div style="margin-top:6px;">
+                <input id="hasPreventivo" name="hasPreventivo" type="checkbox"> Ho il preventivo
+              </div>
+            </div>
+            <div style="flex:1; min-width:180px;">
+              <label for="scontoPass">SCONTO GIÀ APPLICATO DA PASS SE PRESENTE (RINNOVO) (%):</label>
+              <input id="scontoPass" name="scontoPass" type="number" min="0" max="100" placeholder="5 - Sconto già in proposta PASS %" step="0.01" style="color:#6a4fbd;" tabindex="-1">
+            </div>
+          </div>
+        </div>
+
+        <!-- IMPORTI RICHIESTI -->
+        <div class="importi">
+          
+          <div class="row-inline" style="align-items:flex-end; gap:12px;">
+            <div style="flex:1; min-width:200px;">
+              <label for="sconto">SCONTO RICHIESTO SULLA SOLA RCA (%):</label>
+              <input id="sconto" name="sconto" type="number" min="0" max="100" placeholder="%" step="0.01" style="color:#088b03;">
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start; gap:4px;">
+              <label style="font-size:0.85em;font-weight:700;text-transform:uppercase;">Suggerimento % su RCA</label>
+              <div id="scontoSuggeritoRCA" style="padding:4px 8px;border-radius:6px;background:#fffef6;border:1px solid #f0e6c2;min-width:100px;text-align:center;font-weight:700;font-size:1.1em;color:var(--accent);">—</div>
+            </div>
+            
+            <div style="display:flex; gap:8px; align-items:flex-end;">
+              <div style="display:flex; flex-direction:column; align-items:flex-start; gap:4px;">
+                <label style="font-size:0.85em;font-weight:700;text-transform:uppercase;">IMPOSTE SOLO RCA(16%)</label>
+                <div id="display_imposte" style="padding:4px 8px;border-radius:6px;background:#fffef6;border:1px solid #f0e6c2;min-width:140px;text-align:center;font-weight:700;font-size:1.0em;color:#008000;">€ 0,00</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:flex-start; gap:4px;">
+                <label style="font-size:0.85em;font-weight:700;text-transform:uppercase;">IMPOSTE SU ARD (13.5%)</label>
+                <div id="display_ard" style="padding:4px 8px;border-radius:6px;background:#fffef6;border:1px solid #f0e6c2;min-width:120px;text-align:center;font-weight:700;font-size:1.0em;color:#ce4f06;">€ 0,00</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:flex-start; gap:4px;">
+                <label style="font-size:0.85em;font-weight:700;text-transform:uppercase;">IMPOSTE SU INF (2.5%)</label>
+                <div id="display_inf" style="padding:4px 8px;border-radius:6px;background:#fffef6;border:1px solid #f0e6c2;min-width:120px;text-align:center;font-weight:700;font-size:1.0em;color:#972c92;">€ 0,00</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:flex-start; gap:4px;">
+                <label style="font-size:0.85em;font-weight:700;text-transform:uppercase;">SSN SU RCA (10.5%)</label>
+                <div id="display_snnAdjusted" style="padding:4px 8px;border-radius:6px;background:#fffef6;border:1px solid #f0e6c2;min-width:120px;text-align:center;font-weight:700;font-size:1.0em;color:#6a4fbd;">€ 0,00</div>
+              </div>
+            </div>
+            <div style="flex:1; min-width:180px;">
+              <label>FRAZIONAMENTO:</label>
+              <select id="Frazionamento" name="Frazionamento">
+                <option value="Annuale">Annuale</option>
+                <option value="Semestrale">Semestrale</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Casella informativa rimossa: suggerimento percentuale ora visibile accanto al campo SCONTO -->
+          <!-- Riga con calcolo RCA (a sinistra), suggerimento % su RCA (centro) e totale (a destra) -->
+          <div class="preventivo-row">
+            <div id="rcaCalc" class="rca-calc" style="color:#008000;">RCA dopo sconto: € 0.00</div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div id="imponibileDopoSconto" class="rca-calc" style="color:#cc7000; font-weight:700;">Imponibile scontato: € 0.00</div>
+              <div style="display:flex; align-items:center; gap:6px; white-space:nowrap;">
+                <input type="checkbox" id="sconto5PercentRE" name="sconto5PercentRE" style="cursor:pointer; margin:0;">
+                <label for="sconto5PercentRE" style="cursor:pointer; font-weight:700; color:var(--primary); font-size:0.85em; margin:0;">5% R.E.</label>
+                <span id="sconto5PercentValue" style="font-weight:700; color:var(--accent); display:none; margin-left:4px;"></span>
+              </div>
+            </div>
+            <!-- moved suggestion box next to the SCONTO field -->
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; margin-left:auto; text-align:right;">
+              <div id="preventivoCalcolato" style="text-align:right;">PREVENTIVO SCONTATO TOTALE: € 0.00</div>
+              <div id="richiestaFinanziamento" style="display:none; font-size:0.85em; font-weight:700; text-transform:uppercase; color:var(--accent); margin-top:4px;">📋 RICHIESTA FINANZIAMENTO</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEZIONE GARANZIE -->
+      <div class="section" id="sezione-garanzie">
+        <h2>Garanzie</h2>
+
+        <!-- Use fieldset & legend for better semantics and accessibility -->
+        <fieldset>
+          <legend>Seleziona le garanzie</legend>
+          <div class="checkbox-grid" id="garanzieGrid">
+            <!-- each label wraps its checkbox (keyboard accessible) -->
+            <label class="checkbox-label">RCA <input type="checkbox" value="RCA" name="garanzie" checked default></label>
+            <label class="checkbox-label">FURTO E INCENDIO <input type="checkbox" value="Furto e incendio" name="garanzie"></label>
+            <label class="checkbox-label">ATTI VANDALICI <input type="checkbox" value="Atti vandalici" name="garanzie"></label>
+            <label class="checkbox-label">EVENTI NATURALI <input type="checkbox" value="Eventi naturali" name="garanzie"></label>
+            <label class="checkbox-label">CRISTALLI <input type="checkbox" value="Cristalli" name="garanzie"></label>
+            <label class="checkbox-label">KASKO <input type="checkbox" value="Kasko" name="garanzie"></label>
+            <label class="checkbox-label">INFORTUNI CONDUCENTE <input type="checkbox" value="Infortuni conducente" name="garanzie"></label>
+            <label class="checkbox-label">TUTELA GIUDIZIARIA <input type="checkbox" value="Tutela giudiziaria" name="garanzie"></label>
+            <label class="checkbox-label">RITIRO PATENTE <input type="checkbox" value="Ritiro patente" name="garanzie"></label>
+            <label class="checkbox-label">ASSISTENZA STRADALE <input type="checkbox" value="Assistenza stradale" name="garanzie"></label>
+            <label class="checkbox-label">GARANZIE A E B <input type="checkbox" value="Garanzie A e B" name="garanzie"></label>
+          </div>
+        </fieldset>
+
+        <!-- Presenza di Sinistri spostata nella sezione Documenti (sopra firma, sotto note) -->
+        <div style="margin-top:8px;">
+          <label style="font-weight:700; font-size:0.9em; color:var(--primary); display:block; margin-bottom:4px; cursor:pointer;">📖 Clicca qui per la guida all'inserimento</label>
+          <div class="info-box" id="infoBoxLarge">
+          Per vedere gli importi da inserire nel modello andare in <b>PASS</b>. Alla pagina <b>Quotazione</b> della proposta, premi il tasto <b>Sconti</b> e nella tabella che si aprirà, prendi i valori della colonna imponibile. I dati necessari sono <b>Totale Lordo</b>, <b>Totale Imponibile</b>, <b>RCA</b> ed eventuali <b>Infortuni interni</b>. 
+          Copiare <b>1-Totale Lordo</b> in "Totale Lordo Annuo da Pass" <b>2-Totale Imponibile</b> nel campo "Totale Imponibile Netto Annuo da PASS" <b>3-RCA</b> nel campo "Importo Netto Annuo RCA". Se è presente la garanzia <b>4-Infortuni Interni</b> inserire il valore nella casella "Garanzie inf. annui da PASS". Il programma dividerà automaticamente gli importi. 
+          Inserire quindi <b>l'importo del preventivo precedente</b> e la <b>compagnia di provenienza</b>, il modello suggerirà la percentuale di sconto da applicare per pareggiare il preventivo. Una volta inserito il valore da voi scelto nello sconto, il modello calcolerà tutto. In ogni caso tale sconto richiesto è puramente indicativo, sarà poi valutato da noi come sempre in fase di autorizzazione. 
+          In fine selezionare il frazionamento se semestrale e i valori saranno così ricalcolati. Importante seguire sempre l'ordine di Campi, suggeriamo di usare il tasto TAB per spostarsi tra i campi.
+          I vari Allert da noi inseriti aiuteranno a compilare correttamente il modulo.
+          </div>
+        </div>
+      </div>
+      
+      <!-- SEZIONE DOCUMENTI -->
+      <div class="section" id="sezione-documenti">
+        <h2>Documenti da allegare</h2>
+        <fieldset>
+          <legend>Seleziona documenti</legend>
+          <div class="checkbox-grid" id="documentiGrid">
+            <label class="checkbox-label">CARTA D'IDENTITÀ <input type="checkbox" value="Carta d'identità" name="documenti"></label>
+            <label class="checkbox-label">TESSERA SANITARIA <input type="checkbox" value="Tessera sanitaria" name="documenti"></label>
+            <label class="checkbox-label">LIBRETTO <input type="checkbox" value="Libretto" name="documenti"></label>
+            <label class="checkbox-label">LIBRETTO BERSANI <input type="checkbox" value="Libretto Bersani" name="documenti"></label>
+            <label class="checkbox-label">STATO DI FAMIGLIA <input type="checkbox" value="Stato di famiglia" name="documenti"></label>
+            <label class="checkbox-label">VISURA CAMERALE <input type="checkbox" value="Visura Camerale" name="documenti"></label>
+            <label class="checkbox-label">PREVENTIVO CONCORRENZA <input type="checkbox" value="Preventivo concorrenza" name="documenti"></label>
+            <label class="checkbox-label">MODELLO RACCOLTA DATI FINANZIAMENTO <input type="checkbox" value="Modello Raccolta dati Finanziamento" name="documenti"></label>
+            <label class="checkbox-label">ALTRI DOCUMENTI <input type="checkbox" value="Altri documenti" name="documenti"></label>
+            
+          </div>
+        </fieldset>
+
+        <div class="info-docs">📎 I documenti vanno allegati nella finestra successiva.</div>
+
+        <div class="note-section">
+          <h2>Note</h2>
+          <textarea id="note" name="note" placeholder="Inserisci eventuali note o commenti..." rows="4"></textarea>
+        </div>
+
+        <!-- Inserito: Presenza di Sinistri (spostato qui dalla sezione Garanzie) -->
+        <div class="sinistri" style="margin-top:12px;">
+          <h2>Presenza di Sinistri</h2>
+          <label class="checkbox-label">SÌ <input type="radio" name="sinistri" value="Sì"></label>
+          <label class="checkbox-label">NO <input type="radio" name="sinistri" value="No" checked></label>
+        </div>
+
+        <label for="firmaSubAgente">FIRMA SUB AGENTE:</label>
+        <input id="firmaSubAgente" name="firmaSubAgente" type="text">
+      </div>
+    </div>
+
+    <!-- BOTTONI FINE FORM -->
+    <div class="btn-container">
+      <button type="reset" class="btn-reset" title="Pulisci il modulo">🧹 Pulisci</button>
+      <!-- aria-labels added for screen readers; will open in new tab -->
+      <button type="button" id="btnGmail" class="btn-gmail" title="Invia via Gmail (apre in nuova scheda)" aria-label="Invia la richiesta tramite Gmail">📧 Gmail</button>
+      <button type="button" id="btnOutlook" class="btn-outlook" title="Invia via Outlook" aria-label="Invia la richiesta tramite Outlook">📨 Outlook</button>
+      <button type="button" id="btnDebug" style="background:#6c757d; display:none;" title="Debug - Mostra info per finanziamento">🔧 Debug</button>
+    </div>
+  </form>
+
+<script>
+/* ==========================
+   FUNZIONE NUOVA:
+   VALUTA ESPRESSIONI MATEMATICHE IN MODO SICURO
+   SUPPORTA: + - * / E PARENTESI
+   NON USA eval() — usa Shunting Yard + RPN evaluation
+==========================*/
+function parseExpression(input) {
+  if (!input) return 0;
+  input = ('' + input).replace(/,/g, '.').trim();
+  if (!/^[0-9+\-*/().\s]+$/.test(input)) return NaN;
+
+  const tokens = [];
+  const re = /(\d+(\.\d+)?)|[+\-*/()]|\s+/g;
+  let m;
+  while ((m = re.exec(input)) !== null) {
+    if (m[0].trim() === '') continue;
+    tokens.push(m[0]);
+  }
+
+  const outputQueue = [];
+  const opStack = [];
+  const precedence = { '+': 2, '-': 2, '*': 3, '/': 3 };
+  const isLeftAssoc = op => true;
+
+  for (let token of tokens) {
+    if (/^\d+(\.\d+)?$/.test(token)) outputQueue.push(token);
+    else if (/^[+\-*/]$/.test(token)) {
+      while (opStack.length) {
+        const top = opStack[opStack.length - 1];
+        if (/^[+\-*/]$/.test(top) &&
+            ((isLeftAssoc(token) && precedence[token] <= precedence[top]) ||
+             (!isLeftAssoc(token) && precedence[token] < precedence[top]))) {
+          outputQueue.push(opStack.pop());
+        } else break;
+      }
+      opStack.push(token);
+    } else if (token === '(') opStack.push(token);
+    else if (token === ')') {
+      let foundLeft = false;
+      while (opStack.length) {
+        const op = opStack.pop();
+        if (op === '(') { foundLeft = true; break; }
+        outputQueue.push(op);
+      }
+      if (!foundLeft) return NaN;
+    } else return NaN;
+  }
+
+  while (opStack.length) {
+    const op = opStack.pop();
+    if (op === '(' || op === ')') return NaN;
+    outputQueue.push(op);
+  }
+
+  const stack = [];
+  for (let t of outputQueue) {
+    if (/^\d+(\.\d+)?$/.test(t)) stack.push(parseFloat(t));
+    else if (/^[+\-*/]$/.test(t)) {
+      if (stack.length < 2) return NaN;
+      const b = stack.pop();
+      const a = stack.pop();
+      let r;
+      switch (t) {
+        case '+': r = a + b; break;
+        case '-': r = a - b; break;
+        case '*': r = a * b; break;
+        case '/': if (b===0) return NaN; r=a/b; break;
+        default: return NaN;
+      }
+      stack.push(r);
+    } else return NaN;
+  }
+  return stack.length === 1 ? stack[0] : NaN;
+}
+
+/* ==========================
+   VARIABILI E RIFERIMENTI
+==========================*/
+const form = document.getElementById('polizzaForm');
+const popup = document.getElementById('popupErrore');
+const numeroPropostaInput = document.getElementById('numeroProposta');
+const hasPreventivoCheckbox = document.getElementById('hasPreventivo');
+const premioInput = document.getElementById('PremioAssicuratriceMilanese');
+const premioAltreInput = document.getElementById('Premio_altre_garanzie_totale');
+const calcoloRapidoInput = document.getElementById('calcoloRapidoGaranzieTotali');
+const totaleLordoInput = document.getElementById('totaleLordo');
+const premioInfInput = document.getElementById('PremioInfortuniEsterni');
+const premioInfEsterni2Input = document.getElementById('PremioInfortuniEsterni2');
+const premioCasaInput = document.getElementById('PremioCasaEasy');
+const premioConcInput = document.getElementById('PremioConcorrenza');
+const scontoInput = document.getElementById('sconto');
+const scontoPassInput = document.getElementById('scontoPass');
+const tipoRichiestaSelect = document.getElementById('tipoRichiesta');
+const preventivoOutput = document.getElementById('preventivoCalcolato');
+// display elements
+const displayImposte = document.getElementById('display_imposte');
+const displaySnnAdjusted = document.getElementById('display_snnAdjusted');
+const displayArd = document.getElementById('display_ard');
+const displayInf = document.getElementById('display_inf');
+const displayAltreGaranzie = document.getElementById('display_altreGaranzie');
+const displayImposteSnnIniziali = document.getElementById('display_imposteSnnIniziali');
+const displayImposteDiff = document.getElementById('display_imposteDiff');
+const scadenzaVecciaPolizzeInput = document.getElementById('dataScadenzaVecchia');
+const dataEffettoInput = document.getElementById('dataEffetto');
+const frazionamento = document.getElementById('Frazionamento');
+const cointestato = document.getElementById('cointestato');
+// Flag per evitare loop di sincronizzazione bidirezionale
+let suppressPreventivoSync = false;
+// Valore temporaneo: parsed dal campo calcolo rapido, attende che l'RCA sia inserita per completare la copia
+let pendingCalcoloParsed = null;
+
+/* ==========================
+   POPUP
+==========================*/
+function showPopup(msg){
+  popup.textContent = msg || '⚠️ Compila tutti i campi obbligatori.';
+  popup.classList.add('show');
+  setTimeout(()=>popup.classList.remove('show'),2800);
+}
+function hidePopup(){ popup.classList.remove('show'); }
+document.querySelectorAll('input, select, textarea').forEach(el=>el.addEventListener('focus', hidePopup));
+// Quando cambia il frazionamento, ricalcola tutto incluso il calcolo rapido (Altre Garanzie)
+frazionamento.addEventListener('change', ()=>{ 
+  // Quando cambia il frazionamento, aggiorna il calcolo.
+  // Il checkbox 5% R.E. rimane attivo se selezionato:
+  // l'importo dello sconto si aggiorna automaticamente (dimezzato se semestrale)
+  // e il totale rimane coerente con lo sconto applicato.
+  updateCalcolo(); 
+  try{ computeCalcoloRapido(); }catch(e){} 
+});
+
+/* ==========================
+   FORMATTAZIONE
+==========================*/
+function formatToTwoDecimals(el){
+  const raw = el.value === '' ? '' : (''+el.value).replace(',', '.').trim();
+  if(raw==='') return;
+  const n=parseFloat(raw);
+  if(isNaN(n)) return;
+  el.value = n.toFixed(2);
+}
+
+function getPremioRCAAdjusted() {
+  let premioRCA = parseFloat(premioInput.value) || 0;
+  const fraz = frazionamento.value;
+  if(fraz==='Semestrale') premioRCA/=2;
+  return premioRCA;
+}
+
+/* ==========================
+   HELPERS
+   Centralizza la ricerca del checkbox "Modello Raccolta dati Finanziamento"
+   Restituisce l'elemento input[type=checkbox] o null
+==========================*/
+function findFinanziamentoCheckbox(){
+  try{
+    if(window.checkboxFinanziamentoValue){
+      const cb = document.querySelector(`input[name="documenti"][value="${window.checkboxFinanziamentoValue}"]`);
+      if(cb) return cb;
+    }
+    return [...document.querySelectorAll('input[name="documenti"]')].find(i=>{
+      const v = (i.value||'').toLowerCase();
+      return v.includes('raccolta') && v.includes('finanziamento');
+    }) || null;
+  }catch(e){ return null; }
+}
+
+function getPremioAltreAdjusted() {
+  // Restituisce il valore di "Altre Garanzie" adattato al frazionamento.
+  // IMPORTANTE: il campo `#Premio_altre_garanzie_totale` è considerato già netto (totale imponibile - RCA - inf. interni)
+  // quindi qui NON si deve sottrarre nuovamente le garanzie interne.
+  let premioAlt = parseExpression(premioAltreInput.value) || 0;
+  const fraz = frazionamento.value;
+  if(fraz==='Semestrale') premioAlt /= 2;
+  return premioAlt;
+}
+
+function getPremioInfortuniAdjusted() {
+  // Applica lo stesso frazionamento (Annuale / Semestrale) anche a Premio Infortuni Esterni
+  let premioInf = parseFloat(premioInfInput.value) || 0;
+  const fraz = frazionamento.value;
+  if (fraz === 'Semestrale') premioInf /= 2;
+  return premioInf;
+}
+
+function getPremioInfortuniEsterni2Adjusted() {
+  // Applica lo stesso frazionamento (Annuale / Semestrale) anche a Premio Infortuni Esterni 2 (campo INFORTUNI ESTERNI)
+  let premioInf2 = parseFloat(premioInfEsterni2Input && (premioInfEsterni2Input.value||'').toString().replace(',','.')) || 0;
+  const fraz = frazionamento.value;
+  if (fraz === 'Semestrale') premioInf2 /= 2;
+  return premioInf2;
+}
+
+function getPremioCasaAdjusted() {
+  // Applica lo stesso frazionamento (Annuale / Semestrale) anche a Premio Casa Easy
+  let premioCasa = parseFloat(premioCasaInput && premioCasaInput.value) || 0;
+  const fraz = frazionamento.value;
+  if (fraz === 'Semestrale') premioCasa /= 2;
+  return premioCasa;
+}
+
+function getPreventivoPrecedenteAdjusted() {
+  // Applica frazionamento anche a "Preventivo Precedente"
+  const el = premioConcInput; // id PremioConcorrenza
+  let v = parseFloat(el && (el.value||'').toString().replace(',','.')) || 0;
+  const fraz = frazionamento.value;
+  if (fraz === 'Semestrale') v /= 2;
+  return v;
+}
+
+/* ==========================
+   CALCOLO PREVENTIVO
+==========================*/
+function updateCalcolo(){
+  const premioRCA = getPremioRCAAdjusted();
+  const Premio_altre_garanzie_totale = getPremioAltreAdjusted();
+  const premioInfortuni = (typeof getPremioInfortuniAdjusted === 'function') ? getPremioInfortuniAdjusted() : 0;
+  const premioInfortuniEsterni2 = (typeof getPremioInfortuniEsterni2Adjusted === 'function') ? getPremioInfortuniEsterni2Adjusted() : 0;
+  const premioCasa = (typeof getPremioCasaAdjusted === 'function') ? getPremioCasaAdjusted() : 0;
+  const scontoDisplayed = parseFloat(scontoInput.value) || 0;
+  // Se il checkbox 5% R.E. è attivo, lo sconto effettivo è scontoDisplayed + 5
+  // In questo modo il totale rimane invariato: l'input mostra (sconto - 5%) ma il calcolo usa (sconto - 5%) + 5% = sconto originale
+  const sconto5Active = (sconto5PercentCheckbox && sconto5PercentCheckbox.checked);
+  const sconto = scontoDisplayed + (sconto5Active ? 5 : 0);
+  
+  // RCA dopo sconto effettivo (già aggiustato al frazionamento se semestrale)
+  const rcaAfterSconto = premioRCA - (premioRCA * sconto / 100);
+  
+  // SCONTO 5% POL R.E.: mostra il valore monetario del 5% applicato al RCA con sconto visualizzato
+  let rcaSconto5Value = 0;
+  if(sconto5Active){
+    rcaSconto5Value = premioRCA * (1 - scontoDisplayed / 100) * 0.05;
+    if(sconto5PercentValue){
+      sconto5PercentValue.textContent = '(-€ ' + rcaSconto5Value.toFixed(2) + ')';
+      sconto5PercentValue.style.display = 'inline';
+    }
+  } else {
+    if(sconto5PercentValue) sconto5PercentValue.style.display = 'none';
+  }
+  
+  // Base per imposte: SOLO RCA dopo sconto (16%)
+  // Base per SSN: SOLO RCA dopo sconto (10.5%)
+  // Usa rcaAfterSconto direttamente, senza il 5% (il 5% è solo informativo)
+  const baseTaxImposte = rcaAfterSconto;
+  const baseTaxSnn = rcaAfterSconto;
+  
+  // Calcola Imposte = 16% * RCA scontato, SSN = 10.5% * RCA scontato
+  // IMPORTANTE: premioRCA è già aggiustato al frazionamento da getPremioRCAAdjusted()
+  // quindi NON applicare il frazionamento di nuovo alle imposte
+  let imposteVal = (isFinite(baseTaxImposte) ? baseTaxImposte * 0.16 : 0);
+  let snnVal = (isFinite(baseTaxSnn) ? baseTaxSnn * 0.105 : 0);
+  
+  // Calcola ARD (13.5% su 'Altre Garanzie') e INF (2.5% su 'Garanzie Inf. Annue') separatamente.
+  // Si calcola a partire dagli importi ANNUALI e poi si applica il frazionamento
+  // (semestrale -> dividi per 2) per garantire coerenza.
+  const altreAnnuali = (typeof parseExpression === 'function') ? (parseExpression((premioAltreInput && (premioAltreInput.value||'')).toString()) || 0) : (parseFloat((premioAltreInput && (premioAltreInput.value||'')).toString().replace(',','.')) || 0);
+  const infAnnuali = parseFloat((premioInfInput && (premioInfInput.value||'')).toString().replace(',','.')) || 0;
+  // percentuali calcolate su annuale
+  let ardPercentVal = (isFinite(altreAnnuali) ? altreAnnuali * 0.135 : 0);
+  let infPercentVal = (isFinite(infAnnuali) ? infAnnuali * 0.025 : 0);
+  // applica il frazionamento (semestrale -> metà)
+  if(frazionamento && frazionamento.value === 'Semestrale'){
+    ardPercentVal /= 2;
+    infPercentVal /= 2;
+  }
+
+  // PREVENTIVO SCONTATO TOTALE = RCA scontato + Altre garanzie + Infortuni + Casa Easy + Imposte + SSN + ARD + INF
+  // Il 5% è solo display/anteprima, NON influenza il totale
+  // Aggiungi anche gli "Infortuni Esterni" al preventivo totale (rispettando frazionamento)
+  let calcolo = rcaAfterSconto + Premio_altre_garanzie_totale + premioInfortuni + premioInfortuniEsterni2 + premioCasa + imposteVal + snnVal + ardPercentVal + infPercentVal;
+  
+  preventivoOutput.textContent = 'PREVENTIVO SCONTATO TOTALE: € '+calcolo.toFixed(2);
+  // Salva i valori visualizzati in variabili globali per la mail
+  // IMPORTANTE: salva i valori ANNUALI (senza frazionamento), così la mail può applicarli correttamente
+  try{
+    const isSemestrale = (frazionamento && frazionamento.value === 'Semestrale');
+    // Converti i valori back ad annuali se erano semestral
+    const calcolo_annual = isSemestrale ? calcolo * 2 : calcolo;
+    const rcaAfterSconto_annual = isSemestrale ? rcaAfterSconto * 2 : rcaAfterSconto;
+    const imposteVal_annual = isSemestrale ? imposteVal * 2 : imposteVal;
+    const snnVal_annual = isSemestrale ? snnVal * 2 : snnVal;
+    const ardPercentVal_annual = isSemestrale ? ardPercentVal * 2 : ardPercentVal;
+    const infPercentVal_annual = isSemestrale ? infPercentVal * 2 : infPercentVal;
+    const Premio_altre_annual = isSemestrale ? Premio_altre_garanzie_totale * 2 : Premio_altre_garanzie_totale;
+    const premioInfortuni_annual = isSemestrale ? premioInfortuni * 2 : premioInfortuni;
+    const premioInfortuniEsterni2_annual = isSemestrale ? premioInfortuniEsterni2 * 2 : premioInfortuniEsterni2;
+    const premioCasa_annual = isSemestrale ? premioCasa * 2 : premioCasa;
+    
+    window._lastPreventivoDisplayedNumeric = isFinite(calcolo_annual) ? Number(calcolo_annual) : 0;
+    // Totale scontato RCA annuale = preventivo - infortuni esterni - casa
+    window._lastTotaleScontoRCADisplayedNumeric = isFinite(calcolo_annual) ? Number(calcolo_annual - premioInfortuniEsterni2_annual - premioCasa_annual) : 0;
+    // componenti annuali per la mail
+    window._lastImposteVal = isFinite(imposteVal_annual) ? Number(imposteVal_annual) : 0;
+    window._lastSnnVal = isFinite(snnVal_annual) ? Number(snnVal_annual) : 0;
+    window._lastArdPercentVal = isFinite(ardPercentVal_annual) ? Number(ardPercentVal_annual) : 0;
+    window._lastInfPercentVal = isFinite(infPercentVal_annual) ? Number(infPercentVal_annual) : 0;
+    window._lastPremioAltre = isFinite(Premio_altre_annual) ? Number(Premio_altre_annual) : 0;
+    window._lastPremioInfortuni = isFinite(premioInfortuni_annual) ? Number(premioInfortuni_annual) : 0;
+    window._lastPremioInfortuniEsterni2 = isFinite(premioInfortuniEsterni2_annual) ? Number(premioInfortuniEsterni2_annual) : 0;
+    window._lastPremioCasa = isFinite(premioCasa_annual) ? Number(premioCasa_annual) : 0;
+    window._lastRcaAfterSconto = isFinite(rcaAfterSconto_annual) ? Number(rcaAfterSconto_annual) : 0;
+    // Salva il RCA base (prima dello sconto) per calcolare il 5%
+    const rcaBase_annual = isSemestrale ? premioRCA * 2 : premioRCA;
+    window._lastRcaBase = isFinite(rcaBase_annual) ? Number(rcaBase_annual) : 0;
+    window._lastPreventivoIsSemestrale = isSemestrale;
+    // Salva anche lo stato del checkbox 5% per evitare che si perda durante refresh
+    window._lastSconto5PercentActive = (sconto5PercentCheckbox && sconto5PercentCheckbox.checked) ? true : false;
+    // Salva lo sconto percentuale corrente
+    window._lastScontoPercentValue = parseFloat((scontoInput && scontoInput.value) || 0);
+  }catch(e){ /* ignore */ }
+
+  // Aggiorna i riquadri Imposte, SSN e ARD (visualizzazione in tempo reale)
+  try{
+  if(displayImposte) displayImposte.textContent = isFinite(imposteVal) ? '€ ' + imposteVal.toFixed(2) : '—';
+  if(displaySnnAdjusted) displaySnnAdjusted.textContent = isFinite(snnVal) ? '€ ' + snnVal.toFixed(2) : '—';
+  if(displayArd) displayArd.textContent = isFinite(ardPercentVal) ? '€ ' + ardPercentVal.toFixed(2) : '—';
+  if(displayInf) displayInf.textContent = isFinite(infPercentVal) ? '€ ' + infPercentVal.toFixed(2) : '—';
+    
+    // Aggiorna il display del valore di Altre Garanzie (campo considerato già netto)
+    if(displayAltreGaranzie){
+      const altreAdj = getPremioAltreAdjusted();
+      displayAltreGaranzie.textContent = isFinite(altreAdj) ? '€ ' + altreAdj.toFixed(2) : '€ 0,00';
+    }
+  }catch(e){ /* ignore */ }
+  // debug: mostra in console i valori chiave (utile per verifica rapida)
+  try{ console.debug('[updateCalcolo] fraz=', (frazionamento&&frazionamento.value), 'altreAnnuali=', altreAnnuali, 'infAnnuali=', infAnnuali, 'ardPercentVal=', ardPercentVal, 'infPercentVal=', infPercentVal); }catch(e){}
+
+  // Differenza lordo - netto (Imposte + SNN iniziali) e aggiornamento del display dedicato
+  try{
+    const tplRaw = (totaleLordoInput && (totaleLordoInput.value||'')).toString().trim();
+    const tpnetRaw = (calcoloRapidoInput && (calcoloRapidoInput.value||'')).toString().trim();
+    if(!displayImposteSnnIniziali) {
+      /* nothing */
+    } else if(!tplRaw || !tpnetRaw){
+      displayImposteSnnIniziali.textContent = '—';
+    } else {
+      const differenza = getDifferenzaAllocationLordo();
+      if(!isFinite(differenza)) displayImposteSnnIniziali.textContent = '—';
+      else displayImposteSnnIniziali.textContent = '€ ' + differenza.toFixed(2) + (isSemestrale ? ' (semestrale)' : ' (annuale)');
+    }
+  }catch(e){ if(displayImposteSnnIniziali) displayImposteSnnIniziali.textContent = '—'; }
+  
+  // aggiorna il riquadro RCA (se presente)
+  // Se il checkbox 5% è checked, mostra RCA con il 5% applicato
+  const rcaEl = document.getElementById('rcaCalc');
+  // rcaAfterSconto usa già lo sconto effettivo (scontoDisplayed + 5 se attivo), quindi è già corretto
+  let rcaDisplayValue = rcaAfterSconto;
+  if(rcaEl) rcaEl.textContent = 'RCA dopo sconto: € ' + rcaDisplayValue.toFixed(2);
+  
+  // aggiorna riquadro Imponibile dopo sconto (RCA dopo sconto + Altre garanzie)
+  try{
+    const imponibileEl = document.getElementById('imponibileDopoSconto');
+    const imponibileVal = rcaDisplayValue + Premio_altre_garanzie_totale;
+    if(imponibileEl) imponibileEl.textContent = 'Imponibile scontato: € ' + (isFinite(imponibileVal) ? imponibileVal.toFixed(2) : '0.00');
+  }catch(e){ /* ignore */ }
+  
+  // Calcola e aggiorna IMPOSTE (differenza tra TOTALE LORDO e TOTALE NETTO)
+  try{
+    const tplRaw = (totaleLordoInput && (totaleLordoInput.value||'')).toString().trim();
+    const tpnetRaw = (calcoloRapidoInput && (calcoloRapidoInput.value||'')).toString().trim();
+    if(!displayImposteDiff) {
+      /* nothing */
+    } else if(!tplRaw || !tpnetRaw){
+      displayImposteDiff.textContent = '€ 0,00';
+    } else {
+      const imposteDiff = getDifferenzaImposte();
+      if(!isFinite(imposteDiff)) displayImposteDiff.textContent = '€ 0,00';
+      else displayImposteDiff.textContent = '€ ' + imposteDiff.toFixed(2);
+    }
+  }catch(e){ if(displayImposteDiff) displayImposteDiff.textContent = '€ 0,00'; }
+  
+  // aggiorna i suggerimenti/indicatori (sconto suggerito e imposte) in tempo reale
+  try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){}
+}
+
+/* ==========================
+   CALCOLA DIFFERENZA TRA TOTALE LORDO E TOTALE NETTO
+   Questa differenza viene aggiunta al preventivo scontato finale
+==========================*/
+function getDifferenzaAllocationLordo(){
+  if(!totaleLordoInput || !calcoloRapidoInput) return 0;
+  
+  const totaleLordoRaw = (totaleLordoInput.value || '').toString().trim();
+  const totalePreventivoNettoRaw = (calcoloRapidoInput.value || '').toString().trim();
+  
+  if(totaleLordoRaw === '' || totalePreventivoNettoRaw === '') return 0;
+  
+  // Parsa i valori
+  const totaleLordo = parseExpression(totaleLordoRaw);
+  const totalePreventivoNetto = parseExpression(totalePreventivoNettoRaw);
+  
+  if(isNaN(totaleLordo) || !isFinite(totaleLordo) || isNaN(totalePreventivoNetto) || !isFinite(totalePreventivoNetto)) return 0;
+  
+  // Calcola la differenza
+  let differenza = totaleLordo - totalePreventivoNetto;
+  
+  // Applica frazionamento se selezionato
+  const fraz = frazionamento.value;
+  if(fraz === 'Semestrale') differenza /= 2;
+  
+  return differenza;
+}
+
+/* ==========================
+   CALCOLA IMPOSTE (DIFFERENZA TRA TOTALE LORDO E TOTALE NETTO)
+   Visualizza la differenza in tempo reale quando entrambi i campi sono compilati
+==========================*/
+function getDifferenzaImposte(){
+  if(!totaleLordoInput || !calcoloRapidoInput) return 0;
+  
+  const totaleLordoRaw = (totaleLordoInput.value || '').toString().trim();
+  const totalePreventivoNettoRaw = (calcoloRapidoInput.value || '').toString().trim();
+  
+  if(totaleLordoRaw === '' || totalePreventivoNettoRaw === '') return 0;
+  
+  // Parsa i valori
+  const totaleLordo = parseExpression(totaleLordoRaw);
+  const totalePreventivoNetto = parseExpression(totalePreventivoNettoRaw);
+  
+  if(isNaN(totaleLordo) || !isFinite(totaleLordo) || isNaN(totalePreventivoNetto) || !isFinite(totalePreventivoNetto)) return 0;
+  
+  // Calcola la differenza (imposte)
+  let differenza = totaleLordo - totalePreventivoNetto;
+  
+  return differenza;
+}
+
+/* ==========================
+   EVENTI INPUT/BLUR
+==========================*/
+[premioInput, premioAltreInput, premioInfInput, premioInfEsterni2Input, premioCasaInput, premioConcInput, scontoInput].forEach(i=>{
+  if(!i) return;
+  if(i!==premioAltreInput) i.addEventListener('blur', ()=>formatToTwoDecimals(i));
+  i.addEventListener('input', updateCalcolo);
+});
+
+// Event listeners per totaleLordo e calcoloRapido: aggiornano il calcolo quando cambiano
+if(totaleLordoInput) totaleLordoInput.addEventListener('input', updateCalcolo);
+if(calcoloRapidoInput) {
+  const originalListener = calcoloRapidoInput.addEventListener('input', () => {
+    computeCalcoloRapido();
+  });
+  // Aggiunge anche il calcolo della differenza lordo-netto
+  calcoloRapidoInput.addEventListener('input', updateCalcolo);
+}
+
+// Listener di backup: forza l'aggiornamento dei suggerimenti (Imposte e SSN) immediatamente
+if(totaleLordoInput){
+  totaleLordoInput.addEventListener('input', ()=>{ try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){} });
+  totaleLordoInput.addEventListener('blur', ()=>{ try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){} });
+  // change event: some paste operations and programmatic sets may only fire 'change'
+  totaleLordoInput.addEventListener('change', ()=>{ try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){} });
+}
+if(calcoloRapidoInput){
+  calcoloRapidoInput.addEventListener('input', ()=>{ try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){} });
+  calcoloRapidoInput.addEventListener('blur', ()=>{ try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){} });
+  calcoloRapidoInput.addEventListener('change', ()=>{ try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){} });
+}
+
+/* ==========================
+   CHECKBOX SCONTO 5% POL R.E.
+==========================*/
+const sconto5PercentCheckbox = document.getElementById('sconto5PercentRE');
+const sconto5PercentValue = document.getElementById('sconto5PercentValue');
+
+function checkSconto5PercentEligibility(){
+  if(!sconto5PercentCheckbox) return;
+  // Leggi i valori di Infortuni Esterni e Casa Easy
+  const infEsterni2Val = parseFloat((premioInfEsterni2Input && (premioInfEsterni2Input.value||'')).toString().replace(',','.')) || 0;
+  const casaEasyVal = parseFloat((premioCasaInput && (premioCasaInput.value||'')).toString().replace(',','.')) || 0;
+  // Abilita checkbox solo se almeno uno dei 2 ha valore > 0
+  const isEligible = (infEsterni2Val > 0 || casaEasyVal > 0);
+  sconto5PercentCheckbox.disabled = !isEligible;
+  sconto5PercentCheckbox.parentElement.style.opacity = isEligible ? '1' : '0.5';
+  sconto5PercentCheckbox.parentElement.style.pointerEvents = isEligible ? 'auto' : 'none';
+  document.querySelector('label[for="sconto5PercentRE"]').style.opacity = isEligible ? '1' : '0.5';
+  // Se diventa non eligible e è checked, dechecka
+  if(!isEligible && sconto5PercentCheckbox.checked){
+    sconto5PercentCheckbox.checked = false;
+    updateCalcolo();
+  }
+}
+
+if(sconto5PercentCheckbox){
+  sconto5PercentCheckbox.addEventListener('change', ()=>{
+    const currentSconto = parseFloat(scontoInput.value) || 0;
+    if(sconto5PercentCheckbox.checked){
+      // Riduci lo sconto visualizzato di 5 punti percentuali
+      // updateCalcolo userà (scontoDisplayed + 5) come effettivo, quindi il totale rimane invariato
+      scontoInput.value = Math.max(0, currentSconto - 5).toFixed(2);
+    } else {
+      // Ripristina i 5 punti percentuali sottratti in precedenza
+      scontoInput.value = Math.min(100, currentSconto + 5).toFixed(2);
+    }
+    updateCalcolo();
+    try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){}
+  });
+}
+
+/* ==========================
+   AGGIORNA SOLO L'ANTEPRIMA DEL 5% SENZA TOCCARE IL TOTALE
+==========================*/
+function updateSconto5PercentPreview(){
+  if(!sconto5PercentCheckbox) return;
+  
+  const premioRCA = getPremioRCAAdjusted();
+  const sconto = parseFloat(scontoInput.value) || 0;
+  const rcaAfterSconto = premioRCA - (premioRCA * sconto / 100);
+  
+  if(sconto5PercentCheckbox.checked){
+    const rcaSconto5Value = rcaAfterSconto * 0.05;
+    if(sconto5PercentValue){
+      sconto5PercentValue.textContent = '(-€ ' + rcaSconto5Value.toFixed(2) + ')';
+      sconto5PercentValue.style.display = 'inline';
+    }
+  } else {
+    if(sconto5PercentValue) sconto5PercentValue.style.display = 'none';
+  }
+}
+
+/* ==========================
+   APPLICA LO SCONTO SUGGERITO ALL'INPUT
+==========================*/
+function applySuggestedSconto(){
+  if(!scontoInput) return;
+  
+  // Calcola il sconto suggerito considerando lo stato attuale del checkbox 5%
+  const target = getPreventivoPrecedenteAdjusted();
+  const rca = getPremioRCAAdjusted();
+  const altre = getPremioAltreAdjusted();
+  const inf = (typeof getPremioInfortuniAdjusted === 'function') ? getPremioInfortuniAdjusted() : 0;
+  const infEst2 = (typeof getPremioInfortuniEsterni2Adjusted === 'function') ? getPremioInfortuniEsterni2Adjusted() : 0;
+  const casa = (typeof getPremioCasaAdjusted === 'function') ? getPremioCasaAdjusted() : 0;
+  
+  // Calcola ARD e INF
+  const fraz = (frazionamento && frazionamento.value) ? frazionamento.value : 'Annuale';
+  const altreAnnuali = (typeof parseExpression === 'function') ? (parseExpression((premioAltreInput && (premioAltreInput.value||'')).toString()) || 0) : (parseFloat((premioAltreInput && (premioAltreInput.value||'')).toString().replace(',','.')) || 0);
+  const infAnnuali = parseFloat((premioInfInput && (premioInfInput.value||'')).toString().replace(',','.')) || 0;
+  let ardOnly = (isFinite(altreAnnuali) ? altreAnnuali * 0.135 : 0);
+  let infOnly = (isFinite(infAnnuali) ? infAnnuali * 0.025 : 0);
+  if(fraz === 'Semestrale'){ ardOnly /= 2; infOnly /= 2; }
+  let ard = ardOnly + infOnly;
+  
+  if(!isFinite(target) || target<=0 || !isFinite(rca) || rca<=0) return;
+  
+  const TAX_COEFF = 1 + 0.16 + 0.105; // 1.265
+  let rcaForCalc = rca; // RCA base per il calcolo dello sconto
+  
+  // Se il checkbox 5% è selezionato, riduci il RCA del 5%
+  if(sconto5PercentCheckbox && sconto5PercentCheckbox.checked){
+    rcaForCalc = rca * (1 - 0.05); // Togli il 5% dal RCA
+  }
+  
+  let rhs = target - altre - inf - infEst2 - casa - ard;
+  
+  if(!isFinite(rhs)) return;
+  
+  let sNeeded = 100 * (1 - (rhs / (rcaForCalc * TAX_COEFF)));
+  if(!isFinite(sNeeded)) return;
+  
+  if(sNeeded < 0) sNeeded = 0;
+  if(sNeeded > 100) sNeeded = 100;
+  
+  // Applica il nuovo sconto all'input
+  scontoInput.value = sNeeded.toFixed(2);
+  
+  // NON aggiornare il totale qui! Il totale deve rimanere lo stesso.
+  // Solo lo sconto percentuale cambia per mantenere lo stesso totale.
+}
+
+// Listener per Infortuni Esterni 2 e Casa Easy: abilita/disabilita il checkbox
+if(premioInfEsterni2Input) premioInfEsterni2Input.addEventListener('input', checkSconto5PercentEligibility);
+if(premioCasaInput) premioCasaInput.addEventListener('input', checkSconto5PercentEligibility);
+
+// Check iniziale al caricamento
+checkSconto5PercentEligibility();
+
+// Gestione calcolo rapido: quando l'utente inserisce il totale netto, sottrai RCA e copia in 'Premio_altre_garanzie_totale'
+function computeCalcoloRapido(){
+  if(!calcoloRapidoInput) return;
+  const raw = (calcoloRapidoInput.value||'').toString().trim();
+  if(raw === ''){ pendingCalcoloParsed = null; return; }
+  const parsed = parseExpression(raw);
+  if(isNaN(parsed) || !isFinite(parsed)){
+    showPopup('Espressione non valida nel campo Calcolo rapido garanzie totali.');
+    calcoloRapidoInput.classList.add('invalid');
+    pendingCalcoloParsed = null;
+    return;
+  }
+  calcoloRapidoInput.classList.remove('invalid');
+  // conserviamo il valore parsed in attesa che l'RCA venga inserita
+  pendingCalcoloParsed = parsed;
+
+  // se l'RCA non è ancora stata inserita (campo vuoto), non copiare nulla
+  const premioRaw = premioInput && (premioInput.value||'').toString().trim();
+  if(!premioRaw){
+    // attendi che l'utente inserisca l'RCA prima di effettuare la copia
+    return;
+  }
+
+  // Se siamo qui, l'RCA è presente: esegui il calcolo e pulisci pending
+  // NOTE: scriviamo SEMPRE il valore ANNUALE nel campo `Premio_altre_garanzie_totale`.
+  // Eventuale frazionamento sarà gestito dalle funzioni .Adjusted() al momento del calcolo.
+  let totaleAnnuale = pendingCalcoloParsed; // parsed total provided by user (should be annual)
+  // usa i valori annuali grezzi (non quelli già adattati dalle funzioni .Adjusted())
+  const rcaAnnuale = parseFloat((premioInput && (premioInput.value||'')).toString().replace(',','.')) || 0;
+  const infInterniAnnuali = parseFloat((premioInfInput && (premioInfInput.value||'')).toString().replace(',','.')) || 0;
+  const diff = totaleAnnuale - rcaAnnuale - infInterniAnnuali;
+  if(premioAltreInput) premioAltreInput.value = isFinite(diff) ? diff.toFixed(2) : '';
+  pendingCalcoloParsed = null;
+  updateCalcolo();
+  // Aggiorna suggerimenti/indicatori (incluso Imposte e SSN)
+  try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){}
+}
+
+// Applicare un valore parsed del calcolo rapido sul campo "Altre Garanzie"
+function applyCalcoloRapidoParsed(parsed){
+  if(!isFinite(parsed)) return;
+  // Scriviamo SEMPRE il valore ANNUALE nel campo "Premio_altre_garanzie_totale".
+  const totaleAnnuale = parsed;
+  const rcaAnnuale = parseFloat((premioInput && (premioInput.value||'')).toString().replace(',','.')) || 0;
+  const infInterniAnnuali = parseFloat((premioInfInput && (premioInfInput.value||'')).toString().replace(',','.')) || 0;
+  const diff = totaleAnnuale - rcaAnnuale - infInterniAnnuali;
+  if(premioAltreInput) premioAltreInput.value = isFinite(diff) ? diff.toFixed(2) : '';
+  updateCalcolo();
+}
+
+if(calcoloRapidoInput){
+  calcoloRapidoInput.addEventListener('input', ()=>{
+    // aggiorna in tempo reale senza formattare
+    computeCalcoloRapido();
+  });
+  calcoloRapidoInput.addEventListener('blur', ()=>{
+    const raw = (calcoloRapidoInput.value||'').toString().trim();
+    if(raw===''){ calcoloRapidoInput.value=''; computeCalcoloRapido(); return; }
+    const parsed = parseExpression(raw);
+    if(isNaN(parsed) || !isFinite(parsed)){
+      showPopup('Espressione non valida nel campo Calcolo rapido garanzie totali.');
+      calcoloRapidoInput.classList.add('invalid');
+      return;
+    }
+    calcoloRapidoInput.classList.remove('invalid');
+    // formatta il campo calcolo rapido in 2 decimali
+    calcoloRapidoInput.value = parsed.toFixed(2);
+    computeCalcoloRapido();
+  });
+}
+
+// Quando l'utente inserisce o modifica l'importo RCA, se esiste un valore "calcolo rapido" pendente, esegui la copia
+
+    // Formattazione per TOTALE LORDO: converte espressioni e formatta con 2 decimali al blur
+    if(totaleLordoInput){
+      totaleLordoInput.addEventListener('blur', ()=>{
+        const raw = (totaleLordoInput.value||'').toString().trim();
+        if(raw===''){ totaleLordoInput.value=''; updateCalcolo(); return; }
+        const parsed = parseExpression(raw);
+        if(isNaN(parsed) || !isFinite(parsed)){
+          showPopup('Espressione non valida nel campo Totale Lordo.');
+          totaleLordoInput.classList.add('invalid');
+          return;
+        }
+        totaleLordoInput.classList.remove('invalid');
+        // formatta il campo totale lordo in 2 decimali
+        totaleLordoInput.value = parsed.toFixed(2);
+        updateCalcolo();
+      });
+    }
+
+if(premioInput){
+  premioInput.addEventListener('input', ()=>{
+    // If there's a pending parsed value, use it; otherwise if calcoloRapido contains a value, re-evaluate and apply
+    if(pendingCalcoloParsed !== null){ computeCalcoloRapido(); return; }
+    const rawCal = (calcoloRapidoInput && (calcoloRapidoInput.value||'')).toString().trim();
+    if(rawCal){ const p = parseExpression(rawCal); if(!isNaN(p) && isFinite(p)){ applyCalcoloRapidoParsed(p); }}
+    // Aggiorna l'anteprima del 5% in tempo reale
+    try{ updateCalcolo(); }catch(e){}
+  });
+  premioInput.addEventListener('blur', ()=>{
+    // formatta e poi tenta il calcolo se presente
+    formatToTwoDecimals(premioInput);
+    if(pendingCalcoloParsed !== null){ computeCalcoloRapido(); return; }
+    // on blur also re-evaluate calcolo rapido (if user already entered it) and apply
+    const rawCal = (calcoloRapidoInput && (calcoloRapidoInput.value||'')).toString().trim();
+    if(rawCal){ const p = parseExpression(rawCal); if(!isNaN(p) && isFinite(p)){ applyCalcoloRapidoParsed(p); }}
+    // Aggiorna l'anteprima del 5% al blur
+    try{ updateCalcolo(); }catch(e){}
+  });
+}
+
+// specifico per altre garanzie
+premioAltreInput.addEventListener('blur', ()=>{
+  const val = premioAltreInput.value.trim();
+  if(val===''){ premioAltreInput.value=''; updateCalcolo(); return; }
+  const parsed = parseExpression(val);
+  if(isNaN(parsed) || !isFinite(parsed)){
+    showPopup('Espressione non valida per "Premio altre garanzie". Correggi l\'input.');
+    premioAltreInput.classList.add('invalid');
+    return;
+  }
+  premioAltreInput.classList.remove('invalid');
+  premioAltreInput.value = parsed.toFixed(2);
+  updateCalcolo();
+});
+
+// Sincronizzazione: sottrai le Garanzie Inf. Annue Interne da Altre Garanzie
+if(premioInfInput && premioAltreInput){
+  premioInfInput.addEventListener('input', ()=>{
+    // Quando cambia il valore di Garanzie Inf. Annue Interne, aggiorna Altre Garanzie
+    // Se l'utente sta digitando, capiamo che non è un update automatico
+    // Sottraiamo il valore di premioInfInput da premioAltreInput in tempo reale
+    const infVal = parseFloat(premioInfInput.value) || 0;
+    const altreVal = parseExpression(premioAltreInput.value) || 0;
+    
+    // Il valore netto di altre garanzie è: valore originale - garanzie interne
+    // Ricalcola il campo 'Altre Garanzie' se è presente un valore nel calcolo rapido
+    try{
+      if(pendingCalcoloParsed !== null){
+        computeCalcoloRapido();
+      } else {
+        const rawCal = (calcoloRapidoInput && (calcoloRapidoInput.value||'')).toString().trim();
+        if(rawCal){ const p = parseExpression(rawCal); if(!isNaN(p) && isFinite(p)){ applyCalcoloRapidoParsed(p); }}
+      }
+    }catch(e){ /* ignore */ }
+    // aggiorna i display/calcoli
+    updateCalcolo();
+  });
+}
+
+/* ==========================
+   INIT
+==========================*/
+  document.addEventListener('DOMContentLoaded', ()=>{
+    preventivoOutput.textContent = 'PREVENTIVO SCONTATO TOTALE: € 0.00';
+
+    // Abilita il campo "scontoPass" solo quando in Tipo Proposta è selezionato "Rinnovo"
+    const updateScontoPassState = ()=>{
+      try{
+        if(!scontoPassInput) return;
+        const isRinnovo = (tipoRichiestaSelect && (tipoRichiestaSelect.value||'').toString().trim() === 'Rinnovo');
+        // usiamo readOnly invece di disabled per poter intercettare i tentativi di input
+        scontoPassInput.readOnly = !isRinnovo;
+        // Aggiorna attributi ARIA e classe per styling
+        if(!isRinnovo){
+          // se non è rinnovo, pulisci il valore per evitare che venga considerato
+          scontoPassInput.value = '';
+          scontoPassInput.setAttribute('aria-disabled', 'true');
+          scontoPassInput.classList.add('input-disabled');
+        } else {
+          scontoPassInput.removeAttribute('aria-disabled');
+          scontoPassInput.classList.remove('input-disabled');
+        }
+      }catch(e){ /* ignore */ }
+    };
+
+    // stato iniziale
+    updateScontoPassState();
+    // aggiorna al cambio del tipo proposta
+    if(tipoRichiestaSelect) tipoRichiestaSelect.addEventListener('change', updateScontoPassState);
+
+    // Se l'utente tenta di interagire col campo "scontoPass" quando non è "Rinnovo",
+    // mostra un alert informativo e impedisci l'input.
+    if(scontoPassInput){
+      const warnIfNotRinnovo = (ev)=>{
+        const isRinnovo = (tipoRichiestaSelect && (tipoRichiestaSelect.value||'').toString().trim() === 'Rinnovo');
+        if(isRinnovo) return;
+        // mostra popup/informazione all'utente
+        try{ showPopup("Per inserire lo 'Sconto già applicato da PASS' seleziona prima 'Rinnovo' in Tipo Proposta."); }catch(e){ alert("Per inserire lo 'Sconto già applicato da PASS' seleziona prima 'Rinnovo' in Tipo Proposta."); }
+        // impedisci interazione: rimuovi focus e cancella eventuale input
+        try{ scontoPassInput.blur(); }catch(e){}
+        if(ev && typeof ev.preventDefault === 'function') ev.preventDefault();
+        return false;
+      };
+      // intercetta focus e tentativi di digitare/incollare
+      scontoPassInput.addEventListener('focus', warnIfNotRinnovo);
+      scontoPassInput.addEventListener('keydown', (e)=>{ if(!scontoPassInput.readOnly) return; warnIfNotRinnovo(e); });
+      scontoPassInput.addEventListener('paste', (e)=>{ if(!scontoPassInput.readOnly) return; warnIfNotRinnovo(e); });
+      scontoPassInput.addEventListener('mousedown', (e)=>{ if(!scontoPassInput.readOnly) return; warnIfNotRinnovo(e); });
+    }
+
+    updateCalcolo();
+
+    // Se il 5% era attivo prima del refresh, ripristinalo
+    try{
+      const sconto5WasActive = (typeof window._lastSconto5PercentActive !== 'undefined') ? window._lastSconto5PercentActive : false;
+      const scontoAfter5Perc = (typeof window._lastScontoAfter5Percent !== 'undefined') ? Number(window._lastScontoAfter5Percent) : 0;
+      
+      if(sconto5WasActive && sconto5PercentCheckbox){
+        // Ripristina il checkbox 5% come checked
+        sconto5PercentCheckbox.checked = true;
+        
+        // Ripristina lo sconto percentuale MODIFICATO (ridotto per il 5%)
+        if(scontoInput && scontoAfter5Perc > 0){
+          scontoInput.value = scontoAfter5Perc.toFixed(2);
+          updateCalcolo(); // Ricalcola con lo sconto modificato
+          
+          // Aggiorna l'anteprima del 5% per mostrare il valore
+          updateSconto5PercentPreview();
+          
+          // Estrai il valore del 5% dal testo tra parentesi (es: "(-€ 5.00)")
+          const sconto5Text = (sconto5PercentValue && sconto5PercentValue.textContent) || '';
+          const match = sconto5Text.match(/\d+[\.,]\d{2}/);
+          if(match){
+            const sconto5Value = parseFloat(match[0].replace(',', '.'));
+            
+            // Togli il valore del 5% dal totale attuale
+            const currentTotal = parseFloat((totaleDisplay && totaleDisplay.textContent) || 0);
+            const finalTotal = currentTotal - sconto5Value;
+            
+            if(totaleDisplay){
+              totaleDisplay.textContent = finalTotal.toFixed(2);
+              window._lastPreventivoDisplayedNumeric = finalTotal;
+            }
+          }
+        }
+      }
+    }catch(e){ /* ignore */ }
+
+    // Rendi l'info box espandibile al click (su label e info box stesso)
+    const infoBoxLarge = document.getElementById('infoBoxLarge');
+    if(infoBoxLarge){
+      const toggleExpand = ()=>{ infoBoxLarge.classList.toggle('expanded'); };
+      // Click sul box stesso
+      infoBoxLarge.addEventListener('click', toggleExpand);
+      // Click sulla label (si trova di solito nel parent div)
+      try{
+        const label = infoBoxLarge.parentElement.querySelector('label');
+        if(label) label.addEventListener('click', (e)=>{ e.preventDefault(); toggleExpand(); });
+      }catch(e){}
+    }
+    
+    // Validazione date: impedisci data effetto precedente a scadenza (se scadenza inserita).
+    function formatDateForInput(d){
+      const yyyy=d.getFullYear();
+      const mm=('0'+(d.getMonth()+1)).slice(-2);
+      const dd=('0'+d.getDate()).slice(-2);
+      return `${yyyy}-${mm}-${dd}`;
+    }
+    function parseDateFromInputVal(v){
+      if(!v) return null;
+      const d = new Date(v);
+      if(isNaN(d)) return null;
+      d.setHours(0,0,0,0);
+      return d;
+    }
+
+    function validateDataEffetto(){
+      if(!dataEffettoInput) return true;
+      const effRaw = (dataEffettoInput.value||'').toString().trim();
+      if(!effRaw) return true; // nothing to validate
+      const eff = parseDateFromInputVal(effRaw);
+      if(!eff) return true;
+
+      const scRaw = (scadenzaVecciaPolizzeInput && (scadenzaVecciaPolizzeInput.value||'')).toString().trim();
+      if(scRaw){
+        const sc = parseDateFromInputVal(scRaw);
+        if(sc && eff < sc){
+          try{ showPopup('La data di effetto non può essere precedente alla data di scadenza della polizza.'); }catch(e){ alert('La data di effetto non può essere precedente alla data di scadenza della polizza.'); }
+          dataEffettoInput.value = '';
+          try{ dataEffettoInput.focus(); }catch(e){}
+          return false;
+        }
+      } else {
+        const today = new Date(); today.setHours(0,0,0,0);
+        if(eff < today){
+          try{ showPopup('La data di effetto deve essere oggi o successiva.'); }catch(e){ alert('La data di effetto deve essere oggi o successiva.'); }
+          dataEffettoInput.value = '';
+          try{ dataEffettoInput.focus(); }catch(e){}
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // Imposta min attribute iniziale per migliorare UX
+    try{
+      const todayStr = formatDateForInput(new Date());
+      if(dataEffettoInput){
+        const scVal = (scadenzaVecciaPolizzeInput && (scadenzaVecciaPolizzeInput.value||'')).toString().trim();
+        if(scVal) dataEffettoInput.min = scVal; else dataEffettoInput.min = todayStr;
+      }
+    }catch(e){}
+
+    // Listeners per validazione in tempo reale
+    if(dataEffettoInput){
+      dataEffettoInput.addEventListener('blur', validateDataEffetto);
+      dataEffettoInput.addEventListener('change', validateDataEffetto);
+    }
+    if(scadenzaVecciaPolizzeInput){
+      scadenzaVecciaPolizzeInput.addEventListener('change', ()=>{
+        try{
+          const sc = (scadenzaVecciaPolizzeInput.value||'').toString().trim();
+          if(dataEffettoInput){
+            if(sc) dataEffettoInput.min = sc; else dataEffettoInput.min = formatDateForInput(new Date());
+            // se esiste già una data effetto, rivalida
+            if(dataEffettoInput.value) validateDataEffetto();
+          }
+        }catch(e){}
+      });
+    }
+
+    // Block form submit if validation fails
+    if(form){
+      form.addEventListener('submit', (ev)=>{
+        if(!validateDataEffetto()){
+          ev.preventDefault(); ev.stopPropagation();
+          return false;
+        }
+      });
+    }
+  
+  // [FIX] Prepara il valore del checkbox finanziamento per uso globale (usando helper centralizzato)
+  // La funzione findFinanziamentoCheckbox viene inserita più sopra nel file per essere riutilizzata
+  try{
+    window.checkboxFinanziamentoValue = (typeof findFinanziamentoCheckbox === 'function' && findFinanziamentoCheckbox()) ? findFinanziamentoCheckbox().value : null;
+  }catch(e){ window.checkboxFinanziamentoValue = null; }
+  console.debug('[INIT] checkboxFinanziamentoValue:', window.checkboxFinanziamentoValue);
+
+  // nascondi il pulsante di debug in produzione/uso normale
+  try{ const dbg=document.getElementById('btnDebug'); if(dbg) dbg.style.display='none'; }catch(e){}
+  
+  // attach keyboard toggles and initial checked state for ALL checkbox-labels
+  document.querySelectorAll('.checkbox-label').forEach(l=>{
+    const cb = l.querySelector('input[type="checkbox"]');
+    if(cb && cb.checked) l.classList.add('checked');
+    l.addEventListener('keydown', e => { if(e.key===' '||e.key==='Enter'){ e.preventDefault(); cb.click(); }});
+  });
+});
+
+/* ==========================
+   SUPPORTO CHECKBOX VISIVO
+==========================*/
+document.addEventListener('change', e=>{
+  const t=e.target;
+  if(t && t.type==='checkbox'){
+    const l=t.closest('.checkbox-label');
+    if(l){ if(t.checked) l.classList.add('checked'); else l.classList.remove('checked'); }
+  }
+});
+
+/* ==========================
+   VALIDAZIONE FORM
+==========================*/
+function markInvalidFields(){
+  const requiredEls=[...form.querySelectorAll('[required]')];
+  requiredEls.forEach(el=>el.classList.remove('invalid'));
+  let anyInvalid=false;
+  requiredEls.forEach(el=>{ if(!el.checkValidity()){ el.classList.add('invalid'); anyInvalid=true; }});
+  const telefono=document.getElementById('telefono');
+  if(telefono && !telefono.checkValidity()){ telefono.classList.add('invalid'); anyInvalid=true; }
+  // Controllo specifico: numero proposta deve essere esattamente 7 cifre
+  const numero=document.getElementById('numeroProposta');
+  if(numero){
+    const val=(numero.value||'').toString();
+    if(!/^\d{7}$/.test(val)){
+      numero.classList.add('invalid');
+      anyInvalid=true;
+    }
+  }
+  return anyInvalid;
+}
+
+function attachAutoClearInvalid(){
+  [...form.querySelectorAll('input, select, textarea')].forEach(control=>{
+    const clearIfValid=()=>{
+      if(control.type==='radio' && control.name){
+        const group=form.querySelectorAll(`input[name="${control.name}"]`);
+        group.forEach(r=>{ if(r.checkValidity()) r.classList.remove('invalid'); });
+      } else { if(control.checkValidity()) control.classList.remove('invalid'); }
+    };
+    control.addEventListener('input', clearIfValid);
+    control.addEventListener('change', clearIfValid);
+    control.addEventListener('blur', clearIfValid);
+  });
+}
+attachAutoClearInvalid();
+
+// Sanitize numeroProposta input: allow only digits and cap to 7 characters
+if(numeroPropostaInput){
+  numeroPropostaInput.addEventListener('input', ()=>{
+    let v = (numeroPropostaInput.value||'').toString().replace(/\D/g,'').slice(0,7);
+    if(numeroPropostaInput.value !== v) numeroPropostaInput.value = v;
+    if(/^\d{7}$/.test(v)) numeroPropostaInput.classList.remove('invalid');
+  });
+  numeroPropostaInput.addEventListener('blur', ()=>{
+    // optional: if shorter than 7, keep as-is but mark invalid visually
+    if(!/^\d{7}$/.test(numeroPropostaInput.value)) numeroPropostaInput.classList.add('invalid');
+  });
+}
+
+/* ==========================
+   VINCOLO FINANZIAMENTO
+   Se è selezionato il "Modello Raccolta dati Finanziamento" non permettere
+   il frazionamento semestrale: forza Annuale, disabilita l'opzione e mostra avviso
+==========================*/
+function enforceFinanziamentoConstraint(showAlertIfActive = true){
+  try{
+    // trova checkbox finanziamento (usa helper centralizzato)
+    const cb = (typeof findFinanziamentoCheckbox === 'function') ? findFinanziamentoCheckbox() : null;
+    const semOption = frazionamento ? Array.from(frazionamento.options).find(o=>o.value==='Semestrale') : null;
+    if(cb && cb.checked){
+      // forza Annuale se necessario
+      if(frazionamento && frazionamento.value === 'Semestrale') frazionamento.value = 'Annuale';
+      // disabilita l'opzione semestrale
+      if(semOption) semOption.disabled = true;
+      // mostra avviso breve
+      if(showAlertIfActive) showPopup('PRESENZA FINANZIAMENTO — FRAZIONAMENTO SEMESTRALE NON CONSENTITO.');
+    } else {
+      // riabilita opzione
+      if(semOption) semOption.disabled = false;
+    }
+  }catch(e){ /* ignore */ }
+}
+
+// Assicura che il controllo venga eseguito quando i checkbox documenti cambiano
+document.addEventListener('change', e=>{
+  const t = e.target;
+  if(t && t.name === 'documenti') enforceFinanziamentoConstraint(false);
+});
+
+// Enforce sconto cap when 'Presenza Preventivo' is not checked
+function enforceScontoCap(){
+  if(!scontoInput) return;
+  const has = hasPreventivoCheckbox && hasPreventivoCheckbox.checked;
+  if(!has){
+    // enforce max 30
+    scontoInput.max = 30;
+    const v = parseFloat((scontoInput.value||'').toString().replace(',','.'));
+    if(!isNaN(v) && v>30){
+      showPopup('Se non è presente preventivo, lo sconto massimo consentito è 30% — valore ridotto a 30%.');
+      scontoInput.value = '30';
+      scontoInput.classList.add('invalid');
+    }
+  } else {
+    scontoInput.removeAttribute('max');
+    if(scontoInput) scontoInput.classList.remove('invalid');
+  }
+}
+
+if(hasPreventivoCheckbox){
+  hasPreventivoCheckbox.addEventListener('change', ()=>{
+    enforceScontoCap();
+    updateCalcolo();
+    // sincronizza con il checkbox "Preventivo concorrenza" nella sezione documenti
+    try{
+      const docCheckbox = [...document.querySelectorAll('input[name="documenti"]')].find(i=>i.value && i.value.toLowerCase().includes('preventivo concorrenza'));
+      if(docCheckbox){
+        suppressPreventivoSync = true;
+        docCheckbox.checked = !!hasPreventivoCheckbox.checked;
+        const lab = docCheckbox.closest('.checkbox-label');
+        if(lab){ if(docCheckbox.checked) lab.classList.add('checked'); else lab.classList.remove('checked'); }
+        suppressPreventivoSync = false;
+      }
+    }catch(e){ /* ignore */ }
+  });
+}
+
+// Sincronizzazione bidirezionale: se l'utente clicca il checkbox documento, aggiorna hasPreventivo
+try{
+  const docCheckboxForSync = [...document.querySelectorAll('input[name="documenti"]')].find(i=>i.value && i.value.toLowerCase().includes('preventivo concorrenza'));
+  if(docCheckboxForSync){
+    docCheckboxForSync.addEventListener('change', ()=>{
+      if(suppressPreventivoSync) return;
+      suppressPreventivoSync = true;
+      if(hasPreventivoCheckbox){
+        hasPreventivoCheckbox.checked = !!docCheckboxForSync.checked;
+      }
+      enforceScontoCap();
+      updateCalcolo();
+      suppressPreventivoSync = false;
+    });
+  }
+}catch(e){/* ignore */}
+
+// additional enforcement on sconto input as user types
+if(scontoInput){
+  scontoInput.addEventListener('input', ()=>{
+    if(hasPreventivoCheckbox && !hasPreventivoCheckbox.checked){
+      const v = parseFloat((scontoInput.value||'').toString().replace(',','.'));
+      if(!isNaN(v) && v>30){
+        showPopup('Se non è presente preventivo, lo sconto massimo consentito è 30% — valore ridotto a 30%.');
+        scontoInput.value = '30';
+        scontoInput.classList.add('invalid');
+      }
+    }
+    // Aggiorna l'anteprima del 5% in tempo reale
+    try{ updateCalcolo(); }catch(e){}
+  });
+  scontoInput.addEventListener('blur', ()=>{ formatToTwoDecimals(scontoInput); enforceScontoCap(); updateCalcolo(); });
+}
+
+// Event listener per scontoPass: aggiorna il suggerimento percentuale quando cambia
+if(scontoPassInput){
+  scontoPassInput.addEventListener('blur', ()=>{ formatToTwoDecimals(scontoPassInput); });
+  scontoPassInput.addEventListener('input', ()=>{ try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){} });
+  scontoPassInput.addEventListener('change', ()=>{ try{ if(window.updateSuggerimenti) window.updateSuggerimenti(); }catch(e){} });
+}
+
+/* ==========================
+   EMAIL BODY
+==========================*/
+function getCheckedValues(sel){ return [...document.querySelectorAll(sel+' input[type="checkbox"]:checked')].map(i=>i.value); }
+function getRadioValue(name){ const r=document.querySelector(`input[name="${name}"]:checked`); return r?r.value:''; }
+
+function generaEmailBody(){
+  const dataInvio=new Date().toLocaleDateString('it-IT');
+  const firma=document.getElementById('firmaSubAgente').value||'';
+  const garanzieSelezionate=getCheckedValues('#garanzieGrid').join(', ')||'Nessuna';
+  // prendi tutte le checkbox con name="documenti" ovunque nel DOM (inclusa la checkbox spostata)
+  const allDocumentiChecked = [...document.querySelectorAll('input[name="documenti"]:checked')].map(i=>i.value);
+  // Leggi il valore dalla select "Provenienza Attestato" e includilo SEMPRE nell'email
+  const provenienzaAttestato = (document.getElementById('provenienzaAttestato') && document.getElementById('provenienzaAttestato').value) ? document.getElementById('provenienzaAttestato').value : 'ATTESTATO DI RISCHIO IN CORSO DI VALIDITA\'';
+  // rimuovi 'Assenza attestato di rischio' dalla lista mostrata nei documenti selezionati (ora è nella select)
+  const documentiList = allDocumentiChecked.filter(v => v !== 'Assenza attestato di rischio');
+  const documentiSelezionati = documentiList.length ? documentiList.join(', ') : 'Nessuno';
+  const sinistriVal=getRadioValue('sinistri');
+  const sinistriRiga = sinistriVal==='Sì' ? `\n🚨 PRESENZA SINISTRI: SÌ\n` : '';
+  // valore Preventivo Precedente adattato al frazionamento e label descrittiva
+  // Usa valore calcolato se disponibile, altrimenti fallback a 0.00 formattato
+  let prevValRaw = 0;
+  if (typeof getPreventivoPrecedenteAdjusted === 'function') {
+    try { prevValRaw = getPreventivoPrecedenteAdjusted(); } catch(e){ prevValRaw = 0; }
+  } else if (document.getElementById('PremioConcorrenza')) {
+    prevValRaw = parseFloat((document.getElementById('PremioConcorrenza').value||'').toString().replace(',','.')) || 0;
+  }
+  const prevPreventivoVal = (isFinite(prevValRaw) ? prevValRaw : 0).toFixed(2);
+  // label chiara: mostra "(annuale)" o "(semestrale)" a seconda del frazionamento
+  const periodLabel = (frazionamento && frazionamento.value === 'Semestrale') ? ' (semestrale)' : ' (annuale)';
+  const isSemestraleEmail = (frazionamento && frazionamento.value === 'Semestrale');
+  
+  // valori numerici sicuri per Altre Garanzie e Infortuni Esterni (mostra 0.00 se non inseriti)
+  // Preferisci i valori visualizzati salvati dal form se disponibili
+  let altreNum = (typeof window._lastPremioAltre !== 'undefined') ? Number(window._lastPremioAltre) : ((typeof getPremioAltreAdjusted === 'function') ? getPremioAltreAdjusted() : parseFloat((document.getElementById('Premio_altre_garanzie_totale') && document.getElementById('Premio_altre_garanzie_totale').value ? document.getElementById('Premio_altre_garanzie_totale').value.toString().replace(',','.') : '0')));
+  if(!isFinite(altreNum)) altreNum = 0;
+  if(isSemestraleEmail && !getPremioAltreAdjusted) altreNum /= 2;
+  const premioAltreVal = altreNum.toFixed(2);
+
+  let infNum = (typeof window._lastPremioInfortuni !== 'undefined') ? Number(window._lastPremioInfortuni) : ((typeof getPremioInfortuniAdjusted === 'function') ? getPremioInfortuniAdjusted() : parseFloat((document.getElementById('PremioInfortuniEsterni') && document.getElementById('PremioInfortuniEsterni').value ? document.getElementById('PremioInfortuniEsterni').value.toString().replace(',','.') : '0')));
+  if(!isFinite(infNum)) infNum = 0;
+  if(isSemestraleEmail && !getPremioInfortuniAdjusted) infNum /= 2;
+  const premioInfVal = infNum.toFixed(2);
+
+  // Infortuni Esterni
+  let infEst2Num = (typeof window._lastPremioInfortuniEsterni2 !== 'undefined') ? Number(window._lastPremioInfortuniEsterni2) : ((typeof getPremioInfortuniEsterni2Adjusted === 'function') ? getPremioInfortuniEsterni2Adjusted() : parseFloat((document.getElementById('PremioInfortuniEsterni2') && document.getElementById('PremioInfortuniEsterni2').value ? document.getElementById('PremioInfortuniEsterni2').value.toString().replace(',','.') : '0')));
+  if(!isFinite(infEst2Num)) infEst2Num = 0;
+  if(isSemestraleEmail && !getPremioInfortuniEsterni2Adjusted) infEst2Num /= 2;
+  const premioInfEst2Val = infEst2Num.toFixed(2);
+
+  // Totale Garanzie Inf. Annue (Interne + Esterne) - Calcola PRIMA della conversione a stringa
+  const totalGaranzieInfNum = infNum + infEst2Num;
+  const totalGaranzieInf = (isFinite(totalGaranzieInfNum) ? totalGaranzieInfNum : 0).toFixed(2);
+
+  // RCA (applica frazionamento se helper presente)
+  let rcaNum = (typeof window._lastRcaAfterSconto !== 'undefined') ? Number(window._lastRcaAfterSconto) : ((typeof getPremioRCAAdjusted === 'function') ? getPremioRCAAdjusted() : parseFloat((document.getElementById('PremioAssicuratriceMilanese') && document.getElementById('PremioAssicuratriceMilanese').value ? document.getElementById('PremioAssicuratriceMilanese').value.toString().replace(',','.') : '0')));
+  if(!isFinite(rcaNum)) rcaNum = 0;
+  if(isSemestraleEmail && !getPremioRCAAdjusted) rcaNum /= 2;
+  const premioRcaVal = rcaNum.toFixed(2);
+
+  // Casa Easy
+  let casaNum = (typeof window._lastPremioCasa !== 'undefined') ? Number(window._lastPremioCasa) : ((typeof getPremioCasaAdjusted === 'function') ? getPremioCasaAdjusted() : parseFloat((document.getElementById('PremioCasaEasy') && document.getElementById('PremioCasaEasy').value ? document.getElementById('PremioCasaEasy').value.toString().replace(',','.') : '0')));
+  if(!isFinite(casaNum)) casaNum = 0;
+  if(isSemestraleEmail && !getPremioCasaAdjusted) casaNum /= 2;
+  const premioCasaVal = casaNum.toFixed(2);
+
+  // Totale Lordo Annuo da PASS
+  // IMPORTANTE: visualizzare SEMPRE il valore ANNUALE nella mail, indipendentemente dal frazionamento
+  // Totale Lordo: preferisci valore salvato se presente
+  let totaleLordoNum = (typeof window._lastPreventivoDisplayedNumeric !== 'undefined') ? Number(window._lastPreventivoDisplayedNumeric) : (parseExpression((totaleLordoInput && (totaleLordoInput.value||'')).toString()) || 0);
+  if(!isFinite(totaleLordoNum)) totaleLordoNum = 0;
+  // NON dividiamo per 2: il valore deve rimanere annuale nella mail
+  const totaleLordoVal = totaleLordoNum.toFixed(2);
+
+  // Calcola l'importo Imposte e SSN = Totale Lordo da PASS - Totale Preventivo Netto da PASS
+  // otteniamo sia il valore ANNUO che la versione adattata al frazionamento
+  const tpl_forImposte = parseExpression((totaleLordoInput && (totaleLordoInput.value||'')).toString()) || 0;
+  const tpnet_forImposte = parseExpression((calcoloRapidoInput && (calcoloRapidoInput.value||'')).toString()) || 0;
+  let importoImposteAnnual = tpl_forImposte - tpnet_forImposte;
+  if(!isFinite(importoImposteAnnual)) importoImposteAnnual = 0;
+  // versione adattata al frazionamento (semestrale -> metà)
+  const importoImposteNum = (frazionamento && frazionamento.value === 'Semestrale') ? importoImposteAnnual/2 : importoImposteAnnual;
+  const importoImposteVal = importoImposteNum.toFixed(2);
+
+  // Tipo veicolo e icone (usato nella mail)
+  const tipoVeicolo = (document.getElementById('tipoVeicolo') && document.getElementById('tipoVeicolo').value) ? document.getElementById('tipoVeicolo').value : 'Autovettura';
+  const tipoIconMap = {
+    'Autovettura': '🚗',
+    'Ciclomotore': '🛵',
+    'Autocarro': '🚚',
+    'Targa prova': '🏷️',
+    'Macchine agricole': '🚜',
+    'Natanti': '⛵'
+  };
+  const tipoVeicoloIcon = tipoIconMap[tipoVeicolo] || '';
+
+  // Controlla se "Modello Raccolta dati Finanziamento" è selezionato (usa helper centralizzato)
+  const checkboxFinanziamento = (typeof findFinanziamentoCheckbox === 'function') ? findFinanziamentoCheckbox() : null;
+  const richiestaFinanziamentoRiga = (checkboxFinanziamento && checkboxFinanziamento.checked) ? '🏦 RICHIESTA FINANZIAMENTO' : '';
+  console.debug('[EMAIL] checkboxFinanziamento trovato:', checkboxFinanziamento ? checkboxFinanziamento.value : 'NO', 'checked:', checkboxFinanziamento ? checkboxFinanziamento.checked : 'NO', 'riga:', richiestaFinanziamentoRiga);
+
+  // periodLabel definita sopra e riutilizzata per tutti i valori (annuale/semestrale)
+  // Aggiungi voce COINTESTATO solo se la checkbox è selezionata
+  const cointestatos = (cointestato && cointestato.checked) ? '\n✓ COINTESTATO: SÌ' : '';
+  // helper per formattare valuta con virgola come separatore decimale
+  function fmtCurrency(n){
+    const num = (isFinite(n) ? Number(n) : 0);
+    return '€ ' + num.toFixed(2).replace('.', ',');
+  }
+
+  // valori annuali grezzi (da input) per visualizzare tra parentesi
+  const rcaAnnualRaw = parseFloat((document.getElementById('PremioAssicuratriceMilanese').value||'').toString().replace(',','.')) || 0;
+  const altreAnnualRaw = (typeof parseExpression === 'function') ? (parseExpression((premioAltreInput && (premioAltreInput.value||'')).toString()) || 0) : (parseFloat((premioAltreInput && (premioAltreInput.value||'')).toString().replace(',','.')) || 0);
+  const infAnnualiRaw = parseFloat((document.getElementById('PremioInfortuniEsterni').value||'').toString().replace(',','.')) || 0;
+  const infEst2AnnualiRaw = parseFloat((document.getElementById('PremioInfortuniEsterni2').value||'').toString().replace(',','.')) || 0;
+  const casaAnnualRaw = parseFloat((document.getElementById('PremioCasaEasy').value||'').toString().replace(',','.')) || 0;
+  const prevAnnualRaw = parseFloat((document.getElementById('PremioConcorrenza').value||'').toString().replace(',','.')) || 0;
+
+  // Calcola Preventivo annuo (ricostruito a partire dai valori annuali grezzi)
+  const scontoPerc = parseFloat((document.getElementById('sconto').value||'').toString().replace(',','.')) || 0;
+  const rcaAfterScontoAnnual = rcaAnnualRaw - (rcaAnnualRaw * scontoPerc / 100);
+  
+  // Sconto 5% POL R.E. - calcolo solo per visualizzazione, NON influenza il totale
+  const sconto5PercentCheckbox = document.getElementById('sconto5PercentRE');
+  let rca5PercentDiscount = 0;
+  
+  if(sconto5PercentCheckbox && sconto5PercentCheckbox.checked){
+    rca5PercentDiscount = rcaAfterScontoAnnual * 0.05;
+  }
+  
+  // Il totale della mail deve essere IDENTICO al totale HTML
+  // Usa SEMPRE rcaAfterScontoAnnual (senza il 5%) per imposte e SSN
+  const imposteAnnualCalc = (typeof window._lastImposteVal !== 'undefined') ? Number(window._lastImposteVal) : (isFinite(rcaAfterScontoAnnual) ? rcaAfterScontoAnnual * 0.16 : 0);
+  const snnAnnualCalc = (typeof window._lastSnnVal !== 'undefined') ? Number(window._lastSnnVal) : (isFinite(rcaAfterScontoAnnual) ? rcaAfterScontoAnnual * 0.105 : 0);
+  const ardAnnualCalc = (typeof window._lastArdPercentVal !== 'undefined') ? Number(window._lastArdPercentVal) : (isFinite(altreAnnualRaw) ? altreAnnualRaw * 0.135 : 0);
+  const infPercentAnnualCalc = (typeof window._lastInfPercentVal !== 'undefined') ? Number(window._lastInfPercentVal) : (isFinite(infAnnualiRaw) ? infAnnualiRaw * 0.025 : 0);
+  let preventivoAnnualCalc = 0;
+  // Il totale usa SEMPRE rcaAfterScontoAnnual (senza il 5%)
+  preventivoAnnualCalc = rcaAfterScontoAnnual + altreAnnualRaw + infAnnualiRaw + infEst2AnnualiRaw + casaAnnualRaw + imposteAnnualCalc + snnAnnualCalc + ardAnnualCalc + infPercentAnnualCalc;
+  if(!isFinite(preventivoAnnualCalc)) preventivoAnnualCalc = 0;
+  // Se il form ha salvato il totale visualizzato, usalo direttamente per evitare discrepanze
+  let preventivoDisplay;
+  if(window && typeof window._lastPreventivoDisplayedNumeric !== 'undefined'){
+    const lastPreventivo = Number(window._lastPreventivoDisplayedNumeric) || 0;
+    preventivoDisplay = (window._lastPreventivoIsSemestrale) ? (fmtCurrency(lastPreventivo/2) + ' (annuo ' + fmtCurrency(lastPreventivo) + ')') : fmtCurrency(lastPreventivo);
+  } else {
+    preventivoDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(preventivoAnnualCalc/2) + ' (annuo ' + fmtCurrency(preventivoAnnualCalc) + ')') : fmtCurrency(preventivoAnnualCalc);
+  }
+
+  // Aggiungi nota al preventivo se il 5% è applicato (nota informativa, non cambia il totale)
+  const preventivoDisplayWithNote = rca5PercentDiscount > 0 ? preventivoDisplay + ' (sconto 5% POL R.E. già applicato)' : preventivoDisplay;
+  
+  // TOTALE SCONTATO RCA = PREVENTIVO SCONTATO TOTALE - INFORTUNI ESTERNI - CASA EASY
+  // TOTALE SCONTATO RCA = PREVENTIVO SCONTATO TOTALE - INFORTUNI ESTERNI - CASA EASY
+  // Se esistono i valori salvati dal form, usali per garantire che la mail mostri ESATTAMENTE i numeri visti nel form
+  let totaleScontoRcaAnnual = preventivoAnnualCalc - infEst2AnnualiRaw - casaAnnualRaw;
+  // Se il form ha salvato i valori visualizzati, usali tali e quali nella mail per evitare discrepanze
+  if(window && typeof window._lastPreventivoDisplayedNumeric !== 'undefined' && typeof window._lastTotaleScontoRCADisplayedNumeric !== 'undefined'){
+    const lastPreventivo = Number(window._lastPreventivoDisplayedNumeric) || 0;
+    const lastTotaleRca = Number(window._lastTotaleScontoRCADisplayedNumeric) || 0;
+    // sovrascrivi i valori di display con quelli salvati
+    totaleScontoRcaAnnual = lastTotaleRca;
+    preventivoAnnualCalc = lastPreventivo;
+  }
+  // Mostra il totale RCA scontato, con nota se 5% è applicato
+  let totaleScontoRcaDisplay = (window && window._lastPreventivoIsSemestrale) ? fmtCurrency(totaleScontoRcaAnnual/2) + ' (annuo ' + fmtCurrency(totaleScontoRcaAnnual) + ')' : fmtCurrency(totaleScontoRcaAnnual);
+  if(rca5PercentDiscount > 0){
+    totaleScontoRcaDisplay += ' (sconto 5% POL R.E. già applicato)';
+  }
+
+  const bodyText = `=== RICHIESTA PROPOSTA ASSICURATRICE MILANESE ===
+
+🆔 NUMERO PROPOSTA: ${document.getElementById('numeroProposta').value}
+📌 TIPO: ${document.getElementById('tipoRichiesta').value}
+
+👤 ASSICURATO:
+• 🧑 Nome: ${document.getElementById('nome').value} 
+• 🧾 Cognome: ${document.getElementById('cognome').value} ${cointestatos}
+• 🏷️ Targa: ${document.getElementById('Targa').value || 'N/A'}
+• ${tipoVeicoloIcon} Tipo veicolo: ${tipoVeicolo}
+• ✉️ Email Assicurato: ${document.getElementById('email').value}
+• 📞 Telefono Assicurato: ${document.getElementById('telefono').value}
+${sinistriRiga}
+
+📋 PROVENIENZA ATTESTATO: ${provenienzaAttestato}
+
+💰 IMPORTI:
+• 🧭 Tipo guida: ${document.getElementById('TipoGuida') ? document.getElementById('TipoGuida').value : 'N/A'}
+• ⏳ Data scadenza vecchia polizza: ${scadenzaVecciaPolizzeInput.value||'N/A'}
+• 🗓 Data effetto: ${dataEffettoInput.value||'N/A'}
+• 💵 Totale Lordo Annuo da PASS: € ${totaleLordoVal}
+• 🎯 Sconto Già Applicato da PASS: ${document.getElementById('scontoPass').value || '0'}%
+• 💶 Premio Netto RCA: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioRcaVal)) + ' (annuo ' + fmtCurrency(rcaAnnualRaw) + ')' : fmtCurrency(rcaAnnualRaw) }
+• ➕ Premio Netto Altre Garanzie: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioAltreVal)) + ' (annuo ' + fmtCurrency(altreAnnualRaw) + ')' : fmtCurrency(altreAnnualRaw) }
+• 🪙 Importo Imposte e SSN: ${ (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(importoImposteNum) + ' (annuo ' + fmtCurrency(importoImposteAnnual) + ')') : fmtCurrency(importoImposteAnnual) }
+• 🚑 Garanzie Infortuni: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(totalGaranzieInf)) + ' (annuo ' + fmtCurrency(infAnnualiRaw + infEst2AnnualiRaw) + ')' : fmtCurrency(infAnnualiRaw + infEst2AnnualiRaw) }
+• 🏠 Premio Casa Easy: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioCasaVal)) + ' (annuo ' + fmtCurrency(casaAnnualRaw) + ')' : fmtCurrency(casaAnnualRaw) }
+• 🧾 Preventivo Precedente: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(prevPreventivoVal)) + ' (annuo ' + fmtCurrency(prevAnnualRaw) + ')' : fmtCurrency(prevAnnualRaw) }
+• 🏢 Compagnia di Provenienza: ${document.getElementById('compagniaProvenienza').value}
+• 🔖 Sconto Richiesto: ${document.getElementById('sconto').value}%
+• 🚗 TOTALE SCONTATO RCA: ${totaleScontoRcaDisplay}
+💲 PREVENTIVO SCONTATO TOTALE: ${preventivoDisplayWithNote} ${richiestaFinanziamentoRiga}
+• 🔁 Frazionamento: ${frazionamento.value}
+
+🛡️ GARANZIE SELEZIONATE: ${garanzieSelezionate}
+📎 DOCUMENTI SELEZIONATI: ${documentiSelezionati}
+
+📝 NOTE:
+${document.getElementById('note').value}
+
+✍️ FIRMA SUB AGENTE: ${firma}
+📅 DATA INVIO: ${dataInvio}`;
+  return encodeURIComponent(bodyText);
+}
+
+/* ==========================
+   INVIO EMAIL
+==========================*/
+/* ==========================
+   SALVATAGGIO DATI NEL DATABASE VERCEL
+==========================*/
+async function salvaRichiesta(canale_invio){
+  try{
+    const garanzieSelezionate = [...document.querySelectorAll('input[name="garanzie"]:checked')].map(c=>c.value).join(', ');
+    const payload = {
+      numero_proposta: document.getElementById('numeroProposta').value,
+      tipo_richiesta:  document.getElementById('tipoRichiesta').value,
+      nome:            document.getElementById('nome').value,
+      cognome:         document.getElementById('cognome').value,
+      targa:           document.getElementById('Targa').value,
+      tipo_veicolo:    document.getElementById('tipoVeicolo').value,
+      email_assicurato:document.getElementById('email').value,
+      telefono:        document.getElementById('telefono').value,
+      compagnia_provenienza: document.getElementById('compagniaProvenienza').value,
+      frazionamento:   document.getElementById('Frazionamento').value,
+      sconto_richiesto:document.getElementById('sconto').value,
+      premio_rca:      document.getElementById('PremioAssicuratriceMilanese').value,
+      totale_scontato_rca: (window._lastTotaleScontoRCADisplayedNumeric||0).toFixed(2),
+      preventivo_totale:   (window._lastPreventivoDisplayedNumeric||0).toFixed(2),
+      garanzie:        garanzieSelezionate,
+      note:            document.getElementById('note').value,
+      canale_invio
+    };
+    await fetch('/api/save-submission', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+  } catch(e){ console.warn('Salvataggio storico fallito:', e); }
+}
+
+document.getElementById('btnGmail').addEventListener('click', async ()=>{
+  [...form.querySelectorAll('.invalid')].forEach(el=>el.classList.remove('invalid'));
+  if(!form.checkValidity()){ markInvalidFields(); showPopup('⚠️ Compila tutti i campi obbligatori correttamente prima di inviare.'); return; }
+  const nome=document.getElementById('nome').value;
+  const cognome=document.getElementById('cognome').value;
+  const numero=document.getElementById('numeroProposta').value;
+  const subject=encodeURIComponent(`Proposta Numero ${numero} - ${nome} ${cognome}`);
+  const body=generaEmailBody();
+  salvaRichiesta('Gmail');
+  const url=`https://mail.google.com/mail/?view=cm&fs=1&to=giordass.proposte@libero.it&su=${subject}&body=${body}`;
+  window.open(url,'_blank');
+});
+
+document.getElementById('btnOutlook').addEventListener('click', async ()=>{
+  [...form.querySelectorAll('.invalid')].forEach(el=>el.classList.remove('invalid'));
+  if(!form.checkValidity()){ markInvalidFields(); showPopup('⚠️ Compila tutti i campi obbligatori correttamente prima di inviare.'); return; }
+  const nome=document.getElementById('nome').value;
+  const cognome=document.getElementById('cognome').value;
+  const numero=document.getElementById('numeroProposta').value;
+  const subject=encodeURIComponent(`${numero} - ${nome} ${cognome}`);
+  const body=generaEmailBody();
+  salvaRichiesta('Outlook');
+  window.location.href=`mailto:giordass.proposte@libero.it?subject=${subject}&body=${body}`;
+});
+
+/* ==========================
+   DEBUG BUTTON - Testa la logica di finanziamento
+==========================*/
+document.getElementById('btnDebug').addEventListener('click', ()=>{
+  console.clear();
+  console.log('=== DEBUG FINANZIAMENTO ===');
+  
+  // Verifica tutti i checkbox documenti
+  const allDocCheckboxes = document.querySelectorAll('input[name="documenti"]');
+  console.log('Totale checkbox documenti trovati:', allDocCheckboxes.length);
+  
+  allDocCheckboxes.forEach((cb, idx) => {
+    console.log(`[${idx}] Valore: "${cb.value}" | Checked: ${cb.checked}`);
+  });
+  
+  // Test di ricerca come nel codice
+  const testFind1 = [...document.querySelectorAll('input[name="documenti"]')].find(i=>i.value && (i.value.toLowerCase().includes('raccolta') && i.value.toLowerCase().includes('finanziamento')));
+  console.log('\n✓ Ricerca (raccolta + finanziamento):', testFind1 ? `TROVATO: "${testFind1.value}" - Checked: ${testFind1.checked}` : 'NON TROVATO');
+  
+  // Test con valore esatto
+  const testFind2 = [...document.querySelectorAll('input[name="documenti"]')].find(i=>i.value && i.value === 'Modello Raccolta dati Finanziamento');
+  console.log('✓ Ricerca (esatto):', testFind2 ? `TROVATO: "${testFind2.value}" - Checked: ${testFind2.checked}` : 'NON TROVATO');
+  
+  // Simula generaEmailBody per il testo finanziamento
+  const checkboxFinanziamento = [...document.querySelectorAll('input[name="documenti"]')].find(i=>i.value && (i.value.toLowerCase().includes('raccolta') && i.value.toLowerCase().includes('finanziamento')));
+  const richiestaFinanziamentoRiga = (checkboxFinanziamento && checkboxFinanziamento.checked) ? '\n📋 RICHIESTA FINANZIAMENTO' : '';
+  console.log('\n✓ Risultato finale:', richiestaFinanziamentoRiga ? `MOSTREREBBE: "${richiestaFinanziamentoRiga}"` : 'NON MOSTREREBBE NULLA');
+  
+  // Mostra anche l'output nel browser
+  alert(`DEBUG RISULTATI:\n\nCheckbox trovato: ${testFind1 ? 'SÌ' : 'NO'}\nCheckbox selezionato: ${testFind1 && testFind1.checked ? 'SÌ' : 'NO'}\n\nRisultato finale:\n${richiestaFinanziamentoRiga || '(nulla - checkbox non selezionato o non trovato)'}\n\nVedi Console (F12) per dettagli completi.`);
+});
+
+/* ==========================
+   RICHIESTA FINANZIAMENTO
+   Mostra/nascondi il testo "RICHIESTA FINANZIAMENTO" in base al checkbox
+==========================*/
+(function(){
+  const richiestaFinanziamentoEl = document.getElementById('richiestaFinanziamento');
+  
+  function updateRichiestaFinanziamento(){
+    const checkboxFinanziamento = (typeof findFinanziamentoCheckbox === 'function') ? findFinanziamentoCheckbox() : null;
+    if(checkboxFinanziamento && checkboxFinanziamento.checked){
+      if(richiestaFinanziamentoEl) richiestaFinanziamentoEl.style.display = 'block';
+      // Assicura che il vincolo sia applicato immediatamente e con avviso
+      try{ enforceFinanziamentoConstraint(true); }catch(e){}
+    } else {
+      if(richiestaFinanziamentoEl) richiestaFinanziamentoEl.style.display = 'none';
+      try{ enforceFinanziamentoConstraint(false); }catch(e){}
+    }
+  }
+  
+  // listener su tutti i checkbox documenti
+  const allDocumentiCheckboxes = document.querySelectorAll('input[name="documenti"]');
+  allDocumentiCheckboxes.forEach(cb=>{
+    cb.addEventListener('change', updateRichiestaFinanziamento);
+  });
+  
+  // inizializza
+  updateRichiestaFinanziamento();
+})();
+
+/* ==========================
+   RESET FORM
+==========================*/
+form.addEventListener('reset', ()=>{
+  setTimeout(()=>{
+    try{
+      // 1) Rimuovi classi visive e invalid
+      document.querySelectorAll('.checkbox-label.checked').forEach(l=>l.classList.remove('checked'));
+      document.querySelectorAll('.invalid').forEach(el=>el.classList.remove('invalid'));
+
+      // 2) Azzeramento di tutti gli input, select e textarea (inclusi calcoli rapidi)
+      document.querySelectorAll('input').forEach(inp=>{
+        const t = inp.type && inp.type.toLowerCase();
+        if(t === 'checkbox' || t === 'radio') { inp.checked = false; }
+        else inp.value = '';
+      });
+      document.querySelectorAll('select').forEach(sel=>{ sel.selectedIndex = 0; });
+      document.querySelectorAll('textarea').forEach(tx=>{ tx.value = ''; });
+
+      // 3) Azzeramento esplicito dei campi calcolati / display
+      if(preventivoOutput) preventivoOutput.textContent = 'PREVENTIVO SCONTATO TOTALE: € 0.00';
+  if(displayImposte) displayImposte.textContent = '€ 0,00';
+  if(displaySnnAdjusted) displaySnnAdjusted.textContent = '€ 0,00';
+  if(displayArd) displayArd.textContent = '€ 0,00';
+  if(displayInf) displayInf.textContent = '€ 0,00';
+      if(displayAltreGaranzie) displayAltreGaranzie.textContent = '€ 0,00';
+      const elDiff = document.getElementById('display_imposteDiff'); if(elDiff) elDiff.textContent = '€ 0,00';
+      const sEl = document.getElementById('scontoSuggeritoRCA'); if(sEl) sEl.textContent = '—';
+      const rcaEl = document.getElementById('rcaCalc'); if(rcaEl) rcaEl.textContent = 'RCA dopo sconto: € 0.00';
+      const impEl = document.getElementById('imponibileDopoSconto'); if(impEl) impEl.textContent = 'Imponibile scontato: € 0.00';
+      const prevReq = document.getElementById('richiestaFinanziamento'); if(prevReq) prevReq.style.display = 'none';
+
+      // 4) Rimuovi attributi checked/selected dai markup (per evitare che il reset riattivi valori 'checked' di default)
+      document.querySelectorAll('input[checked]').forEach(i=>i.removeAttribute('checked'));
+      document.querySelectorAll('option[selected]').forEach(o=>o.removeAttribute('selected'));
+
+      // 5) Azzeramento di variabili di stato
+      pendingCalcoloParsed = null;
+      suppressPreventivoSync = false;
+
+      // 6) Rimuovi eventuali file input
+      document.querySelectorAll('input[type="file"]').forEach(f=>{ try{ f.value = ''; }catch(e){} });
+
+      // 7) Rimuovi eventuali testi temporanei
+      document.querySelectorAll('.temp-output').forEach(el=>el.textContent='');
+
+      // 8) Forza un ricalcolo per allineare lo stato UI/JS
+      updateCalcolo();
+    }catch(e){ console.error('Errore durante reset form:', e); }
+  },20);
+});
+
+/* ==========================
+   ACCESSIBILITÀ CHECKBOX
+==========================*/
+document.querySelectorAll('.checkbox-label').forEach(l=>{ l.setAttribute('tabindex','0'); });
+
+    /* ==========================
+       GESTIONE SPECIFICA CAMPO "PREMIO ALTRE GARANZIE"
+       - Valida/esegue espressioni con + - * / e ()
+       - Al blur formatta il valore risultante con 2 decimali
+       - In caso di espressione non valida mostra popup ma non blocca il form
+    ==========================*/
+    // aggiorna live il calcolo quando l'utente digita
+    premioAltreInput.addEventListener('input', () => {
+      updateCalcolo();
+    });
+
+    // al blur: tenta di valutare e formattare
+    premioAltreInput.addEventListener('blur', () => {
+      const val = premioAltreInput.value.trim();
+      if (val === '') {
+        premioAltreInput.value = '';
+        updateCalcolo();
+        return;
+      }
+      const parsed = parseExpression(val);
+      if (isNaN(parsed) || !isFinite(parsed)) {
+        showPopup('Espressione non valida per "Premio altre garanzie". Correggi l\'input.');
+        // non sovrascrivere il valore così l'utente può correggere; evidenziamo con classe invalid
+        premioAltreInput.classList.add('invalid');
+        return;
+      }
+      premioAltreInput.classList.remove('invalid');
+      premioAltreInput.value = parsed.toFixed(2);
+      updateCalcolo();
+    });
+
+  // Casa Easy: formatting and event wiring are handled by the common listeners and updateCalcolo()
+
+  // ==========================
+  // CALCOLO PERCENTUALE SUGGERITA SU RCA
+  // Mostra in tempo reale il suggerimento % accanto al campo SCONTO
+  // ==========================
+  (function(){
+    const scontoSuggeritoEl = document.getElementById('scontoSuggeritoRCA');
+    const premioConc = document.getElementById('PremioConcorrenza'); // Preventivo Prec. Rata Annua
+
+    function formatPercent(v){
+      if(!isFinite(v)) return '—';
+      return v.toFixed(2) + ' %';
+    }
+
+    function computeSuggestedPercent(){
+      // debug entry
+      try{ console.debug && console.debug('[DEBUG] computeSuggestedPercent called'); }catch(e){}
+
+      // SUGGERIMENTO % su RCA
+      try{
+        // Obiettivo: trovare s (in %) tale che
+        // PREVENTIVO_SCONTATO = PREVENTIVO_TARGET
+        // PREVENTIVO_SCONTATO = RCA_after_sconto + Altre + InfInterni + InfEsterni + Casa + Imposte + SSN + ARD
+        // dove Imposte = 16% * RCA_after_sconto, SSN = 10.5% * RCA_after_sconto, ARD = 13% * Altre + 2.5% * InfInterni
+        const targetRaw = (premioConc && (premioConc.value||'').toString().trim()) || '';
+        const premioRcaRaw = (premioInput && (premioInput.value||'').toString().trim()) || '';
+        if(!targetRaw || !premioRcaRaw){ if(scontoSuggeritoEl) scontoSuggeritoEl.textContent = '—'; return; }
+        
+        const target = getPreventivoPrecedenteAdjusted();
+        const rca = getPremioRCAAdjusted();
+        const altre = getPremioAltreAdjusted();
+        const inf = (typeof getPremioInfortuniAdjusted === 'function') ? getPremioInfortuniAdjusted() : 0;
+        const infEst2 = (typeof getPremioInfortuniEsterni2Adjusted === 'function') ? getPremioInfortuniEsterni2Adjusted() : 0;
+        const casa = (typeof getPremioCasaAdjusted === 'function') ? getPremioCasaAdjusted() : 0;
+  // Calcola ARD e INF partendo dagli importi ANNUALI e poi applicando il frazionamento
+  // in modo coerente con il resto dei calcoli (semestrale = metà)
+  const fraz = (frazionamento && frazionamento.value) ? frazionamento.value : 'Annuale';
+  const altreAnnuali = (typeof parseExpression === 'function') ? (parseExpression((premioAltreInput && (premioAltreInput.value||'')).toString()) || 0) : (parseFloat((premioAltreInput && (premioAltreInput.value||'')).toString().replace(',','.')) || 0);
+  const infAnnuali = parseFloat((premioInfInput && (premioInfInput.value||'')).toString().replace(',','.')) || 0;
+  // separa ARD (13.5% su Altre) e INF (2.5% su Inf. interni)
+  let ardOnly = (isFinite(altreAnnuali) ? altreAnnuali * 0.135 : 0);
+  let infOnly = (isFinite(infAnnuali) ? infAnnuali * 0.025 : 0);
+  if(fraz === 'Semestrale'){ ardOnly /= 2; infOnly /= 2; }
+  // somma usata per la risoluzione dell'equazione (come prima)
+  let ard = ardOnly + infOnly;
+  // aggiorna i display separati per suggerimento
+  try{ if(displayArd) displayArd.textContent = isFinite(ardOnly) ? '€ ' + ardOnly.toFixed(2) : '—'; }catch(e){}
+  try{ if(displayInf) displayInf.textContent = isFinite(infOnly) ? '€ ' + infOnly.toFixed(2) : '—'; }catch(e){}
+        
+        if(!isFinite(target) || target<=0 || !isFinite(rca) || rca<=0){ if(scontoSuggeritoEl) scontoSuggeritoEl.textContent = '—'; return; }
+        
+        // Risolvi per s (sconto %) tale che:
+        // target = rca*(1 - s/100) + altre + inf + infEst2 + casa + imp + ssn + ard
+        // dove imp = 16% * rca*(1 - s/100), ssn = 10.5% * rca*(1 - s/100), ard = 13,50%*altre + 2.5%*inf
+        // Semplificazione:
+        // target = rca*(1 - s/100)*(1 + 0.16 + 0.105) + altre + inf + infEst2 + casa + ard
+        // target = rca*(1 - s/100)*1.265 + altre + inf + infEst2 + casa + ard
+        // rca*(1 - s/100)*1.265 = target - altre - inf - infEst2 - casa - ard
+        // (1 - s/100) = (target - altre - inf - infEst2 - casa - ard) / (rca * 1.265)
+        // s = 100 * (1 - (target - altre - inf - infEst2 - casa - ard) / (rca * 1.265))
+        // Se il 5% è attivo, riduce il RCA effettivo di un ulteriore 5%
+        
+        const TAX_COEFF = 1 + 0.16 + 0.105; // 1.265
+        let rhs = target - altre - inf - infEst2 - casa - ard;
+        
+        if(!isFinite(rhs)) { if(scontoSuggeritoEl) scontoSuggeritoEl.textContent = '—'; return; }
+        
+        let sNeeded = 100 * (1 - (rhs / (rca * TAX_COEFF)));
+        // Se il 5% R.E. è attivo, il suggerimento visualizzato è ridotto di 5 punti percentuali
+        // (l'utente inserisce scontoDisplayed = sNeeded - 5, e updateCalcolo usa scontoDisplayed + 5 = sNeeded)
+        if(sconto5PercentCheckbox && sconto5PercentCheckbox.checked){
+          sNeeded = sNeeded - 5;
+        }
+        // arrotonda e limita: non mostrare valori negativi o eccessivi
+        if(!isFinite(sNeeded)) { if(scontoSuggeritoEl) scontoSuggeritoEl.textContent = '—'; }
+        else {
+          if(sNeeded < 0) sNeeded = 0;
+          if(sNeeded > 100) sNeeded = 100; // Cap a 100%
+          if(scontoSuggeritoEl) scontoSuggeritoEl.textContent = formatPercent(sNeeded);
+        }
+      }catch(e){ console.error && console.error('[DEBUG] computeSuggestedPercent error', e); if(scontoSuggeritoEl) scontoSuggeritoEl.textContent = '—'; }
+
+      // IMPOSTE E SNN (mostra suggerimenti separati)
+      try{
+        const rcaRaw = parseFloat((premioInput && (premioInput.value||'')).toString().replace(',','.')) || 0;
+        const scontoDisplayedPerc = parseFloat((scontoInput && (scontoInput.value||'')).toString().replace(',','.')) || 0;
+        // Usa lo sconto effettivo (scontoDisplayed + 5 se il checkbox 5% è attivo)
+        // così i riquadri imposte/SSN sono coerenti con il totale calcolato
+        const scontoEffPerc = scontoDisplayedPerc + ((sconto5PercentCheckbox && sconto5PercentCheckbox.checked) ? 5 : 0);
+        const rcaAfterSconto = rcaRaw - (rcaRaw * scontoEffPerc / 100);
+
+        // Le imposte richieste sono SOLO sul valore RCA dopo sconto (16%)
+        if(!isFinite(rcaAfterSconto)){
+          if(displayImposte) displayImposte.textContent = '—';
+          if(displaySnnAdjusted) displaySnnAdjusted.textContent = '—';
+        } else {
+          // Imposte = 16% di RCA dopo sconto
+          let imposteSug = rcaAfterSconto * 0.16;
+          // SSN = 10.5% di RCA dopo sconto (coerente con updateCalcolo che usa 0.105)
+          let snnSug = rcaAfterSconto * 0.105;
+          if(frazionamento && frazionamento.value === 'Semestrale'){ imposteSug /= 2; snnSug /= 2; }
+          if(displayImposte) displayImposte.textContent = isFinite(imposteSug) ? '€ ' + imposteSug.toFixed(2) : '—';
+          if(displaySnnAdjusted) displaySnnAdjusted.textContent = isFinite(snnSug) ? '€ ' + snnSug.toFixed(2) : '—';
+        }
+      }catch(e){ console.error && console.error('[DEBUG] imposteVal error', e); if(displayImposte) displayImposte.textContent = '—'; if(displaySnnAdjusted) displaySnnAdjusted.textContent = '—'; }
+
+      return;
+    }
+
+    try{ window.updateSuggerimenti = computeSuggestedPercent; }catch(e){}
+    setTimeout(computeSuggestedPercent, 300);
+  })();
+
+  </script>
+</body>
+</html>

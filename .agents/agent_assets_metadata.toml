@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "G4su7WmGll7GZr-ALoc4s"
+uri = "file://vercel-deploy.zip"
+type = "unspecified"
+title = "Progetto Vercel — Agenzia Giordano & Valenzise"
