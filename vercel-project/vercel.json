@@ -2,7 +2,7 @@
   "version": 2,
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/storico", "dest": "/public/storico.html" },
-    { "src": "/(.*)", "dest": "/public/$1" }
+    { "src": "/storico", "dest": "/storico.html" },
+    { "src": "^/$", "dest": "/index.html" }
   ]
 }
