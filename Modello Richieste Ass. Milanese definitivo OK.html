@@ -162,7 +162,7 @@
       border:1px solid #ccd6e8;
       border-radius:var(--radius);
       margin-top:4px;
-      transition:border-color .18s, box-shadow .18s, background .18s;
+      transition:border-color .18s, box-shadow .18s, background .18s, transform .15s;
       background:rgba(255,255,255,0.9);
     }
 
@@ -172,11 +172,19 @@
       box-shadow:0 0 0 3px rgba(224,53,69,0.08);
     }
 
+    input[type="text"]:hover, input[type="email"]:hover, input[type="tel"]:hover, input[type="number"]:hover, select:hover, textarea:hover{
+      border-color:#7ab8f0;
+      background: linear-gradient(135deg, #f5faff 0%, #eaf3ff 100%);
+      box-shadow:0 2px 10px rgba(28,126,214,0.10);
+      transform: translateY(-1px);
+    }
+
     input:focus, select:focus, textarea:focus{
       border-color:var(--accent);
       outline:none;
-      box-shadow:0 0 0 3px rgba(28,126,214,0.14);
+      box-shadow:0 0 0 3px rgba(28,126,214,0.18), 0 2px 12px rgba(28,126,214,0.12);
       background:#ffffff;
+      transform: translateY(-1px);
     }
 
     /* RIGHE INLINE */
