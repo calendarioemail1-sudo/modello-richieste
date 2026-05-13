@@ -3,439 +3,222 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Storico Richieste - Agenzia Giordano & Valenzise</title>
+  <title>Storico Richieste — Agenzia Giordano & Valenzise</title>
   <style>
     :root{
-      --primary:#0047a8;
-      --accent:#1c7ed6;
-      --danger:#e03545;
-      --success:#1a9e50;
-      --radius:12px;
-      --card-bg:#ffffff;
-      --bg: linear-gradient(160deg,#dde8f8 0%,#edf1f7 50%,#e8eef8 100%);
-      --grad-primary: linear-gradient(135deg,#0047a8 0%,#1c7ed6 100%);
-      --shadow: 0 4px 20px rgba(0,71,168,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      --primary:#0047a8;--accent:#1c7ed6;--radius:12px;
+      --bg:linear-gradient(160deg,#dde8f8 0%,#edf1f7 50%,#e8eef8 100%);
+      --grad:linear-gradient(135deg,#0047a8 0%,#1c7ed6 100%);
+      --shadow:0 4px 20px rgba(0,71,168,0.08),0 1px 4px rgba(0,0,0,0.04);
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:Inter,system-ui,sans-serif;
-      background:var(--bg);
-      min-height:100vh;
-      color:#1a2540;
-    }
-    header{
-      background:var(--grad-primary);
-      padding:18px 24px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      box-shadow:0 2px 12px rgba(0,71,168,0.2);
-    }
-    header h1{
-      color:#fff;
-      font-size:1.3em;
-      font-weight:800;
-      letter-spacing:-0.01em;
-    }
-    header a{
-      color:#fff;
-      text-decoration:none;
-      font-weight:700;
-      font-size:0.9em;
-      background:rgba(255,255,255,0.18);
-      padding:6px 14px;
-      border-radius:8px;
-      transition:background .2s;
-    }
-    header a:hover{ background:rgba(255,255,255,0.28); }
-
-    .container{ max-width:1400px; margin:0 auto; padding:20px 16px; }
-
-    .stats-bar{
-      display:flex;
-      gap:12px;
-      margin-bottom:20px;
-      flex-wrap:wrap;
-    }
-    .stat-card{
-      background:var(--card-bg);
-      border-radius:var(--radius);
-      padding:14px 20px;
-      box-shadow:var(--shadow);
-      border:1px solid rgba(28,126,214,0.08);
-      flex:1;
-      min-width:160px;
-      text-align:center;
-    }
-    .stat-card .num{
-      font-size:2em;
-      font-weight:800;
-      background:var(--grad-primary);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-    }
-    .stat-card .label{ font-size:0.78em; font-weight:700; text-transform:uppercase; color:#666; margin-top:2px; }
-
-    .filters{
-      background:var(--card-bg);
-      border-radius:var(--radius);
-      padding:14px 16px;
-      box-shadow:var(--shadow);
-      border:1px solid rgba(28,126,214,0.08);
-      margin-bottom:16px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:flex-end;
-    }
-    .filters input, .filters select{
-      padding:7px 10px;
-      border:1.5px solid #ccd6e8;
-      border-radius:8px;
-      font-size:0.88em;
-      font-weight:600;
-      color:#1a2540;
-      background:#f5f8ff;
-      transition:border-color .18s, box-shadow .18s;
-    }
-    .filters input:focus, .filters select:focus{
-      border-color:var(--accent);
-      outline:none;
-      box-shadow:0 0 0 3px rgba(28,126,214,0.12);
-    }
-    .filters label{ font-size:0.8em; font-weight:700; text-transform:uppercase; color:#555; display:block; margin-bottom:3px; }
-    .btn-export{
-      padding:8px 16px;
-      background:var(--grad-primary);
-      color:#fff;
-      border:none;
-      border-radius:8px;
-      font-weight:700;
-      font-size:0.88em;
-      cursor:pointer;
-      box-shadow:0 3px 10px rgba(0,71,168,0.2);
-      transition:filter .18s, transform .12s;
-      height:36px;
-    }
-    .btn-export:hover{ filter:brightness(1.1); transform:translateY(-1px); }
-
-    .table-wrap{
-      background:var(--card-bg);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      border:1px solid rgba(28,126,214,0.08);
-      overflow:auto;
-    }
-    table{
-      width:100%;
-      border-collapse:collapse;
-      font-size:0.84em;
-    }
-    thead tr{
-      background:var(--grad-primary);
-      color:#fff;
-    }
-    thead th{
-      padding:10px 12px;
-      text-align:left;
-      font-weight:700;
-      text-transform:uppercase;
-      font-size:0.78em;
-      letter-spacing:0.04em;
-      white-space:nowrap;
-    }
-    tbody tr{
-      border-bottom:1px solid #eef2f7;
-      transition:background .15s;
-    }
-    tbody tr:hover{ background:#f0f6ff; }
-    tbody td{
-      padding:9px 12px;
-      vertical-align:middle;
-      white-space:nowrap;
-    }
-    .badge{
-      display:inline-block;
-      padding:2px 8px;
-      border-radius:20px;
-      font-size:0.78em;
-      font-weight:700;
-    }
-    .badge-gmail{ background:#e8f3ff; color:#0047a8; }
-    .badge-outlook{ background:#e8f5ee; color:#1a9e50; }
-    .badge-annuale{ background:#fff3e0; color:#e65100; }
-    .badge-semestrale{ background:#f3e8ff; color:#6d28d9; }
-    .badge-nuova{ background:#e8f3ff; color:#0047a8; }
-    .badge-rinnovo{ background:#e8f5ee; color:#1a9e50; }
-    .badge-sostituzione{ background:#fff3e0; color:#c77800; }
-
-    .empty-state{
-      text-align:center;
-      padding:60px 20px;
-      color:#888;
-    }
-    .empty-state .icon{ font-size:3em; margin-bottom:12px; }
-    .empty-state p{ font-size:1em; font-weight:600; }
-
-    .loading{
-      text-align:center;
-      padding:40px;
-      color:var(--accent);
-      font-weight:700;
-    }
-
-    .detail-btn{
-      background:none;
-      border:1.5px solid var(--accent);
-      color:var(--accent);
-      border-radius:6px;
-      padding:3px 10px;
-      font-size:0.8em;
-      font-weight:700;
-      cursor:pointer;
-      transition:background .18s, color .18s;
-    }
-    .detail-btn:hover{ background:var(--accent); color:#fff; }
-
-    /* Modal dettaglio */
-    .modal-overlay{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.45);
-      z-index:1000;
-      align-items:center;
-      justify-content:center;
-    }
-    .modal-overlay.open{ display:flex; }
-    .modal{
-      background:#fff;
-      border-radius:16px;
-      padding:24px 28px;
-      max-width:560px;
-      width:94%;
-      box-shadow:0 12px 40px rgba(0,0,0,0.18);
-      position:relative;
-      max-height:90vh;
-      overflow-y:auto;
-    }
-    .modal h2{
-      font-size:1.1em;
-      font-weight:800;
-      margin-bottom:16px;
-      background:var(--grad-primary);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-    }
-    .modal-close{
-      position:absolute;
-      top:14px; right:18px;
-      background:none; border:none;
-      font-size:1.4em; cursor:pointer;
-      color:#888;
-    }
-    .modal-row{ display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f0f4fa; gap:12px; }
-    .modal-row:last-child{ border-bottom:none; }
-    .modal-key{ font-weight:700; font-size:0.85em; text-transform:uppercase; color:#555; flex:0 0 180px; }
-    .modal-val{ font-weight:600; font-size:0.88em; color:#1a2540; text-align:right; word-break:break-word; }
-
-    @media(max-width:700px){
-      .stats-bar{ gap:8px; }
-      .stat-card{ min-width:120px; }
-    }
+    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);min-height:100vh;color:#1a2540;}
+    header{background:var(--grad);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,71,168,0.2);flex-wrap:wrap;gap:8px;}
+    header h1{color:#fff;font-size:1.1em;font-weight:800;}
+    .header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .hbtn{color:#fff;text-decoration:none;font-weight:700;font-size:0.83em;padding:6px 13px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;}
+    .hbtn-ghost{background:rgba(255,255,255,0.15);}
+    .hbtn-ghost:hover{background:rgba(255,255,255,0.28);}
+    .hbtn-register{background:rgba(255,215,0,0.25);border:1.5px solid rgba(255,215,0,0.5);}
+    .hbtn-register:hover{background:rgba(255,215,0,0.38);}
+    .badge-session{background:rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:0.78em;color:rgba(255,255,255,0.9);font-weight:700;}
+    .container{max-width:1400px;margin:0 auto;padding:18px 14px;}
+    .stats-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+    .stat-card{background:#fff;border-radius:var(--radius);padding:13px 18px;box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);flex:1;min-width:140px;text-align:center;}
+    .stat-card .num{font-size:1.9em;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .stat-card .lbl{font-size:0.75em;font-weight:700;text-transform:uppercase;color:#777;margin-top:2px;}
+    .filters{background:#fff;border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;}
+    .filters label{font-size:0.75em;font-weight:800;text-transform:uppercase;color:#555;display:block;margin-bottom:3px;}
+    .filters input,.filters select{padding:7px 10px;border:1.5px solid #ccd6e8;border-radius:8px;font-size:0.86em;font-weight:600;color:#1a2540;background:#f5f8ff;outline:none;transition:border-color .18s;}
+    .filters input:focus,.filters select:focus{border-color:var(--accent);}
+    .btn-export{padding:8px 14px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:0.86em;cursor:pointer;transition:filter .18s,transform .12s;height:36px;}
+    .btn-export:hover{filter:brightness(1.1);transform:translateY(-1px);}
+    .table-wrap{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);overflow:auto;}
+    table{width:100%;border-collapse:collapse;font-size:0.83em;}
+    thead tr{background:var(--grad);color:#fff;}
+    thead th{padding:10px 11px;text-align:left;font-weight:700;text-transform:uppercase;font-size:0.76em;letter-spacing:.04em;white-space:nowrap;}
+    tbody tr{border-bottom:1px solid #eef2f7;transition:background .15s;}
+    tbody tr:hover{background:#f0f6ff;}
+    tbody td{padding:8px 11px;vertical-align:middle;white-space:nowrap;}
+    .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:0.76em;font-weight:700;}
+    .b-gmail{background:#e8f3ff;color:#0047a8;}
+    .b-outlook{background:#e8f5ee;color:#1a9e50;}
+    .b-annuale{background:#fff3e0;color:#e65100;}
+    .b-semestrale{background:#f3e8ff;color:#6d28d9;}
+    .b-nuova{background:#e8f3ff;color:#0047a8;}
+    .b-rinnovo{background:#e8f5ee;color:#1a9e50;}
+    .b-sost{background:#fff3e0;color:#c77800;}
+    .empty-state,.loading{text-align:center;padding:50px 20px;color:#888;font-weight:700;}
+    .loading{color:var(--accent);}
+    .detail-btn{background:none;border:1.5px solid var(--accent);color:var(--accent);border-radius:6px;padding:3px 9px;font-size:0.78em;font-weight:700;cursor:pointer;transition:background .18s,color .18s;}
+    .detail-btn:hover{background:var(--accent);color:#fff;}
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:#fff;border-radius:16px;padding:24px 26px;max-width:540px;width:94%;box-shadow:0 12px 40px rgba(0,0,0,0.18);position:relative;max-height:90vh;overflow-y:auto;}
+    .modal h2{font-size:1.05em;font-weight:800;margin-bottom:14px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .modal-close{position:absolute;top:13px;right:16px;background:none;border:none;font-size:1.4em;cursor:pointer;color:#888;}
+    .modal-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f4fa;gap:10px;}
+    .modal-row:last-child{border-bottom:none;}
+    .modal-key{font-weight:700;font-size:0.82em;text-transform:uppercase;color:#555;flex:0 0 170px;}
+    .modal-val{font-weight:600;font-size:0.86em;color:#1a2540;text-align:right;word-break:break-word;}
+    .role-banner{background:#fff8e0;border:1.5px solid #ffe082;border-radius:var(--radius);padding:10px 16px;margin-bottom:14px;font-size:0.88em;font-weight:700;color:#7a5700;display:none;}
+    .role-banner.show{display:block;}
+    @media(max-width:700px){.stats-bar{gap:7px;}.stat-card{min-width:110px;}}
   </style>
 </head>
 <body>
-
 <header>
   <h1>📋 Storico Richieste — Agenzia Giordano & Valenzise</h1>
-  <div style="display:flex;gap:10px;align-items:center;">
-    <a href="/">← Torna al Modulo</a>
-    <button onclick="logout()" style="background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);color:#fff;font-weight:700;font-size:0.85em;padding:6px 14px;border-radius:8px;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">🚪 Esci</button>
+  <div class="header-actions">
+    <span class="badge-session" id="sessionBadge">…</span>
+    <a href="/" class="hbtn hbtn-ghost">← Modulo</a>
+    <button id="btnRegistra" class="hbtn hbtn-register" onclick="window.location.href='/registrazione'" style="display:none;">👤 Registra Utente</button>
+    <button onclick="logout()" class="hbtn hbtn-ghost">🚪 Esci</button>
   </div>
 </header>
 
 <div class="container">
-
+  <div class="role-banner" id="roleBanner"></div>
   <div class="stats-bar" id="statsBar">
-    <div class="stat-card"><div class="num" id="statTotale">—</div><div class="label">Totale Richieste</div></div>
-    <div class="stat-card"><div class="num" id="statMese">—</div><div class="label">Questo Mese</div></div>
-    <div class="stat-card"><div class="num" id="statRinnovi">—</div><div class="label">Rinnovi</div></div>
-    <div class="stat-card"><div class="num" id="statNuove">—</div><div class="label">Nuove Proposte</div></div>
-    <div class="stat-card"><div class="num" id="statSemestrale">—</div><div class="label">Semestrali</div></div>
+    <div class="stat-card"><div class="num" id="statTotale">—</div><div class="lbl">Totale</div></div>
+    <div class="stat-card"><div class="num" id="statMese">—</div><div class="lbl">Questo Mese</div></div>
+    <div class="stat-card"><div class="num" id="statRinnovi">—</div><div class="lbl">Rinnovi</div></div>
+    <div class="stat-card"><div class="num" id="statNuove">—</div><div class="lbl">Nuove</div></div>
+    <div class="stat-card"><div class="num" id="statSem">—</div><div class="lbl">Semestrali</div></div>
   </div>
 
   <div class="filters">
-    <div>
-      <label>Cerca (nome, cognome, targa...)</label>
-      <input type="text" id="filterSearch" placeholder="Cerca..." oninput="applyFilters()">
-    </div>
-    <div>
-      <label>Tipo Richiesta</label>
-      <select id="filterTipo" onchange="applyFilters()">
+    <div><label>Cerca</label><input type="text" id="fSearch" placeholder="nome, targa, proposta…" oninput="applyFilters()"></div>
+    <div><label>Tipo</label>
+      <select id="fTipo" onchange="applyFilters()">
         <option value="">Tutti</option>
-        <option value="Nuova Proposta">Nuova Proposta</option>
-        <option value="Rinnovo">Rinnovo</option>
-        <option value="Sostituzione">Sostituzione</option>
+        <option>Nuova Proposta</option><option>Rinnovo</option><option>Sostituzione</option>
       </select>
     </div>
-    <div>
-      <label>Frazionamento</label>
-      <select id="filterFraz" onchange="applyFilters()">
-        <option value="">Tutti</option>
-        <option value="Annuale">Annuale</option>
-        <option value="Semestrale">Semestrale</option>
+    <div><label>Frazionamento</label>
+      <select id="fFraz" onchange="applyFilters()">
+        <option value="">Tutti</option><option>Annuale</option><option>Semestrale</option>
       </select>
     </div>
-    <div>
-      <label>Canale</label>
-      <select id="filterCanale" onchange="applyFilters()">
-        <option value="">Tutti</option>
-        <option value="Gmail">Gmail</option>
-        <option value="Outlook">Outlook</option>
+    <div><label>Canale</label>
+      <select id="fCanale" onchange="applyFilters()">
+        <option value="">Tutti</option><option>Gmail</option><option>Outlook</option>
       </select>
     </div>
-    <div>
-      <label>Da data</label>
-      <input type="date" id="filterDa" onchange="applyFilters()">
+    <div id="fOperatoreWrap" style="display:none"><label>Operatore</label>
+      <input type="text" id="fOperatore" placeholder="email operatore" oninput="applyFilters()">
     </div>
-    <div>
-      <label>A data</label>
-      <input type="date" id="filterA" onchange="applyFilters()">
-    </div>
-    <button class="btn-export" onclick="exportCSV()">⬇️ Esporta CSV</button>
+    <div><label>Da</label><input type="date" id="fDa" onchange="applyFilters()"></div>
+    <div><label>A</label><input type="date" id="fA" onchange="applyFilters()"></div>
+    <button class="btn-export" onclick="exportCSV()">⬇️ CSV</button>
   </div>
 
   <div class="table-wrap">
-    <div class="loading" id="loadingMsg">⏳ Caricamento dati...</div>
+    <div class="loading" id="loadingMsg">⏳ Caricamento…</div>
     <table id="dataTable" style="display:none">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Data Invio</th>
-          <th>N° Proposta</th>
-          <th>Tipo</th>
-          <th>Nominativo</th>
-          <th>Targa</th>
-          <th>Veicolo</th>
-          <th>Compagnia Prov.</th>
-          <th>Frazionamento</th>
-          <th>Sconto %</th>
-          <th>RCA Netto</th>
-          <th>Tot. Scontato RCA</th>
-          <th>Preventivo Totale</th>
-          <th>Canale</th>
-          <th>Dettaglio</th>
+          <th>#</th><th>Data</th><th>N° Prop.</th><th>Tipo</th>
+          <th>Nominativo</th><th>Targa</th><th>Compagnia</th>
+          <th>Fraz.</th><th>Sconto</th><th>RCA Netto</th>
+          <th>Tot. Scontato</th><th>Preventivo</th><th>Canale</th>
+          <th id="thOperatore" style="display:none">Operatore</th>
+          <th>Det.</th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
     </table>
-    <div class="empty-state" id="emptyState" style="display:none">
-      <div class="icon">📭</div>
-      <p>Nessuna richiesta trovata.</p>
-    </div>
+    <div class="empty-state" id="emptyState" style="display:none">📭 Nessuna richiesta trovata.</div>
   </div>
 </div>
 
-<!-- Modal dettaglio -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal" id="modalContent">
+  <div class="modal">
     <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
-    <h2 id="modalTitle">Dettaglio Richiesta</h2>
+    <h2 id="modalTitle">Dettaglio</h2>
     <div id="modalBody"></div>
   </div>
 </div>
 
 <script>
-const SESSION_TOKEN = 'gv_storico_9f3a2b8c1e7d4f6a0b5c2d9e8f1a3b7c';
+let allData = [], currentRole = '', currentEmail = '';
 
-function checkAuth(){
+function getAuth(){
   const token = localStorage.getItem('gv_auth_token');
-  if(token !== SESSION_TOKEN){
-    window.location.href = '/login';
-  }
+  const role  = localStorage.getItem('gv_user_role');
+  const email = localStorage.getItem('gv_user_email');
+  const nome  = localStorage.getItem('gv_user_nome') || email;
+  if(!token){ window.location.replace('/login'); return null; }
+  return { token, role, email, nome };
 }
-checkAuth();
 
 function logout(){
-  localStorage.removeItem('gv_auth_token');
-  window.location.href = '/login';
+  ['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome'].forEach(k=>localStorage.removeItem(k));
+  window.location.replace('/login');
 }
 
-let allData = [];
+function fmtDate(s){ if(!s) return '—'; const d=new Date(s); return d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+function badge(v,map){ for(const [k,cls] of Object.entries(map)) if(v&&v.includes(k)) return `<span class="badge ${cls}">${v}</span>`; return v||'—'; }
+function badgeTipo(v){ return badge(v,{'Rinnovo':'b-rinnovo','Sostituzione':'b-sost','Nuova':'b-nuova'})||v||'—'; }
+function badgeFraz(v){ if(!v) return '—'; return `<span class="badge ${v==='Semestrale'?'b-semestrale':'b-annuale'}">${v}</span>`; }
+function badgeCanale(v){ if(!v) return '—'; return `<span class="badge ${v==='Gmail'?'b-gmail':'b-outlook'}">${v==='Gmail'?'📧 Gmail':'📨 Outlook'}</span>`; }
 
 async function loadData(){
+  const auth = getAuth(); if(!auth) return;
+  currentRole = auth.role; currentEmail = auth.email;
+
+  document.getElementById('sessionBadge').textContent = (auth.role==='admin'?'👑 Admin':'👤 ') + (auth.nome||auth.email);
+
+  if(auth.role === 'admin'){
+    document.getElementById('btnRegistra').style.display = '';
+    document.getElementById('fOperatoreWrap').style.display = '';
+    document.getElementById('thOperatore').style.display = '';
+    const b = document.getElementById('roleBanner');
+    b.textContent = '👑 Modalità Admin — visualizzi tutte le richieste di tutti gli operatori.';
+    b.classList.add('show');
+  } else {
+    const b = document.getElementById('roleBanner');
+    b.textContent = '👤 Visualizzi solo le richieste da te inviate.';
+    b.classList.add('show');
+  }
+
   try{
-    const token = localStorage.getItem('gv_auth_token');
-    const res = await fetch('/api/get-submissions', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
+    const res = await fetch('/api/get-submissions', { headers:{'Authorization':'Bearer '+auth.token} });
+    if(res.status === 401){ logout(); return; }
     const json = await res.json();
     allData = json.submissions || [];
     document.getElementById('loadingMsg').style.display = 'none';
     updateStats(allData);
     renderTable(allData);
   } catch(e){
-    document.getElementById('loadingMsg').textContent = '❌ Errore nel caricamento dei dati.';
+    document.getElementById('loadingMsg').textContent = '❌ Errore nel caricamento.';
   }
 }
 
 function updateStats(data){
   const now = new Date();
-  const thisMonth = data.filter(r => {
-    const d = new Date(r.created_at);
-    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-  });
   document.getElementById('statTotale').textContent = data.length;
-  document.getElementById('statMese').textContent = thisMonth.length;
+  document.getElementById('statMese').textContent   = data.filter(r=>{const d=new Date(r.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).length;
   document.getElementById('statRinnovi').textContent = data.filter(r=>r.tipo_richiesta==='Rinnovo').length;
-  document.getElementById('statNuove').textContent = data.filter(r=>r.tipo_richiesta==='Nuova Proposta').length;
-  document.getElementById('statSemestrale').textContent = data.filter(r=>r.frazionamento==='Semestrale').length;
-}
-
-function badgeTipo(v){
-  if(!v) return '';
-  const cls = v==='Rinnovo'?'badge-rinnovo':v==='Sostituzione'?'badge-sostituzione':'badge-nuova';
-  return `<span class="badge ${cls}">${v}</span>`;
-}
-function badgeFraz(v){
-  if(!v) return '';
-  const cls = v==='Semestrale'?'badge-semestrale':'badge-annuale';
-  return `<span class="badge ${cls}">${v}</span>`;
-}
-function badgeCanale(v){
-  if(!v) return '';
-  const cls = v==='Gmail'?'badge-gmail':'badge-outlook';
-  return `<span class="badge ${cls}">${v==='Gmail'?'📧 Gmail':'📨 Outlook'}</span>`;
-}
-function fmtDate(s){
-  if(!s) return '—';
-  const d = new Date(s);
-  return d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('statNuove').textContent   = data.filter(r=>r.tipo_richiesta==='Nuova Proposta').length;
+  document.getElementById('statSem').textContent     = data.filter(r=>r.frazionamento==='Semestrale').length;
 }
 
 function renderTable(data){
-  const tbody = document.getElementById('tableBody');
-  const table = document.getElementById('dataTable');
+  const tbl = document.getElementById('dataTable');
   const empty = document.getElementById('emptyState');
-  if(!data.length){
-    table.style.display='none';
-    empty.style.display='block';
-    return;
-  }
-  table.style.display='table';
-  empty.style.display='none';
+  const tbody = document.getElementById('tableBody');
+  if(!data.length){ tbl.style.display='none'; empty.style.display='block'; return; }
+  tbl.style.display='table'; empty.style.display='none';
+  const isAdmin = currentRole === 'admin';
   tbody.innerHTML = data.map((r,i)=>`
     <tr>
-      <td style="color:#999;font-size:0.8em">${r.id||i+1}</td>
-      <td>${fmtDate(r.created_at)}</td>
+      <td style="color:#aaa;font-size:.78em">${r.id||i+1}</td>
+      <td style="font-size:.82em">${fmtDate(r.created_at)}</td>
       <td><strong>${r.numero_proposta||'—'}</strong></td>
       <td>${badgeTipo(r.tipo_richiesta)}</td>
       <td><strong>${r.nome||''} ${r.cognome||''}</strong></td>
       <td style="font-family:monospace;font-weight:700">${r.targa||'—'}</td>
-      <td>${r.tipo_veicolo||'—'}</td>
       <td>${r.compagnia_provenienza||'—'}</td>
       <td>${badgeFraz(r.frazionamento)}</td>
       <td style="text-align:center;font-weight:700;color:#088b03">${r.sconto_richiesto?r.sconto_richiesto+'%':'—'}</td>
@@ -443,6 +226,7 @@ function renderTable(data){
       <td style="color:#0047a8;font-weight:700">${r.totale_scontato_rca||'—'}</td>
       <td style="color:#0047a8;font-weight:800">${r.preventivo_totale||'—'}</td>
       <td>${badgeCanale(r.canale_invio)}</td>
+      ${isAdmin?`<td style="font-size:.78em;color:#777;max-width:140px;overflow:hidden;text-overflow:ellipsis" title="${r.submitted_by||''}">${r.submitted_by||'—'}</td>`:''}
       <td><button class="detail-btn" onclick="showDetail(${i})">Vedi</button></td>
     </tr>
   `).join('');
@@ -450,81 +234,61 @@ function renderTable(data){
 }
 
 function applyFilters(){
-  const search = document.getElementById('filterSearch').value.toLowerCase();
-  const tipo = document.getElementById('filterTipo').value;
-  const fraz = document.getElementById('filterFraz').value;
-  const canale = document.getElementById('filterCanale').value;
-  const da = document.getElementById('filterDa').value;
-  const a = document.getElementById('filterA').value;
-
+  const search  = document.getElementById('fSearch').value.toLowerCase();
+  const tipo    = document.getElementById('fTipo').value;
+  const fraz    = document.getElementById('fFraz').value;
+  const canale  = document.getElementById('fCanale').value;
+  const operatore = document.getElementById('fOperatore').value.toLowerCase();
+  const da      = document.getElementById('fDa').value;
+  const a       = document.getElementById('fA').value;
   const filtered = allData.filter(r=>{
-    const text = [r.nome,r.cognome,r.targa,r.numero_proposta,r.compagnia_provenienza,r.email_assicurato].join(' ').toLowerCase();
+    const text = [r.nome,r.cognome,r.targa,r.numero_proposta,r.compagnia_provenienza].join(' ').toLowerCase();
     if(search && !text.includes(search)) return false;
     if(tipo && r.tipo_richiesta !== tipo) return false;
     if(fraz && r.frazionamento !== fraz) return false;
     if(canale && r.canale_invio !== canale) return false;
-    if(da){ const d=new Date(r.created_at); if(d < new Date(da)) return false; }
-    if(a){ const d=new Date(r.created_at); if(d > new Date(a+'T23:59:59')) return false; }
+    if(operatore && !(r.submitted_by||'').toLowerCase().includes(operatore)) return false;
+    if(da && new Date(r.created_at) < new Date(da)) return false;
+    if(a  && new Date(r.created_at) > new Date(a+'T23:59:59')) return false;
     return true;
   });
+  updateStats(filtered);
   renderTable(filtered);
 }
 
 function showDetail(idx){
-  const data = window._filteredData || allData;
-  const r = data[idx];
-  if(!r) return;
-  document.getElementById('modalTitle').textContent = `Richiesta #${r.id} — ${r.nome||''} ${r.cognome||''}`;
+  const data = window._filteredData||allData;
+  const r = data[idx]; if(!r) return;
+  document.getElementById('modalTitle').textContent = `#${r.id} — ${r.nome||''} ${r.cognome||''}`;
   const fields = [
-    ['Data Invio', fmtDate(r.created_at)],
-    ['N° Proposta', r.numero_proposta],
-    ['Tipo Richiesta', r.tipo_richiesta],
-    ['Nome', r.nome],
-    ['Cognome', r.cognome],
-    ['Targa', r.targa],
-    ['Tipo Veicolo', r.tipo_veicolo],
-    ['Email Assicurato', r.email_assicurato],
-    ['Telefono', r.telefono],
-    ['Compagnia Provenienza', r.compagnia_provenienza],
-    ['Frazionamento', r.frazionamento],
-    ['Sconto Richiesto', r.sconto_richiesto ? r.sconto_richiesto+'%' : '—'],
-    ['RCA Netto Annuo', r.premio_rca],
-    ['Totale Scontato RCA', r.totale_scontato_rca],
-    ['Preventivo Totale', r.preventivo_totale],
-    ['Garanzie', r.garanzie],
-    ['Canale Invio', r.canale_invio],
-    ['Note', r.note],
+    ['Data Invio',fmtDate(r.created_at)],['Operatore',r.submitted_by],
+    ['N° Proposta',r.numero_proposta],['Tipo',r.tipo_richiesta],
+    ['Nome',r.nome],['Cognome',r.cognome],['Targa',r.targa],
+    ['Tipo Veicolo',r.tipo_veicolo],['Email Assicurato',r.email_assicurato],
+    ['Telefono',r.telefono],['Compagnia',r.compagnia_provenienza],
+    ['Frazionamento',r.frazionamento],['Sconto',r.sconto_richiesto?r.sconto_richiesto+'%':'—'],
+    ['RCA Netto',r.premio_rca],['Tot. Scontato RCA',r.totale_scontato_rca],
+    ['Preventivo Totale',r.preventivo_totale],['Garanzie',r.garanzie],
+    ['Canale',r.canale_invio],['Note',r.note]
   ];
   document.getElementById('modalBody').innerHTML = fields.map(([k,v])=>`
-    <div class="modal-row">
-      <div class="modal-key">${k}</div>
-      <div class="modal-val">${v||'—'}</div>
-    </div>
+    <div class="modal-row"><div class="modal-key">${k}</div><div class="modal-val">${v||'—'}</div></div>
   `).join('');
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-function closeModal(e){
-  if(e.target === document.getElementById('modalOverlay'))
-    document.getElementById('modalOverlay').classList.remove('open');
-}
+function closeModal(e){ if(e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open'); }
 
 function exportCSV(){
-  const data = window._filteredData || allData;
+  const data = window._filteredData||allData;
   if(!data.length){ alert('Nessun dato da esportare.'); return; }
-  const headers = ['ID','Data','N°Proposta','Tipo','Nome','Cognome','Targa','Veicolo','Email','Telefono','Compagnia','Frazionamento','Sconto%','PremioRCA','TotaleScontatoRCA','PreventivoTotale','Garanzie','Canale','Note'];
-  const rows = data.map(r=>[
-    r.id, fmtDate(r.created_at), r.numero_proposta, r.tipo_richiesta,
-    r.nome, r.cognome, r.targa, r.tipo_veicolo, r.email_assicurato,
-    r.telefono, r.compagnia_provenienza, r.frazionamento,
-    r.sconto_richiesto, r.premio_rca, r.totale_scontato_rca,
-    r.preventivo_totale, r.garanzie, r.canale_invio, r.note
-  ].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
+  const H = ['ID','Data','Operatore','N°Proposta','Tipo','Nome','Cognome','Targa','Veicolo','Email','Telefono','Compagnia','Frazionamento','Sconto%','PremioRCA','TotScontatoRCA','Preventivo','Garanzie','Canale','Note'];
+  const rows = data.map(r=>[r.id,fmtDate(r.created_at),r.submitted_by,r.numero_proposta,r.tipo_richiesta,r.nome,r.cognome,r.targa,r.tipo_veicolo,r.email_assicurato,r.telefono,r.compagnia_provenienza,r.frazionamento,r.sconto_richiesto,r.premio_rca,r.totale_scontato_rca,r.preventivo_totale,r.garanzie,r.canale_invio,r.note].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
+  const csv = [H.join(','),...rows].join('\n');
   const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href=url;
-  a.download = `storico_richieste_${new Date().toISOString().slice(0,10)}.csv`;
+  a.download=`storico_${new Date().toISOString().slice(0,10)}.csv`;
   a.click(); URL.revokeObjectURL(url);
 }
 

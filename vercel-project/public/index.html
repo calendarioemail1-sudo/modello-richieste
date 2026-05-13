@@ -525,9 +525,13 @@
 </head>
 
 <body>
-  <div style="display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 12px;max-width:1400px;">
-    <h1 style="flex:1;">Richiesta Proposta - Agenzia Giordano & Valenzise</h1>
-    <a href="/storico" style="text-decoration:none;background:var(--grad-primary);color:#fff;font-weight:700;font-size:0.85em;padding:7px 16px;border-radius:8px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,71,168,0.2);transition:filter .18s;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">📋 Storico Richieste</a>
+  <div style="display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 12px;max-width:1400px;gap:10px;flex-wrap:wrap;">
+    <h1 style="flex:1;min-width:200px;">Richiesta Proposta - Agenzia Giordano & Valenzise</h1>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <span id="userBadge" style="background:rgba(0,71,168,0.08);border:1.5px solid rgba(0,71,168,0.15);border-radius:20px;padding:4px 13px;font-size:0.78em;font-weight:700;color:#0047a8;"></span>
+      <a href="/storico" style="text-decoration:none;background:var(--grad-primary);color:#fff;font-weight:700;font-size:0.83em;padding:7px 14px;border-radius:8px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,71,168,0.2);transition:filter .18s;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">📋 Storico</a>
+      <button onclick="gvLogout()" style="background:none;border:1.5px solid #ccd6e8;color:#555;font-weight:700;font-size:0.83em;padding:6px 13px;border-radius:8px;cursor:pointer;transition:background .18s;" onmouseover="this.style.background='#f0f4fa'" onmouseout="this.style.background='none'">🚪 Esci</button>
+    </div>
   </div>
 
   <!-- Popup errore validazione (usiamo una classe .show per animazione) -->
@@ -2169,33 +2173,52 @@ ${document.getElementById('note').value}
    INVIO EMAIL
 ==========================*/
 /* ==========================
+   AUTH CHECK
+==========================*/
+(function(){
+  const token = localStorage.getItem('gv_auth_token');
+  const role  = localStorage.getItem('gv_user_role');
+  const nome  = localStorage.getItem('gv_user_nome') || localStorage.getItem('gv_user_email') || '';
+  if(!token){ window.location.replace('/login'); return; }
+  const badge = document.getElementById('userBadge');
+  if(badge) badge.textContent = (role==='admin'?'👑 ':'👤 ') + nome;
+})();
+
+function gvLogout(){
+  ['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome'].forEach(k=>localStorage.removeItem(k));
+  window.location.replace('/login');
+}
+
+/* ==========================
    SALVATAGGIO DATI NEL DATABASE VERCEL
 ==========================*/
 async function salvaRichiesta(canale_invio){
   try{
+    const token = localStorage.getItem('gv_auth_token');
+    if(!token) return;
     const garanzieSelezionate = [...document.querySelectorAll('input[name="garanzie"]:checked')].map(c=>c.value).join(', ');
     const payload = {
-      numero_proposta: document.getElementById('numeroProposta').value,
-      tipo_richiesta:  document.getElementById('tipoRichiesta').value,
-      nome:            document.getElementById('nome').value,
-      cognome:         document.getElementById('cognome').value,
-      targa:           document.getElementById('Targa').value,
-      tipo_veicolo:    document.getElementById('tipoVeicolo').value,
-      email_assicurato:document.getElementById('email').value,
-      telefono:        document.getElementById('telefono').value,
+      numero_proposta:  document.getElementById('numeroProposta').value,
+      tipo_richiesta:   document.getElementById('tipoRichiesta').value,
+      nome:             document.getElementById('nome').value,
+      cognome:          document.getElementById('cognome').value,
+      targa:            document.getElementById('Targa').value,
+      tipo_veicolo:     document.getElementById('tipoVeicolo').value,
+      email_assicurato: document.getElementById('email').value,
+      telefono:         document.getElementById('telefono').value,
       compagnia_provenienza: document.getElementById('compagniaProvenienza').value,
-      frazionamento:   document.getElementById('Frazionamento').value,
-      sconto_richiesto:document.getElementById('sconto').value,
-      premio_rca:      document.getElementById('PremioAssicuratriceMilanese').value,
+      frazionamento:    document.getElementById('Frazionamento').value,
+      sconto_richiesto: document.getElementById('sconto').value,
+      premio_rca:       document.getElementById('PremioAssicuratriceMilanese').value,
       totale_scontato_rca: (window._lastTotaleScontoRCADisplayedNumeric||0).toFixed(2),
       preventivo_totale:   (window._lastPreventivoDisplayedNumeric||0).toFixed(2),
-      garanzie:        garanzieSelezionate,
-      note:            document.getElementById('note').value,
+      garanzie:         garanzieSelezionate,
+      note:             document.getElementById('note').value,
       canale_invio
     };
     await fetch('/api/save-submission', {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
       body: JSON.stringify(payload)
     });
   } catch(e){ console.warn('Salvataggio storico fallito:', e); }

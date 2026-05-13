@@ -13,29 +13,16 @@ export default async function handler(req, res) {
   const token = authHeader.replace('Bearer ', '').trim();
   const user = verifyToken(token);
 
-  if (!user) {
-    return res.status(401).json({ error: 'Non autorizzato' });
+  if (!user || user.role !== 'admin') {
+    return res.status(403).json({ error: 'Accesso negato' });
   }
 
   try {
-    await sql`
-      ALTER TABLE submissions ADD COLUMN IF NOT EXISTS submitted_by TEXT DEFAULT ''
+    const result = await sql`
+      SELECT id, email, role, nome, created_at FROM users ORDER BY created_at DESC
     `;
-
-    let rows;
-    if (user.role === 'admin') {
-      const result = await sql`SELECT * FROM submissions ORDER BY created_at DESC LIMIT 500`;
-      rows = result.rows;
-    } else {
-      const result = await sql`
-        SELECT * FROM submissions WHERE submitted_by = ${user.email} ORDER BY created_at DESC LIMIT 500
-      `;
-      rows = result.rows;
-    }
-
-    return res.status(200).json({ submissions: rows, role: user.role, email: user.email });
+    return res.status(200).json({ users: result.rows });
   } catch (err) {
-    console.error('Errore lettura:', err);
     return res.status(500).json({ error: err.message });
   }
 }

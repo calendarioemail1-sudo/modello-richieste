@@ -4,6 +4,7 @@
     { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/login", "dest": "/login.html" },
     { "src": "/storico", "dest": "/storico.html" },
+    { "src": "/registrazione", "dest": "/registrazione.html" },
     { "src": "^/$", "dest": "/index.html" }
   ]
 }
