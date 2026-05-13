@@ -29,6 +29,21 @@ export default async function handler(req, res) {
     `;
     await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS submitted_by TEXT DEFAULT ''`;
     await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS operator_code TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS cointestato TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS sinistri TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS provenienza_attestato TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS tipo_guida TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS scadenza_vecchia_polizza TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS data_effetto TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS totale_lordo_pass TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS sconto_pass TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS premio_altre_garanzie TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS importo_imposte_ssn TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS garanzie_infortuni TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS premio_casa_easy TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS preventivo_precedente TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS documenti TEXT DEFAULT ''`;
+    await sql`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS firma_sub_agente TEXT DEFAULT ''`;
 
     const b = req.body || {};
     await sql`
@@ -37,14 +52,24 @@ export default async function handler(req, res) {
         numero_proposta, tipo_richiesta, nome, cognome, targa, tipo_veicolo,
         email_assicurato, telefono, compagnia_provenienza, frazionamento,
         sconto_richiesto, premio_rca, totale_scontato_rca, preventivo_totale,
-        garanzie, note, canale_invio
+        garanzie, note, canale_invio,
+        cointestato, sinistri, provenienza_attestato,
+        tipo_guida, scadenza_vecchia_polizza, data_effetto,
+        totale_lordo_pass, sconto_pass,
+        premio_altre_garanzie, importo_imposte_ssn, garanzie_infortuni,
+        premio_casa_easy, preventivo_precedente, documenti, firma_sub_agente
       ) VALUES (
         ${user.email}, ${b.operator_code || ''},
         ${b.numero_proposta||''}, ${b.tipo_richiesta||''}, ${b.nome||''}, ${b.cognome||''},
         ${b.targa||''}, ${b.tipo_veicolo||''}, ${b.email_assicurato||''}, ${b.telefono||''},
         ${b.compagnia_provenienza||''}, ${b.frazionamento||''}, ${b.sconto_richiesto||''},
         ${b.premio_rca||''}, ${b.totale_scontato_rca||''}, ${b.preventivo_totale||''},
-        ${b.garanzie||''}, ${b.note||''}, ${b.canale_invio||''}
+        ${b.garanzie||''}, ${b.note||''}, ${b.canale_invio||''},
+        ${b.cointestato||''}, ${b.sinistri||''}, ${b.provenienza_attestato||''},
+        ${b.tipo_guida||''}, ${b.scadenza_vecchia_polizza||''}, ${b.data_effetto||''},
+        ${b.totale_lordo_pass||''}, ${b.sconto_pass||''},
+        ${b.premio_altre_garanzie||''}, ${b.importo_imposte_ssn||''}, ${b.garanzie_infortuni||''},
+        ${b.premio_casa_easy||''}, ${b.preventivo_precedente||''}, ${b.documenti||''}, ${b.firma_sub_agente||''}
       )
     `;
     return res.status(200).json({ success: true });

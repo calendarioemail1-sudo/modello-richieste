@@ -28,16 +28,32 @@
     .msg.success{background:#f0fff6;border:1.5px solid #a8e6c1;color:#1a7a45;}
     .msg.show{display:block;}
     .hint{font-size:0.75em;color:#888;margin-top:4px;font-weight:600;}
-    /* users list */
-    .user-card{background:#f7f9ff;border-radius:12px;padding:13px 15px;margin-bottom:9px;border:1px solid #e0e8f4;display:flex;align-items:center;gap:12px;}
-    .uc-code{background:#1a2540;color:#fff;border-radius:7px;padding:4px 11px;font-size:0.82em;font-weight:800;letter-spacing:.05em;min-width:60px;text-align:center;}
-    .uc-info{flex:1;}
+    .user-card{background:#f7f9ff;border-radius:12px;padding:13px 15px;margin-bottom:9px;border:1px solid #e0e8f4;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .uc-code{background:#1a2540;color:#fff;border-radius:7px;padding:4px 11px;font-size:0.82em;font-weight:800;letter-spacing:.05em;min-width:60px;text-align:center;flex-shrink:0;}
+    .uc-info{flex:1;min-width:100px;}
     .uc-name{font-weight:800;font-size:0.92em;color:#1a2540;}
     .uc-email{font-size:0.76em;color:#778;}
-    .uc-del{background:none;border:1.5px solid #e03535;color:#e03535;border-radius:7px;padding:5px 12px;font-size:0.78em;font-weight:800;cursor:pointer;transition:background .18s,color .18s;font-family:inherit;white-space:nowrap;}
+    .uc-actions{display:flex;gap:6px;flex-shrink:0;}
+    .uc-edit{background:none;border:1.5px solid var(--accent);color:var(--accent);border-radius:7px;padding:5px 11px;font-size:0.78em;font-weight:800;cursor:pointer;transition:background .18s,color .18s;font-family:inherit;white-space:nowrap;}
+    .uc-edit:hover{background:var(--accent);color:#fff;}
+    .uc-del{background:none;border:1.5px solid #e03535;color:#e03535;border-radius:7px;padding:5px 11px;font-size:0.78em;font-weight:800;cursor:pointer;transition:background .18s,color .18s;font-family:inherit;white-space:nowrap;}
     .uc-del:hover{background:#e03535;color:#fff;}
     .empty-users{text-align:center;padding:24px;color:#aaa;font-size:0.88em;font-weight:700;}
     .list-loading{text-align:center;padding:16px;color:var(--accent);font-weight:700;font-size:0.88em;}
+    /* EDIT MODAL */
+    .ov{display:none;position:fixed;inset:0;background:rgba(10,20,50,0.55);z-index:1000;align-items:center;justify-content:center;padding:16px;}
+    .ov.open{display:flex;}
+    .emodal{background:#fff;border-radius:18px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden;}
+    .em-head{background:var(--grad);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;}
+    .em-head h3{color:#fff;font-size:1em;font-weight:900;}
+    .em-close{background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:30px;height:30px;color:#fff;font-size:1em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s;}
+    .em-close:hover{background:rgba(255,255,255,0.32);}
+    .em-body{padding:22px 24px;}
+    .em-hint{font-size:0.78em;color:#888;margin-bottom:14px;font-weight:600;background:#f5f8ff;border-radius:8px;padding:8px 12px;border:1px solid #e0e8f4;}
+    .em-actions{display:flex;gap:8px;margin-top:4px;}
+    .em-actions .btn{margin-top:0;}
+    .btn-cancel{background:#f0f4fa;color:#667;border:1.5px solid #dde;width:auto;padding:12px 20px;flex:0 0 auto;border-radius:10px;font-weight:800;font-size:0.9em;cursor:pointer;font-family:inherit;transition:background .18s;}
+    .btn-cancel:hover{background:#e0e4ea;}
   </style>
 </head>
 <body>
@@ -47,7 +63,6 @@
 </header>
 
 <div class="page">
-  <!-- FORM REGISTRAZIONE -->
   <div class="card">
     <h2>➕ Registra Nuovo Operatore</h2>
     <div class="msg error" id="errMsg"></div>
@@ -78,10 +93,45 @@
     </form>
   </div>
 
-  <!-- LISTA UTENTI -->
   <div class="card">
     <h2>📋 Operatori Registrati</h2>
     <div id="usersList"><div class="list-loading">⏳ Caricamento…</div></div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="ov" id="editOv" onclick="closeEdit(event)">
+  <div class="emodal">
+    <div class="em-head">
+      <h3>✏️ Modifica Operatore</h3>
+      <button class="em-close" onclick="document.getElementById('editOv').classList.remove('open')">✕</button>
+    </div>
+    <div class="em-body">
+      <div class="em-hint">Lascia la password vuota per non modificarla.</div>
+      <div class="msg error" id="editErr"></div>
+      <div class="msg success" id="editOk"></div>
+      <input type="hidden" id="editEmail"/>
+      <div class="field">
+        <label>Codice Operatore</label>
+        <input type="text" id="editCodice" maxlength="20"/>
+      </div>
+      <div class="field">
+        <label>Nome e Cognome</label>
+        <input type="text" id="editNome"/>
+      </div>
+      <div class="field">
+        <label>Nuova Password</label>
+        <input type="password" id="editPassword" placeholder="lascia vuoto per non cambiare"/>
+      </div>
+      <div class="field">
+        <label>Conferma Nuova Password</label>
+        <input type="password" id="editPassword2" placeholder="ripeti la nuova password"/>
+      </div>
+      <div class="em-actions">
+        <button class="btn-cancel" onclick="document.getElementById('editOv').classList.remove('open')">Annulla</button>
+        <button class="btn" id="btnSaveEdit" onclick="doEditSave()" style="flex:1">💾 Salva Modifiche</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -140,14 +190,59 @@
             <div class="uc-name">${u.nome||'—'}</div>
             <div class="uc-email">${u.email}</div>
           </div>
-          <button class="uc-del" onclick="deleteUser('${u.email}',${u.id})">🗑️ Elimina</button>
+          <div class="uc-actions">
+            <button class="uc-edit" onclick="openEdit('${u.email}','${(u.codice||'').replace(/'/g,"\\'")}','${(u.nome||'').replace(/'/g,"\\'")}')">✏️ Modifica</button>
+            <button class="uc-del" onclick="deleteUser('${u.email}',${u.id})">🗑️ Elimina</button>
+          </div>
         </div>
       `).join('');
     }catch(e){list.innerHTML='<div class="empty-users" style="color:#c0392b">Errore caricamento.</div>';}
   }
 
+  function openEdit(email, codice, nome){
+    document.getElementById('editEmail').value=email;
+    document.getElementById('editCodice').value=codice;
+    document.getElementById('editNome').value=nome;
+    document.getElementById('editPassword').value='';
+    document.getElementById('editPassword2').value='';
+    document.getElementById('editErr').classList.remove('show');
+    document.getElementById('editOk').classList.remove('show');
+    document.getElementById('editOv').classList.add('open');
+  }
+
+  function closeEdit(e){if(e.target===document.getElementById('editOv'))document.getElementById('editOv').classList.remove('open');}
+
+  async function doEditSave(){
+    const errEl=document.getElementById('editErr'),okEl=document.getElementById('editOk'),btn=document.getElementById('btnSaveEdit');
+    errEl.classList.remove('show');okEl.classList.remove('show');
+    const email=document.getElementById('editEmail').value;
+    const codice=document.getElementById('editCodice').value.trim().toUpperCase();
+    const nome=document.getElementById('editNome').value.trim();
+    const password=document.getElementById('editPassword').value;
+    const password2=document.getElementById('editPassword2').value;
+    if(password && password!==password2){errEl.textContent='❌ Le password non coincidono.';errEl.classList.add('show');return;}
+    btn.textContent='Salvataggio…';btn.disabled=true;
+    try{
+      const res=await fetch('/api/update-user',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+        body:JSON.stringify({email,codice,nome,password:password||''})
+      });
+      const d=await res.json();
+      if(d.success){
+        okEl.textContent='✅ Modifiche salvate correttamente!';
+        okEl.classList.add('show');
+        setTimeout(()=>{document.getElementById('editOv').classList.remove('open');loadUsers();},1200);
+      } else {
+        errEl.textContent='❌ '+(d.error||'Errore nel salvataggio');
+        errEl.classList.add('show');
+      }
+    }catch(err){errEl.textContent='❌ Errore di rete.';errEl.classList.add('show');}
+    btn.textContent='💾 Salva Modifiche';btn.disabled=false;
+  }
+
   async function deleteUser(email,id){
-    if(!confirm(`Eliminare l'operatore ${email}? I dati delle richieste verranno mantenuti.`))return;
+    if(!confirm(`Eliminare l'operatore ${email}?\nI dati delle richieste verranno mantenuti.`))return;
     try{
       const res=await fetch('/api/delete-user',{
         method:'POST',

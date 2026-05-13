@@ -2198,6 +2198,30 @@ async function salvaRichiesta(canale_invio){
     const token = localStorage.getItem('gv_auth_token');
     if(!token) return;
     const garanzieSelezionate = [...document.querySelectorAll('input[name="garanzie"]:checked')].map(c=>c.value).join(', ');
+    const allDocChecked = [...document.querySelectorAll('input[name="documenti"]:checked')].map(i=>i.value).filter(v=>v!=='Assenza attestato di rischio');
+    const documentiSelezionati = allDocChecked.length ? allDocChecked.join(', ') : 'Nessuno';
+    const provAttestatoEl = document.getElementById('provenienzaAttestato');
+    const provenienzaAttestato = (provAttestatoEl && provAttestatoEl.value) ? provAttestatoEl.value : "ATTESTATO DI RISCHIO IN CORSO DI VALIDITA'";
+    const tipoGuidaEl = document.getElementById('TipoGuida');
+    const scadenzaEl = document.getElementById('scadenzaVecciaPolizze') || document.querySelector('[id*="scadenza"]');
+    const dataEffettoEl = document.getElementById('dataEffetto') || document.querySelector('[id*="ffetto"]');
+    const scontoPassEl = document.getElementById('scontoPass');
+    const firmaEl = document.getElementById('firmaSubAgente');
+    const cointestatoEl = document.getElementById('cointestato');
+    const sinistriVal = getRadioValue ? getRadioValue('sinistri') : '';
+    const rcaAnnual = parseFloat((document.getElementById('PremioAssicuratriceMilanese').value||'').replace(',','.')) || 0;
+    const altreEl = document.getElementById('Premio_altre_garanzie_totale');
+    const altreAnnual = (altreEl ? parseFloat((altreEl.value||'').replace(',','.')) : 0) || 0;
+    const infEl = document.getElementById('PremioInfortuniEsterni');
+    const infEl2 = document.getElementById('PremioInfortuniEsterni2');
+    const infAnnual = (infEl ? parseFloat((infEl.value||'').replace(',','.')) : 0) || 0;
+    const infEst2Annual = (infEl2 ? parseFloat((infEl2.value||'').replace(',','.')) : 0) || 0;
+    const casaEl = document.getElementById('PremioCasaEasy');
+    const casaAnnual = (casaEl ? parseFloat((casaEl.value||'').replace(',','.')) : 0) || 0;
+    const prevPrecEl = document.getElementById('PremioConcorrenza');
+    const prevPrecAnnual = (prevPrecEl ? parseFloat((prevPrecEl.value||'').replace(',','.')) : 0) || 0;
+    const totaleLordoEl = document.getElementById('totaleLordo') || document.getElementById('TotaleLordo');
+    const totaleLordoVal = totaleLordoEl ? (parseFloat((totaleLordoEl.value||'').replace(',','.')) || 0).toFixed(2) : '0.00';
     const payload = {
       numero_proposta:  document.getElementById('numeroProposta').value,
       tipo_richiesta:   document.getElementById('tipoRichiesta').value,
@@ -2210,13 +2234,28 @@ async function salvaRichiesta(canale_invio){
       compagnia_provenienza: document.getElementById('compagniaProvenienza').value,
       frazionamento:    document.getElementById('Frazionamento').value,
       sconto_richiesto: document.getElementById('sconto').value,
-      premio_rca:       document.getElementById('PremioAssicuratriceMilanese').value,
+      premio_rca:       rcaAnnual.toFixed(2),
       totale_scontato_rca: (window._lastTotaleScontoRCADisplayedNumeric||0).toFixed(2),
       preventivo_totale:   (window._lastPreventivoDisplayedNumeric||0).toFixed(2),
       garanzie:         garanzieSelezionate,
       note:             document.getElementById('note').value,
       canale_invio,
-      operator_code:    localStorage.getItem('gv_operator_code') || ''
+      operator_code:    localStorage.getItem('gv_operator_code') || '',
+      cointestato:      (cointestatoEl && cointestatoEl.checked) ? 'Sì' : 'No',
+      sinistri:         sinistriVal || '',
+      provenienza_attestato: provenienzaAttestato,
+      tipo_guida:       tipoGuidaEl ? tipoGuidaEl.value : '',
+      scadenza_vecchia_polizza: scadenzaEl ? scadenzaEl.value : '',
+      data_effetto:     dataEffettoEl ? dataEffettoEl.value : '',
+      totale_lordo_pass: totaleLordoVal,
+      sconto_pass:      scontoPassEl ? scontoPassEl.value : '',
+      premio_altre_garanzie: altreAnnual.toFixed(2),
+      importo_imposte_ssn: (window._lastImposteVal !== undefined ? (Number(window._lastImposteVal)||0) + (Number(window._lastSnnVal)||0) : 0).toFixed(2),
+      garanzie_infortuni: (infAnnual + infEst2Annual).toFixed(2),
+      premio_casa_easy:  casaAnnual.toFixed(2),
+      preventivo_precedente: prevPrecAnnual.toFixed(2),
+      documenti:        documentiSelezionati,
+      firma_sub_agente: firmaEl ? firmaEl.value : ''
     };
     await fetch('/api/save-submission', {
       method:'POST',

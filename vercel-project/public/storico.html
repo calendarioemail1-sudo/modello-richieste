@@ -64,27 +64,35 @@
     /* ── MODAL ── */
     .ov{display:none;position:fixed;inset:0;background:rgba(10,20,50,0.55);z-index:1000;align-items:center;justify-content:center;padding:16px;}
     .ov.open{display:flex;}
-    .modal{background:#fff;border-radius:20px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.22);position:relative;}
-    .modal-head{background:var(--grad);padding:20px 24px 16px;border-radius:20px 20px 0 0;color:#fff;}
+    .modal{background:#fff;border-radius:20px;width:100%;max-width:660px;max-height:94vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.22);position:relative;}
+    .modal-head{background:var(--grad);padding:20px 26px 16px;border-radius:20px 20px 0 0;color:#fff;position:sticky;top:0;z-index:2;}
     .modal-head .mh-title{font-size:1.25em;font-weight:900;margin-bottom:2px;}
     .modal-head .mh-sub{font-size:0.82em;opacity:.8;font-weight:600;}
     .modal-close{position:absolute;top:14px;right:18px;background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:32px;height:32px;font-size:1.1em;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;transition:background .18s;}
     .modal-close:hover{background:rgba(255,255,255,0.32);}
-    .modal-body{padding:20px 24px;}
-    .m-section{margin-bottom:18px;}
+    .modal-body{padding:20px 24px 24px;}
+    .m-section{margin-bottom:20px;}
     .m-section-title{font-size:0.72em;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
     .m-section-title::after{content:'';flex:1;height:1px;background:#eef2f7;}
     .m-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .m-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
     .m-field{background:#f7f9ff;border-radius:10px;padding:9px 12px;border:1px solid #e8eef8;}
-    .m-field .mf-label{font-size:0.7em;font-weight:800;text-transform:uppercase;color:#8899bb;margin-bottom:2px;}
-    .m-field .mf-val{font-size:0.9em;font-weight:700;color:#1a2540;word-break:break-word;}
+    .m-field .mf-label{font-size:0.68em;font-weight:800;text-transform:uppercase;color:#8899bb;margin-bottom:3px;}
+    .m-field .mf-val{font-size:0.88em;font-weight:700;color:#1a2540;word-break:break-word;}
     .m-field.full{grid-column:1/-1;}
-    .m-field.highlight .mf-val{font-size:1em;color:#0047a8;font-weight:800;}
-    .garanzie-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+    .m-field.hl-green .mf-val{color:#1a7a45;font-size:0.95em;}
+    .m-field.hl-blue .mf-val{color:#0047a8;font-size:0.95em;font-weight:800;}
+    .m-field.hl-big .mf-val{font-size:1.1em;color:#0047a8;font-weight:900;}
+    .badge-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:0.78em;font-weight:700;}
+    .bp-green{background:#e8f5ee;color:#1a7a45;}
+    .bp-blue{background:#e8f3ff;color:#0047a8;}
+    .bp-red{background:#fff0f0;color:#c0392b;}
+    .bp-gray{background:#f0f0f0;color:#555;}
+    .garanzie-wrap{display:flex;flex-wrap:wrap;gap:5px;}
     .garz-badge{background:#e8f3ff;color:#0047a8;border-radius:6px;padding:3px 9px;font-size:0.78em;font-weight:700;}
-    .note-box{background:#fffef0;border:1.5px solid #f0e6b0;border-radius:10px;padding:10px 13px;font-size:0.88em;color:#555;font-weight:600;min-height:40px;}
-    .canale-row{display:flex;gap:8px;align-items:center;}
-    @media(max-width:520px){.m-grid{grid-template-columns:1fr;}.m-field.full{grid-column:1/1;}}
+    .doc-badge{background:#e8f5ee;color:#1a7a45;border-radius:6px;padding:3px 9px;font-size:0.78em;font-weight:700;}
+    .note-box{background:#fffef0;border:1.5px solid #f0e6b0;border-radius:10px;padding:10px 13px;font-size:0.88em;color:#555;font-weight:600;min-height:40px;white-space:pre-wrap;}
+    @media(max-width:540px){.m-grid{grid-template-columns:1fr;}.m-grid-3{grid-template-columns:1fr 1fr;}.m-field.full{grid-column:1/1;}}
   </style>
 </head>
 <body>
@@ -93,7 +101,7 @@
   <div class="ha">
     <span class="session-badge" id="sessionBadge">…</span>
     <a href="/" class="hbtn hbtn-ghost">← Modulo</a>
-    <button id="btnRegistra" class="hbtn hbtn-gold" onclick="window.location.href='/registrazione'" style="display:none">👤 Registra Utente</button>
+    <button id="btnRegistra" class="hbtn hbtn-gold" onclick="window.location.href='/registrazione'" style="display:none">👤 Operatori</button>
     <button onclick="logout()" class="hbtn hbtn-ghost">🚪 Esci</button>
   </div>
 </header>
@@ -167,20 +175,22 @@
 </div>
 
 <script>
-let allData = [], currentRole = '', operators = [];
+let allData=[], currentRole='';
 
 function getAuth(){
-  const t=localStorage.getItem('gv_auth_token'), r=localStorage.getItem('gv_user_role'), e=localStorage.getItem('gv_user_email'), n=localStorage.getItem('gv_user_nome')||e;
+  const t=localStorage.getItem('gv_auth_token'),r=localStorage.getItem('gv_user_role'),e=localStorage.getItem('gv_user_email'),n=localStorage.getItem('gv_user_nome')||e;
   if(!t){window.location.replace('/login');return null;}
   return{token:t,role:r,email:e,nome:n};
 }
 function logout(){['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome','gv_operator_code'].forEach(k=>localStorage.removeItem(k));window.location.replace('/login');}
 
 function fmtDate(s){if(!s)return'—';const d=new Date(s);return d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
-function badgeTipo(v){if(!v)return'—';const c=v==='Rinnovo'?'br':v==='Sostituzione'?'bst':'bn';return`<span class="badge ${c}">${v}</span>`;}
-function badgeFraz(v){if(!v)return'—';return`<span class="badge ${v==='Semestrale'?'bs':'ba'}">${v}</span>`;}
-function badgeCanale(v){if(!v)return'—';return`<span class="badge ${v==='Gmail'?'bg':'bo'}">${v==='Gmail'?'📧 Gmail':'📨 Outlook'}</span>`;}
-function opBadge(v){if(!v)return'—';return`<span class="op-badge">${v}</span>`;}
+function v(val){return val||'—';}
+function eur(val){if(!val||val==='—'||val==='0.00'||val==='0')return'—';return'€ '+val;}
+function badgeTipo(val){if(!val)return'—';const c=val==='Rinnovo'?'br':val==='Sostituzione'?'bst':'bn';return`<span class="badge ${c}">${val}</span>`;}
+function badgeFraz(val){if(!val)return'—';return`<span class="badge ${val==='Semestrale'?'bs':'ba'}">${val}</span>`;}
+function badgeCanale(val){if(!val)return'—';return`<span class="badge ${val==='Gmail'?'bg':'bo'}">${val==='Gmail'?'📧 Gmail':'📨 Outlook'}</span>`;}
+function opBadge(val){if(!val)return'—';return`<span class="op-badge">${val}</span>`;}
 
 async function loadData(){
   const auth=getAuth();if(!auth)return;
@@ -213,12 +223,11 @@ async function loadOperators(token){
   try{
     const res=await fetch('/api/get-users',{headers:{'Authorization':'Bearer '+token}});
     const json=await res.json();
-    operators=(json.users||[]).filter(u=>u.role==='user');
     const sel=document.getElementById('fOperatore');
-    operators.forEach(u=>{
+    (json.users||[]).filter(u=>u.role==='user').forEach(u=>{
       const opt=document.createElement('option');
       opt.value=u.codice||u.email;
-      opt.textContent=(u.codice?`[${u.codice}]`:'')+' '+(u.nome||u.email);
+      opt.textContent=(u.codice?`[${u.codice}] `:'')+( u.nome||u.email);
       sel.appendChild(opt);
     });
   }catch(e){}
@@ -285,59 +294,100 @@ function applyFilters(){
   updateStats(filtered);renderTable(filtered);
 }
 
+function chips(str, cls){
+  if(!str||str==='Nessuno'||str==='Nessuna')return`<span style="color:#aaa;font-size:.82em">Nessuna</span>`;
+  return str.split(',').map(s=>s.trim()).filter(Boolean).map(s=>`<span class="${cls}">${s}</span>`).join(' ');
+}
+
 function showDetail(idx){
   const data=window._filteredData||allData;
   const r=data[idx];if(!r)return;
   document.getElementById('mTitle').textContent=`${r.nome||''} ${r.cognome||''}`;
   document.getElementById('mSub').textContent=`Proposta N° ${r.numero_proposta||'—'} · ${fmtDate(r.created_at)}`;
 
-  const garanzie=(r.garanzie||'').split(',').map(g=>g.trim()).filter(Boolean);
-  const garzHtml=garanzie.length?`<div class="garanzie-wrap">${garanzie.map(g=>`<span class="garz-badge">✓ ${g}</span>`).join('')}</div>`:'<span style="color:#aaa">Nessuna garanzia aggiuntiva</span>';
+  const cointestatoVal=r.cointestato==='Sì'?`<span class="badge-pill bp-blue">✓ Sì</span>`:`<span class="badge-pill bp-gray">No</span>`;
+  const sinistriVal=r.sinistri==='Sì'?`<span class="badge-pill bp-red">🚨 SÌ</span>`:`<span class="badge-pill bp-green">No</span>`;
 
   document.getElementById('mBody').innerHTML=`
+
     <div class="m-section">
-      <div class="m-section-title">🚗 Veicolo</div>
+      <div class="m-section-title">🆔 Identificazione</div>
       <div class="m-grid">
-        <div class="m-field"><div class="mf-label">Targa</div><div class="mf-val" style="font-family:monospace;font-size:1.05em">${r.targa||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Tipo Veicolo</div><div class="mf-val">${r.tipo_veicolo||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Numero Proposta</div><div class="mf-val" style="font-size:1.05em;font-weight:900">${v(r.numero_proposta)}</div></div>
+        <div class="m-field"><div class="mf-label">Tipo Richiesta</div><div class="mf-val">${badgeTipo(r.tipo_richiesta)}</div></div>
+        <div class="m-field"><div class="mf-label">Data Invio</div><div class="mf-val">${fmtDate(r.created_at)}</div></div>
+        <div class="m-field"><div class="mf-label">Canale</div><div class="mf-val">${badgeCanale(r.canale_invio)}</div></div>
       </div>
     </div>
+
     <div class="m-section">
       <div class="m-section-title">👤 Assicurato</div>
       <div class="m-grid">
-        <div class="m-field"><div class="mf-label">Nome</div><div class="mf-val">${r.nome||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Cognome</div><div class="mf-val">${r.cognome||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Email</div><div class="mf-val">${r.email_assicurato||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Telefono</div><div class="mf-val">${r.telefono||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Nome</div><div class="mf-val">${v(r.nome)}</div></div>
+        <div class="m-field"><div class="mf-label">Cognome</div><div class="mf-val">${v(r.cognome)}</div></div>
+        <div class="m-field"><div class="mf-label">Cointestato</div><div class="mf-val">${cointestatoVal}</div></div>
+        <div class="m-field"><div class="mf-label">Presenza Sinistri</div><div class="mf-val">${sinistriVal}</div></div>
+        <div class="m-field"><div class="mf-label">Email Assicurato</div><div class="mf-val">${v(r.email_assicurato)}</div></div>
+        <div class="m-field"><div class="mf-label">Telefono</div><div class="mf-val">${v(r.telefono)}</div></div>
       </div>
     </div>
+
     <div class="m-section">
-      <div class="m-section-title">📋 Polizza</div>
+      <div class="m-section-title">🚗 Veicolo & Polizza</div>
       <div class="m-grid">
-        <div class="m-field"><div class="mf-label">Tipo Richiesta</div><div class="mf-val">${r.tipo_richiesta||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Compagnia Prov.</div><div class="mf-val">${r.compagnia_provenienza||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Frazionamento</div><div class="mf-val">${r.frazionamento||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Sconto Richiesto</div><div class="mf-val" style="color:#088b03">${r.sconto_richiesto?r.sconto_richiesto+'%':'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Targa</div><div class="mf-val" style="font-family:monospace;font-size:1.05em">${v(r.targa)}</div></div>
+        <div class="m-field"><div class="mf-label">Tipo Veicolo</div><div class="mf-val">${v(r.tipo_veicolo)}</div></div>
+        <div class="m-field"><div class="mf-label">Tipo Guida</div><div class="mf-val">${v(r.tipo_guida)}</div></div>
+        <div class="m-field"><div class="mf-label">Compagnia Prov.</div><div class="mf-val">${v(r.compagnia_provenienza)}</div></div>
+        <div class="m-field"><div class="mf-label">Scadenza Vecchia Polizza</div><div class="mf-val">${v(r.scadenza_vecchia_polizza)}</div></div>
+        <div class="m-field"><div class="mf-label">Data Effetto</div><div class="mf-val">${v(r.data_effetto)}</div></div>
+        <div class="m-field full"><div class="mf-label">Provenienza Attestato</div><div class="mf-val">${v(r.provenienza_attestato)}</div></div>
       </div>
     </div>
+
     <div class="m-section">
       <div class="m-section-title">💰 Importi</div>
       <div class="m-grid">
-        <div class="m-field"><div class="mf-label">RCA Netto Annuo</div><div class="mf-val" style="color:#1a7a45">€ ${r.premio_rca||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Totale Scontato RCA</div><div class="mf-val" style="color:#0047a8">€ ${r.totale_scontato_rca||'—'}</div></div>
-        <div class="m-field full highlight"><div class="mf-label">Preventivo Totale</div><div class="mf-val">€ ${r.preventivo_totale||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Totale Lordo da PASS</div><div class="mf-val">${eur(r.totale_lordo_pass)}</div></div>
+        <div class="m-field"><div class="mf-label">Sconto PASS già applicato</div><div class="mf-val" style="color:#088b03;font-weight:800">${r.sconto_pass?r.sconto_pass+'%':'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Premio Netto RCA</div><div class="mf-val hl-green" style="color:#1a7a45">${eur(r.premio_rca)}</div></div>
+        <div class="m-field"><div class="mf-label">Premio Altre Garanzie</div><div class="mf-val">${eur(r.premio_altre_garanzie)}</div></div>
+        <div class="m-field"><div class="mf-label">Garanzie Infortuni</div><div class="mf-val">${eur(r.garanzie_infortuni)}</div></div>
+        <div class="m-field"><div class="mf-label">Premio Casa Easy</div><div class="mf-val">${eur(r.premio_casa_easy)}</div></div>
+        <div class="m-field"><div class="mf-label">Imposte e SSN</div><div class="mf-val">${eur(r.importo_imposte_ssn)}</div></div>
+        <div class="m-field"><div class="mf-label">Preventivo Precedente</div><div class="mf-val">${eur(r.preventivo_precedente)}</div></div>
+        <div class="m-field"><div class="mf-label">Frazionamento</div><div class="mf-val">${badgeFraz(r.frazionamento)}</div></div>
+        <div class="m-field"><div class="mf-label">Sconto Richiesto</div><div class="mf-val" style="color:#088b03;font-weight:800">${r.sconto_richiesto?r.sconto_richiesto+'%':'—'}</div></div>
+        <div class="m-field hl-blue"><div class="mf-label">Totale Scontato RCA</div><div class="mf-val">${eur(r.totale_scontato_rca)}</div></div>
+        <div class="m-field hl-big"><div class="mf-label">⭐ Preventivo Scontato Totale</div><div class="mf-val">${eur(r.preventivo_totale)}</div></div>
       </div>
     </div>
+
     <div class="m-section">
-      <div class="m-section-title">🛡️ Garanzie Aggiuntive</div>
-      ${garzHtml}
+      <div class="m-section-title">🛡️ Garanzie Selezionate</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        ${chips(r.garanzie,'garz-badge')}
+      </div>
     </div>
-    ${r.note?`<div class="m-section"><div class="m-section-title">📝 Note</div><div class="note-box">${r.note}</div></div>`:''}
+
     <div class="m-section">
-      <div class="m-section-title">📨 Invio</div>
+      <div class="m-section-title">📎 Documenti Selezionati</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        ${chips(r.documenti,'doc-badge')}
+      </div>
+    </div>
+
+    ${r.note?`
+    <div class="m-section">
+      <div class="m-section-title">📝 Note</div>
+      <div class="note-box">${r.note}</div>
+    </div>`:''}
+
+    <div class="m-section">
+      <div class="m-section-title">✍️ Firma & Invio</div>
       <div class="m-grid">
-        <div class="m-field"><div class="mf-label">Canale</div><div class="mf-val">${r.canale_invio||'—'}</div></div>
-        <div class="m-field"><div class="mf-label">Operatore</div><div class="mf-val">${r.operator_code?`<span class="op-badge">${r.operator_code}</span>`:r.submitted_by||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Firma Sub Agente</div><div class="mf-val">${v(r.firma_sub_agente)}</div></div>
+        <div class="m-field"><div class="mf-label">Operatore</div><div class="mf-val">${r.operator_code?`<span class="op-badge">${r.operator_code}</span>`:v(r.submitted_by)}</div></div>
       </div>
     </div>
   `;
@@ -358,7 +408,7 @@ async function deleteRow(id){
     const d=await res.json();
     if(d.success){
       allData=allData.filter(r=>r.id!==id);
-      if(window._filteredData) window._filteredData=window._filteredData.filter(r=>r.id!==id);
+      if(window._filteredData)window._filteredData=window._filteredData.filter(r=>r.id!==id);
       const row=document.getElementById('row-'+id);
       if(row){row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(()=>row.remove(),300);}
       updateStats(window._filteredData||allData);
@@ -369,8 +419,8 @@ async function deleteRow(id){
 function exportCSV(){
   const data=window._filteredData||allData;
   if(!data.length){alert('Nessun dato da esportare.');return;}
-  const H=['ID','Data','Operatore','N°Proposta','Tipo','Nome','Cognome','Targa','Veicolo','Email','Telefono','Compagnia','Frazionamento','Sconto%','PremioRCA','TotScontatoRCA','Preventivo','Garanzie','Canale','Note'];
-  const rows=data.map(r=>[r.id,fmtDate(r.created_at),r.operator_code||r.submitted_by,r.numero_proposta,r.tipo_richiesta,r.nome,r.cognome,r.targa,r.tipo_veicolo,r.email_assicurato,r.telefono,r.compagnia_provenienza,r.frazionamento,r.sconto_richiesto,r.premio_rca,r.totale_scontato_rca,r.preventivo_totale,r.garanzie,r.canale_invio,r.note].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
+  const H=['ID','Data','Operatore','N°Proposta','Tipo','Nome','Cognome','Cointestato','Targa','Veicolo','TipoGuida','Email','Telefono','Sinistri','ProvenienzaAttestato','Compagnia','ScadenzaPolizza','DataEffetto','Frazionamento','ScontoRichiesto%','ScontoPass%','TotaleLordoPASS','PremioRCA','PremioAltreGaranzie','GaranzieInfortuni','PremioCasaEasy','ImposteSSN','PrevioPrecedente','TotScontatoRCA','PreventivoTotale','Garanzie','Documenti','Note','Firma','Canale'];
+  const rows=data.map(r=>[r.id,fmtDate(r.created_at),r.operator_code||r.submitted_by,r.numero_proposta,r.tipo_richiesta,r.nome,r.cognome,r.cointestato,r.targa,r.tipo_veicolo,r.tipo_guida,r.email_assicurato,r.telefono,r.sinistri,r.provenienza_attestato,r.compagnia_provenienza,r.scadenza_vecchia_polizza,r.data_effetto,r.frazionamento,r.sconto_richiesto,r.sconto_pass,r.totale_lordo_pass,r.premio_rca,r.premio_altre_garanzie,r.garanzie_infortuni,r.premio_casa_easy,r.importo_imposte_ssn,r.preventivo_precedente,r.totale_scontato_rca,r.preventivo_totale,r.garanzie,r.documenti,r.note,r.firma_sub_agente,r.canale_invio].map(val=>`"${(val||'').toString().replace(/"/g,'""')}"`).join(','));
   const csv=[H.join(','),...rows].join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);
