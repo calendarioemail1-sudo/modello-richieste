@@ -638,13 +638,19 @@
               </select>
             </div>
           </div>
-          <div class="premio-row">
-          <label>Data scadenza vecchia polizza</label>
-            <input type="date" id="dataScadenzaVecchia">
-
-            <label>Data effetto nuova polizza</label>
-            <input type="date" id="dataEffetto" required>
+          <div class="premio-row" style="align-items:flex-end;gap:14px;flex-wrap:wrap;">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <label for="dataScadenzaVecchia" style="cursor:default;">Data scadenza vecchia polizza</label>
+              <input type="date" id="dataScadenzaVecchia" style="width:auto;min-width:160px;max-width:190px;">
             </div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <label for="dataEffetto" style="cursor:default;">Data effetto nuova polizza</label>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <input type="date" id="dataEffetto" required style="width:auto;min-width:160px;max-width:190px;">
+                <button type="button" id="btnOggiEffetto" style="padding:6px 12px;background:linear-gradient(135deg,#0047a8,#1c7ed6);color:#fff;border:none;border-radius:8px;font-weight:800;font-size:0.82em;cursor:pointer;white-space:nowrap;height:38px;font-family:inherit;letter-spacing:.02em;box-shadow:0 2px 8px rgba(0,71,168,0.18);transition:filter .15s,transform .1s;" onmouseover="this.style.filter='brightness(1.12)'" onmouseout="this.style.filter=''" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform=''">📅 OGGI</button>
+              </div>
+            </div>
+          </div>
           
           <div class="premio-row premio-spread">
               <div class="premio-col">
@@ -1738,6 +1744,16 @@ if(premioInfInput && premioAltreInput){
         if(scVal) dataEffettoInput.min = scVal; else dataEffettoInput.min = todayStr;
       }
     }catch(e){}
+
+    // Tasto OGGI per data effetto
+    const btnOggi = document.getElementById('btnOggiEffetto');
+    if(btnOggi && dataEffettoInput){
+      btnOggi.addEventListener('click', function(){
+        const today = formatDateForInput(new Date());
+        dataEffettoInput.value = today;
+        dataEffettoInput.dispatchEvent(new Event('change', {bubbles:true}));
+      });
+    }
 
     // Listeners per validazione in tempo reale
     if(dataEffettoInput){
