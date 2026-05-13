@@ -1340,12 +1340,18 @@ function checkSconto5PercentEligibility(){
   sconto5PercentCheckbox.disabled = !isEligible;
   sconto5PercentCheckbox.style.opacity = isEligible ? '1' : '0.5';
   sconto5PercentCheckbox.style.cursor = isEligible ? 'pointer' : 'not-allowed';
+  const wrapperSconto5 = sconto5PercentCheckbox.parentElement;
+  if(wrapperSconto5){
+    wrapperSconto5.style.opacity = isEligible ? '1' : '0.5';
+    wrapperSconto5.style.pointerEvents = isEligible ? 'auto' : 'none';
+    wrapperSconto5.style.cursor = isEligible ? 'auto' : 'not-allowed';
+  }
   const labelSconto5 = document.querySelector('label[for="sconto5PercentRE"]');
   if(labelSconto5){
     labelSconto5.style.opacity = isEligible ? '1' : '0.5';
     labelSconto5.style.cursor = isEligible ? 'pointer' : 'not-allowed';
   }
-  // Se diventa non eligible e è checked, dechecka
+  // Se diventa non eligible e è checked, dechecka e ricalcola
   if(!isEligible && sconto5PercentCheckbox.checked){
     sconto5PercentCheckbox.checked = false;
     updateCalcolo();
@@ -1440,8 +1446,14 @@ function applySuggestedSconto(){
 }
 
 // Listener per Infortuni Esterni 2 e Casa Easy: abilita/disabilita il checkbox
-if(premioInfEsterni2Input) premioInfEsterni2Input.addEventListener('input', checkSconto5PercentEligibility);
-if(premioCasaInput) premioCasaInput.addEventListener('input', checkSconto5PercentEligibility);
+if(premioInfEsterni2Input){
+  premioInfEsterni2Input.addEventListener('input', checkSconto5PercentEligibility);
+  premioInfEsterni2Input.addEventListener('change', checkSconto5PercentEligibility);
+}
+if(premioCasaInput){
+  premioCasaInput.addEventListener('input', checkSconto5PercentEligibility);
+  premioCasaInput.addEventListener('change', checkSconto5PercentEligibility);
+}
 const tipoRichiestaForSconto5 = document.getElementById('tipoRichiesta');
 if(tipoRichiestaForSconto5) tipoRichiestaForSconto5.addEventListener('change', checkSconto5PercentEligibility);
 
@@ -1687,6 +1699,9 @@ if(premioInfInput && premioAltreInput){
         }
       }
     }catch(e){ /* ignore */ }
+
+    // Ricontrolla l'eligibilità del 5% dopo tutto il ripristino
+    checkSconto5PercentEligibility();
 
     // Rendi l'info box espandibile al click (su label e info box stesso)
     const infoBoxLarge = document.getElementById('infoBoxLarge');
