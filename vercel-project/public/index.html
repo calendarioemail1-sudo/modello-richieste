@@ -764,8 +764,8 @@
             <div style="display:flex; align-items:center; gap:12px;">
               <div id="imponibileDopoSconto" class="rca-calc" style="color:#cc7000; font-weight:700;">Imponibile scontato: € 0.00</div>
               <div style="display:flex; align-items:center; gap:6px; white-space:nowrap;">
-                <input type="checkbox" id="sconto5PercentRE" name="sconto5PercentRE" style="cursor:pointer; margin:0;">
-                <label for="sconto5PercentRE" style="cursor:pointer; font-weight:700; color:var(--primary); font-size:0.85em; margin:0;">5% R.E.</label>
+                <input type="checkbox" id="sconto5PercentRE" name="sconto5PercentRE" disabled style="cursor:not-allowed; margin:0; opacity:0.5;">
+                <label for="sconto5PercentRE" style="cursor:not-allowed; font-weight:700; color:var(--primary); font-size:0.85em; margin:0; opacity:0.5;">5% R.E.</label>
                 <span id="sconto5PercentValue" style="font-weight:700; color:var(--accent); display:none; margin-left:4px;"></span>
               </div>
             </div>
@@ -1338,9 +1338,13 @@ function checkSconto5PercentEligibility(){
   const isNuovaProposta = tipoRichiestaEl ? tipoRichiestaEl.value === 'Nuova Proposta' : false;
   const isEligible = (infEsterni2Val > 0 || casaEasyVal > 0) && isNuovaProposta;
   sconto5PercentCheckbox.disabled = !isEligible;
-  sconto5PercentCheckbox.parentElement.style.opacity = isEligible ? '1' : '0.5';
-  sconto5PercentCheckbox.parentElement.style.pointerEvents = isEligible ? 'auto' : 'none';
-  document.querySelector('label[for="sconto5PercentRE"]').style.opacity = isEligible ? '1' : '0.5';
+  sconto5PercentCheckbox.style.opacity = isEligible ? '1' : '0.5';
+  sconto5PercentCheckbox.style.cursor = isEligible ? 'pointer' : 'not-allowed';
+  const labelSconto5 = document.querySelector('label[for="sconto5PercentRE"]');
+  if(labelSconto5){
+    labelSconto5.style.opacity = isEligible ? '1' : '0.5';
+    labelSconto5.style.cursor = isEligible ? 'pointer' : 'not-allowed';
+  }
   // Se diventa non eligible e è checked, dechecka
   if(!isEligible && sconto5PercentCheckbox.checked){
     sconto5PercentCheckbox.checked = false;
