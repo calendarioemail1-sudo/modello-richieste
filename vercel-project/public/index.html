@@ -2296,7 +2296,7 @@ async function salvaRichiesta(canale_invio){
       documenti:        documentiSelezionati,
       firma_sub_agente: firmaEl ? firmaEl.value : ''
     };
-    await fetch('/api/save-submission', {
+    await fetch('/api/submissions', {
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
       body: JSON.stringify(payload)

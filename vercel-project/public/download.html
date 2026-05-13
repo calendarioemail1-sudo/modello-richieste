@@ -272,7 +272,7 @@ function authHeaders(){
 // ——————————————————————————————
 async function loadFiles(){
   try {
-    const r = await fetch('/api/get-files', { headers: authHeaders() });
+    const r = await fetch('/api/files', { headers: authHeaders() });
     const data = await r.json();
     if(!r.ok) throw new Error(data.error || 'Errore');
     allFiles = data.files || [];
@@ -391,7 +391,7 @@ async function doDownload(id, name){
 async function doDelete(id, name){
   if(!confirm(`Eliminare il file "${name}"?`)) return;
   try {
-    const r = await fetch('/api/delete-file?id='+id, { method:'DELETE', headers: authHeaders() });
+    const r = await fetch('/api/files?id='+id, { method:'DELETE', headers: authHeaders() });
     const d = await r.json();
     if(!r.ok) throw new Error(d.error||'Errore');
     showToast('🗑️ File eliminato');
@@ -447,7 +447,7 @@ function toggleEditUserList(show){
 async function loadUsersForCheckboxes(containerId, selectedEmails){
   if(allUsers.length === 0){
     try {
-      const r = await fetch('/api/get-users', { headers: authHeaders() });
+      const r = await fetch('/api/users', { headers: authHeaders() });
       const d = await r.json();
       allUsers = (d.users||[]).filter(u=>u.role!=='admin');
     } catch(e){ allUsers = []; }
@@ -482,7 +482,7 @@ async function doUpload(){
   showToast('⏳ Caricamento in corso...');
   try {
     const data = await fileToBase64(uploadedFile);
-    const r = await fetch('/api/upload-file', {
+    const r = await fetch('/api/files', {
       method:'POST',
       headers: authHeaders(),
       body: JSON.stringify({ name, format:fmt, size, data, permissions })
@@ -536,7 +536,7 @@ async function doEdit(){
     permissions = JSON.stringify(checked);
   }
   try {
-    const r = await fetch('/api/update-file?id='+id, {
+    const r = await fetch('/api/files?id='+id, {
       method:'PUT', headers: authHeaders(),
       body: JSON.stringify({ name, permissions })
     });

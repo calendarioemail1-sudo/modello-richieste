@@ -179,7 +179,7 @@
     const list=document.getElementById('usersList');
     list.innerHTML='<div class="list-loading">⏳ Caricamento…</div>';
     try{
-      const res=await fetch('/api/get-users',{headers:{'Authorization':'Bearer '+token}});
+      const res=await fetch('/api/users',{headers:{'Authorization':'Bearer '+token}});
       const d=await res.json();
       const users=(d.users||[]).filter(u=>u.role!=='admin');
       if(!users.length){list.innerHTML='<div class="empty-users">Nessun operatore registrato.</div>';return;}
@@ -223,7 +223,7 @@
     if(password && password!==password2){errEl.textContent='❌ Le password non coincidono.';errEl.classList.add('show');return;}
     btn.textContent='Salvataggio…';btn.disabled=true;
     try{
-      const res=await fetch('/api/update-user',{
+      const res=await fetch('/api/users',{
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
         body:JSON.stringify({email,codice,nome,password:password||''})
@@ -244,8 +244,8 @@
   async function deleteUser(email,id){
     if(!confirm(`Eliminare l'operatore ${email}?\nI dati delle richieste verranno mantenuti.`))return;
     try{
-      const res=await fetch('/api/delete-user',{
-        method:'POST',
+      const res=await fetch('/api/users',{
+        method:'DELETE',
         headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
         body:JSON.stringify({email})
       });
