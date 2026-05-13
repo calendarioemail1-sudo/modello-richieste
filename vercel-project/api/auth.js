@@ -27,7 +27,7 @@ export function verifyToken(token) {
   }
 }
 
-async function ensureUsersTable() {
+async function ensureSchema() {
   await sql`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
@@ -35,14 +35,17 @@ async function ensureUsersTable() {
       email TEXT UNIQUE NOT NULL,
       password_hash TEXT NOT NULL,
       role TEXT NOT NULL DEFAULT 'user',
-      nome TEXT DEFAULT ''
+      nome TEXT DEFAULT '',
+      codice TEXT DEFAULT ''
     )
   `;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS codice TEXT DEFAULT ''`;
+
   const admin = await sql`SELECT id FROM users WHERE email = ${ADMIN_EMAIL}`;
   if (admin.rows.length === 0) {
     await sql`
-      INSERT INTO users (email, password_hash, role, nome)
-      VALUES (${ADMIN_EMAIL}, ${hashPassword(ADMIN_PASSWORD)}, 'admin', 'Admin')
+      INSERT INTO users (email, password_hash, role, nome, codice)
+      VALUES (${ADMIN_EMAIL}, ${hashPassword(ADMIN_PASSWORD)}, 'admin', 'Admin', 'ADMIN')
     `;
   }
 }
@@ -51,28 +54,23 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    await ensureUsersTable();
-
+    await ensureSchema();
     const { email, password } = req.body || {};
     if (!email || !password) return res.status(400).json({ success: false, error: 'Dati mancanti' });
 
-    const passwordHash = hashPassword(password);
     const result = await sql`
-      SELECT email, role, nome FROM users WHERE email = ${email} AND password_hash = ${passwordHash}
+      SELECT email, role, nome, codice FROM users
+      WHERE email = ${email} AND password_hash = ${hashPassword(password)}
     `;
-
-    if (result.rows.length === 0) {
-      return res.status(401).json({ success: false, error: 'Credenziali non valide' });
-    }
+    if (result.rows.length === 0) return res.status(401).json({ success: false, error: 'Credenziali non valide' });
 
     const user = result.rows[0];
     const token = makeToken(user.email, user.role);
-    return res.status(200).json({ success: true, token, role: user.role, email: user.email, nome: user.nome });
+    return res.status(200).json({ success: true, token, role: user.role, email: user.email, nome: user.nome, codice: user.codice || user.email });
   } catch (err) {
     console.error('Auth error:', err);
     return res.status(500).json({ success: false, error: err.message });

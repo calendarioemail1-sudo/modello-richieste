@@ -79,6 +79,7 @@
         localStorage.setItem('gv_user_email', data.email);
         localStorage.setItem('gv_user_role', data.role);
         localStorage.setItem('gv_user_nome', data.nome || data.email);
+        localStorage.setItem('gv_operator_code', data.codice || '');
         window.location.replace('/');
       } else {
         errMsg.classList.add('show');

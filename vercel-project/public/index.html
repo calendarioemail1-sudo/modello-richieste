@@ -2179,13 +2179,14 @@ ${document.getElementById('note').value}
   const token = localStorage.getItem('gv_auth_token');
   const role  = localStorage.getItem('gv_user_role');
   const nome  = localStorage.getItem('gv_user_nome') || localStorage.getItem('gv_user_email') || '';
+  const codice= localStorage.getItem('gv_operator_code') || '';
   if(!token){ window.location.replace('/login'); return; }
   const badge = document.getElementById('userBadge');
-  if(badge) badge.textContent = (role==='admin'?'👑 ':'👤 ') + nome;
+  if(badge) badge.textContent = (role==='admin'?'👑 ':'👤 ') + (codice ? '['+codice+'] ' : '') + nome;
 })();
 
 function gvLogout(){
-  ['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome'].forEach(k=>localStorage.removeItem(k));
+  ['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome','gv_operator_code'].forEach(k=>localStorage.removeItem(k));
   window.location.replace('/login');
 }
 
@@ -2214,7 +2215,8 @@ async function salvaRichiesta(canale_invio){
       preventivo_totale:   (window._lastPreventivoDisplayedNumeric||0).toFixed(2),
       garanzie:         garanzieSelezionate,
       note:             document.getElementById('note').value,
-      canale_invio
+      canale_invio,
+      operator_code:    localStorage.getItem('gv_operator_code') || ''
     };
     await fetch('/api/save-submission', {
       method:'POST',

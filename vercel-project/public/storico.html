@@ -15,281 +15,366 @@
     body{font-family:Inter,system-ui,sans-serif;background:var(--bg);min-height:100vh;color:#1a2540;}
     header{background:var(--grad);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,71,168,0.2);flex-wrap:wrap;gap:8px;}
     header h1{color:#fff;font-size:1.1em;font-weight:800;}
-    .header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-    .hbtn{color:#fff;text-decoration:none;font-weight:700;font-size:0.83em;padding:6px 13px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;}
+    .ha{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .hbtn{color:#fff;text-decoration:none;font-weight:700;font-size:0.83em;padding:6px 13px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;font-family:inherit;}
     .hbtn-ghost{background:rgba(255,255,255,0.15);}
     .hbtn-ghost:hover{background:rgba(255,255,255,0.28);}
-    .hbtn-register{background:rgba(255,215,0,0.25);border:1.5px solid rgba(255,215,0,0.5);}
-    .hbtn-register:hover{background:rgba(255,215,0,0.38);}
-    .badge-session{background:rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:0.78em;color:rgba(255,255,255,0.9);font-weight:700;}
-    .container{max-width:1400px;margin:0 auto;padding:18px 14px;}
-    .stats-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
-    .stat-card{background:#fff;border-radius:var(--radius);padding:13px 18px;box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);flex:1;min-width:140px;text-align:center;}
-    .stat-card .num{font-size:1.9em;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .stat-card .lbl{font-size:0.75em;font-weight:700;text-transform:uppercase;color:#777;margin-top:2px;}
-    .filters{background:#fff;border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;}
-    .filters label{font-size:0.75em;font-weight:800;text-transform:uppercase;color:#555;display:block;margin-bottom:3px;}
-    .filters input,.filters select{padding:7px 10px;border:1.5px solid #ccd6e8;border-radius:8px;font-size:0.86em;font-weight:600;color:#1a2540;background:#f5f8ff;outline:none;transition:border-color .18s;}
+    .hbtn-gold{background:rgba(255,210,0,0.22);border:1.5px solid rgba(255,210,0,0.45);}
+    .hbtn-gold:hover{background:rgba(255,210,0,0.35);}
+    .session-badge{background:rgba(255,255,255,0.13);border-radius:20px;padding:4px 13px;font-size:0.78em;color:rgba(255,255,255,0.92);font-weight:700;}
+    .container{max-width:1460px;margin:0 auto;padding:16px 14px;}
+    .stats{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+    .sc{background:#fff;border-radius:var(--radius);padding:12px 18px;box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);flex:1;min-width:130px;text-align:center;}
+    .sc .n{font-size:1.85em;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .sc .l{font-size:0.72em;font-weight:700;text-transform:uppercase;color:#777;margin-top:2px;}
+    .filters{background:#fff;border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);margin-bottom:13px;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;}
+    .fg{display:flex;flex-direction:column;}
+    .fg label{font-size:0.73em;font-weight:800;text-transform:uppercase;color:#555;margin-bottom:3px;}
+    .filters input,.filters select{padding:7px 10px;border:1.5px solid #ccd6e8;border-radius:8px;font-size:0.85em;font-weight:600;color:#1a2540;background:#f5f8ff;outline:none;transition:border-color .18s;}
     .filters input:focus,.filters select:focus{border-color:var(--accent);}
-    .btn-export{padding:8px 14px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:0.86em;cursor:pointer;transition:filter .18s,transform .12s;height:36px;}
-    .btn-export:hover{filter:brightness(1.1);transform:translateY(-1px);}
-    .table-wrap{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);overflow:auto;}
-    table{width:100%;border-collapse:collapse;font-size:0.83em;}
+    .btn-csv{padding:8px 14px;background:var(--grad);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:0.84em;cursor:pointer;transition:filter .18s,transform .12s;height:36px;font-family:inherit;}
+    .btn-csv:hover{filter:brightness(1.1);transform:translateY(-1px);}
+    .tw{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);overflow:auto;}
+    table{width:100%;border-collapse:collapse;font-size:0.82em;}
     thead tr{background:var(--grad);color:#fff;}
-    thead th{padding:10px 11px;text-align:left;font-weight:700;text-transform:uppercase;font-size:0.76em;letter-spacing:.04em;white-space:nowrap;}
+    thead th{padding:10px 11px;text-align:left;font-weight:700;text-transform:uppercase;font-size:0.74em;letter-spacing:.04em;white-space:nowrap;}
     tbody tr{border-bottom:1px solid #eef2f7;transition:background .15s;}
     tbody tr:hover{background:#f0f6ff;}
     tbody td{padding:8px 11px;vertical-align:middle;white-space:nowrap;}
-    .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:0.76em;font-weight:700;}
-    .b-gmail{background:#e8f3ff;color:#0047a8;}
-    .b-outlook{background:#e8f5ee;color:#1a9e50;}
-    .b-annuale{background:#fff3e0;color:#e65100;}
-    .b-semestrale{background:#f3e8ff;color:#6d28d9;}
-    .b-nuova{background:#e8f3ff;color:#0047a8;}
-    .b-rinnovo{background:#e8f5ee;color:#1a9e50;}
-    .b-sost{background:#fff3e0;color:#c77800;}
-    .empty-state,.loading{text-align:center;padding:50px 20px;color:#888;font-weight:700;}
+    .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:0.75em;font-weight:700;}
+    .bg{background:#e8f3ff;color:#0047a8;}
+    .bo{background:#e8f5ee;color:#1a9e50;}
+    .ba{background:#fff3e0;color:#e65100;}
+    .bs{background:#f3e8ff;color:#6d28d9;}
+    .bn{background:#e8f3ff;color:#0047a8;}
+    .br{background:#e8f5ee;color:#1a9e50;}
+    .bst{background:#fff3e0;color:#c77800;}
+    .op-badge{display:inline-block;padding:2px 9px;border-radius:6px;font-size:0.78em;font-weight:800;background:#1a2540;color:#fff;letter-spacing:.04em;}
+    .loading,.empty{text-align:center;padding:48px 20px;color:#888;font-weight:700;}
     .loading{color:var(--accent);}
-    .detail-btn{background:none;border:1.5px solid var(--accent);color:var(--accent);border-radius:6px;padding:3px 9px;font-size:0.78em;font-weight:700;cursor:pointer;transition:background .18s,color .18s;}
-    .detail-btn:hover{background:var(--accent);color:#fff;}
-    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;}
-    .modal-overlay.open{display:flex;}
-    .modal{background:#fff;border-radius:16px;padding:24px 26px;max-width:540px;width:94%;box-shadow:0 12px 40px rgba(0,0,0,0.18);position:relative;max-height:90vh;overflow-y:auto;}
-    .modal h2{font-size:1.05em;font-weight:800;margin-bottom:14px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-    .modal-close{position:absolute;top:13px;right:16px;background:none;border:none;font-size:1.4em;cursor:pointer;color:#888;}
-    .modal-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f4fa;gap:10px;}
-    .modal-row:last-child{border-bottom:none;}
-    .modal-key{font-weight:700;font-size:0.82em;text-transform:uppercase;color:#555;flex:0 0 170px;}
-    .modal-val{font-weight:600;font-size:0.86em;color:#1a2540;text-align:right;word-break:break-word;}
-    .role-banner{background:#fff8e0;border:1.5px solid #ffe082;border-radius:var(--radius);padding:10px 16px;margin-bottom:14px;font-size:0.88em;font-weight:700;color:#7a5700;display:none;}
+    .btn-detail{background:none;border:1.5px solid var(--accent);color:var(--accent);border-radius:6px;padding:3px 9px;font-size:0.76em;font-weight:700;cursor:pointer;transition:background .18s,color .18s;font-family:inherit;}
+    .btn-detail:hover{background:var(--accent);color:#fff;}
+    .btn-del{background:none;border:1.5px solid #e03535;color:#e03535;border-radius:6px;padding:3px 9px;font-size:0.76em;font-weight:700;cursor:pointer;transition:background .18s,color .18s;margin-left:4px;font-family:inherit;}
+    .btn-del:hover{background:#e03535;color:#fff;}
+    .role-banner{padding:9px 16px;border-radius:var(--radius);margin-bottom:13px;font-size:0.87em;font-weight:700;display:none;}
+    .role-banner.admin{background:#fff8dc;border:1.5px solid #ffe082;color:#7a5700;}
+    .role-banner.user{background:#e8f3ff;border:1.5px solid #b3d4f5;color:#0047a8;}
     .role-banner.show{display:block;}
-    @media(max-width:700px){.stats-bar{gap:7px;}.stat-card{min-width:110px;}}
+
+    /* ── MODAL ── */
+    .ov{display:none;position:fixed;inset:0;background:rgba(10,20,50,0.55);z-index:1000;align-items:center;justify-content:center;padding:16px;}
+    .ov.open{display:flex;}
+    .modal{background:#fff;border-radius:20px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.22);position:relative;}
+    .modal-head{background:var(--grad);padding:20px 24px 16px;border-radius:20px 20px 0 0;color:#fff;}
+    .modal-head .mh-title{font-size:1.25em;font-weight:900;margin-bottom:2px;}
+    .modal-head .mh-sub{font-size:0.82em;opacity:.8;font-weight:600;}
+    .modal-close{position:absolute;top:14px;right:18px;background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:32px;height:32px;font-size:1.1em;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;transition:background .18s;}
+    .modal-close:hover{background:rgba(255,255,255,0.32);}
+    .modal-body{padding:20px 24px;}
+    .m-section{margin-bottom:18px;}
+    .m-section-title{font-size:0.72em;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+    .m-section-title::after{content:'';flex:1;height:1px;background:#eef2f7;}
+    .m-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .m-field{background:#f7f9ff;border-radius:10px;padding:9px 12px;border:1px solid #e8eef8;}
+    .m-field .mf-label{font-size:0.7em;font-weight:800;text-transform:uppercase;color:#8899bb;margin-bottom:2px;}
+    .m-field .mf-val{font-size:0.9em;font-weight:700;color:#1a2540;word-break:break-word;}
+    .m-field.full{grid-column:1/-1;}
+    .m-field.highlight .mf-val{font-size:1em;color:#0047a8;font-weight:800;}
+    .garanzie-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+    .garz-badge{background:#e8f3ff;color:#0047a8;border-radius:6px;padding:3px 9px;font-size:0.78em;font-weight:700;}
+    .note-box{background:#fffef0;border:1.5px solid #f0e6b0;border-radius:10px;padding:10px 13px;font-size:0.88em;color:#555;font-weight:600;min-height:40px;}
+    .canale-row{display:flex;gap:8px;align-items:center;}
+    @media(max-width:520px){.m-grid{grid-template-columns:1fr;}.m-field.full{grid-column:1/1;}}
   </style>
 </head>
 <body>
 <header>
   <h1>📋 Storico Richieste — Agenzia Giordano & Valenzise</h1>
-  <div class="header-actions">
-    <span class="badge-session" id="sessionBadge">…</span>
+  <div class="ha">
+    <span class="session-badge" id="sessionBadge">…</span>
     <a href="/" class="hbtn hbtn-ghost">← Modulo</a>
-    <button id="btnRegistra" class="hbtn hbtn-register" onclick="window.location.href='/registrazione'" style="display:none;">👤 Registra Utente</button>
+    <button id="btnRegistra" class="hbtn hbtn-gold" onclick="window.location.href='/registrazione'" style="display:none">👤 Registra Utente</button>
     <button onclick="logout()" class="hbtn hbtn-ghost">🚪 Esci</button>
   </div>
 </header>
 
 <div class="container">
   <div class="role-banner" id="roleBanner"></div>
-  <div class="stats-bar" id="statsBar">
-    <div class="stat-card"><div class="num" id="statTotale">—</div><div class="lbl">Totale</div></div>
-    <div class="stat-card"><div class="num" id="statMese">—</div><div class="lbl">Questo Mese</div></div>
-    <div class="stat-card"><div class="num" id="statRinnovi">—</div><div class="lbl">Rinnovi</div></div>
-    <div class="stat-card"><div class="num" id="statNuove">—</div><div class="lbl">Nuove</div></div>
-    <div class="stat-card"><div class="num" id="statSem">—</div><div class="lbl">Semestrali</div></div>
+
+  <div class="stats">
+    <div class="sc"><div class="n" id="sTot">—</div><div class="l">Totale</div></div>
+    <div class="sc"><div class="n" id="sMese">—</div><div class="l">Questo Mese</div></div>
+    <div class="sc"><div class="n" id="sRin">—</div><div class="l">Rinnovi</div></div>
+    <div class="sc"><div class="n" id="sNuove">—</div><div class="l">Nuove</div></div>
+    <div class="sc"><div class="n" id="sSem">—</div><div class="l">Semestrali</div></div>
   </div>
 
   <div class="filters">
-    <div><label>Cerca</label><input type="text" id="fSearch" placeholder="nome, targa, proposta…" oninput="applyFilters()"></div>
-    <div><label>Tipo</label>
+    <div class="fg"><label>Cerca</label><input type="text" id="fSearch" placeholder="nome, targa, proposta…" oninput="applyFilters()"></div>
+    <div class="fg"><label>Tipo</label>
       <select id="fTipo" onchange="applyFilters()">
         <option value="">Tutti</option>
         <option>Nuova Proposta</option><option>Rinnovo</option><option>Sostituzione</option>
       </select>
     </div>
-    <div><label>Frazionamento</label>
+    <div class="fg"><label>Frazionamento</label>
       <select id="fFraz" onchange="applyFilters()">
         <option value="">Tutti</option><option>Annuale</option><option>Semestrale</option>
       </select>
     </div>
-    <div><label>Canale</label>
+    <div class="fg"><label>Canale</label>
       <select id="fCanale" onchange="applyFilters()">
         <option value="">Tutti</option><option>Gmail</option><option>Outlook</option>
       </select>
     </div>
-    <div id="fOperatoreWrap" style="display:none"><label>Operatore</label>
-      <input type="text" id="fOperatore" placeholder="email operatore" oninput="applyFilters()">
+    <div class="fg" id="wOperatore" style="display:none"><label>Operatore</label>
+      <select id="fOperatore" onchange="applyFilters()">
+        <option value="">Tutti</option>
+      </select>
     </div>
-    <div><label>Da</label><input type="date" id="fDa" onchange="applyFilters()"></div>
-    <div><label>A</label><input type="date" id="fA" onchange="applyFilters()"></div>
-    <button class="btn-export" onclick="exportCSV()">⬇️ CSV</button>
+    <div class="fg"><label>Da</label><input type="date" id="fDa" onchange="applyFilters()"></div>
+    <div class="fg"><label>A</label><input type="date" id="fA" onchange="applyFilters()"></div>
+    <button class="btn-csv" onclick="exportCSV()">⬇️ CSV</button>
   </div>
 
-  <div class="table-wrap">
+  <div class="tw">
     <div class="loading" id="loadingMsg">⏳ Caricamento…</div>
-    <table id="dataTable" style="display:none">
-      <thead>
-        <tr>
-          <th>#</th><th>Data</th><th>N° Prop.</th><th>Tipo</th>
-          <th>Nominativo</th><th>Targa</th><th>Compagnia</th>
-          <th>Fraz.</th><th>Sconto</th><th>RCA Netto</th>
-          <th>Tot. Scontato</th><th>Preventivo</th><th>Canale</th>
-          <th id="thOperatore" style="display:none">Operatore</th>
-          <th>Det.</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
+    <table id="tbl" style="display:none">
+      <thead><tr>
+        <th>#</th><th>Data</th><th>N° Prop.</th><th>Tipo</th>
+        <th>Nominativo</th><th>Targa</th><th>Compagnia Prov.</th>
+        <th>Fraz.</th><th>Sconto</th><th>RCA Netto</th>
+        <th>Tot. Scontato</th><th>Preventivo</th><th>Canale</th>
+        <th id="thOp" style="display:none">Operatore</th>
+        <th>Azioni</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
     </table>
-    <div class="empty-state" id="emptyState" style="display:none">📭 Nessuna richiesta trovata.</div>
+    <div class="empty" id="emptyMsg" style="display:none">📭 Nessuna richiesta trovata.</div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
-    <h2 id="modalTitle">Dettaglio</h2>
-    <div id="modalBody"></div>
+<!-- DETAIL MODAL -->
+<div class="ov" id="ov" onclick="closeOv(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-head">
+      <button class="modal-close" onclick="document.getElementById('ov').classList.remove('open')">✕</button>
+      <div class="mh-title" id="mTitle">Dettaglio Richiesta</div>
+      <div class="mh-sub" id="mSub"></div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
   </div>
 </div>
 
 <script>
-let allData = [], currentRole = '', currentEmail = '';
+let allData = [], currentRole = '', operators = [];
 
 function getAuth(){
-  const token = localStorage.getItem('gv_auth_token');
-  const role  = localStorage.getItem('gv_user_role');
-  const email = localStorage.getItem('gv_user_email');
-  const nome  = localStorage.getItem('gv_user_nome') || email;
-  if(!token){ window.location.replace('/login'); return null; }
-  return { token, role, email, nome };
+  const t=localStorage.getItem('gv_auth_token'), r=localStorage.getItem('gv_user_role'), e=localStorage.getItem('gv_user_email'), n=localStorage.getItem('gv_user_nome')||e;
+  if(!t){window.location.replace('/login');return null;}
+  return{token:t,role:r,email:e,nome:n};
 }
+function logout(){['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome','gv_operator_code'].forEach(k=>localStorage.removeItem(k));window.location.replace('/login');}
 
-function logout(){
-  ['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome'].forEach(k=>localStorage.removeItem(k));
-  window.location.replace('/login');
-}
-
-function fmtDate(s){ if(!s) return '—'; const d=new Date(s); return d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
-function badge(v,map){ for(const [k,cls] of Object.entries(map)) if(v&&v.includes(k)) return `<span class="badge ${cls}">${v}</span>`; return v||'—'; }
-function badgeTipo(v){ return badge(v,{'Rinnovo':'b-rinnovo','Sostituzione':'b-sost','Nuova':'b-nuova'})||v||'—'; }
-function badgeFraz(v){ if(!v) return '—'; return `<span class="badge ${v==='Semestrale'?'b-semestrale':'b-annuale'}">${v}</span>`; }
-function badgeCanale(v){ if(!v) return '—'; return `<span class="badge ${v==='Gmail'?'b-gmail':'b-outlook'}">${v==='Gmail'?'📧 Gmail':'📨 Outlook'}</span>`; }
+function fmtDate(s){if(!s)return'—';const d=new Date(s);return d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+function badgeTipo(v){if(!v)return'—';const c=v==='Rinnovo'?'br':v==='Sostituzione'?'bst':'bn';return`<span class="badge ${c}">${v}</span>`;}
+function badgeFraz(v){if(!v)return'—';return`<span class="badge ${v==='Semestrale'?'bs':'ba'}">${v}</span>`;}
+function badgeCanale(v){if(!v)return'—';return`<span class="badge ${v==='Gmail'?'bg':'bo'}">${v==='Gmail'?'📧 Gmail':'📨 Outlook'}</span>`;}
+function opBadge(v){if(!v)return'—';return`<span class="op-badge">${v}</span>`;}
 
 async function loadData(){
-  const auth = getAuth(); if(!auth) return;
-  currentRole = auth.role; currentEmail = auth.email;
-
-  document.getElementById('sessionBadge').textContent = (auth.role==='admin'?'👑 Admin':'👤 ') + (auth.nome||auth.email);
-
-  if(auth.role === 'admin'){
-    document.getElementById('btnRegistra').style.display = '';
-    document.getElementById('fOperatoreWrap').style.display = '';
-    document.getElementById('thOperatore').style.display = '';
-    const b = document.getElementById('roleBanner');
-    b.textContent = '👑 Modalità Admin — visualizzi tutte le richieste di tutti gli operatori.';
-    b.classList.add('show');
+  const auth=getAuth();if(!auth)return;
+  currentRole=auth.role;
+  document.getElementById('sessionBadge').textContent=(auth.role==='admin'?'👑 Admin':'👤 ')+auth.nome;
+  if(auth.role==='admin'){
+    document.getElementById('btnRegistra').style.display='';
+    document.getElementById('wOperatore').style.display='';
+    document.getElementById('thOp').style.display='';
+    const b=document.getElementById('roleBanner');
+    b.textContent='👑 Modalità Admin — visualizzi tutte le richieste di tutti gli operatori.';
+    b.className='role-banner admin show';
+    await loadOperators(auth.token);
   } else {
-    const b = document.getElementById('roleBanner');
-    b.textContent = '👤 Visualizzi solo le richieste da te inviate.';
-    b.classList.add('show');
+    const b=document.getElementById('roleBanner');
+    b.textContent='👤 Visualizzi solo le richieste inviate da te.';
+    b.className='role-banner user show';
   }
-
   try{
-    const res = await fetch('/api/get-submissions', { headers:{'Authorization':'Bearer '+auth.token} });
-    if(res.status === 401){ logout(); return; }
-    const json = await res.json();
-    allData = json.submissions || [];
-    document.getElementById('loadingMsg').style.display = 'none';
-    updateStats(allData);
-    renderTable(allData);
-  } catch(e){
-    document.getElementById('loadingMsg').textContent = '❌ Errore nel caricamento.';
-  }
+    const res=await fetch('/api/get-submissions',{headers:{'Authorization':'Bearer '+auth.token}});
+    if(res.status===401){logout();return;}
+    const json=await res.json();
+    allData=json.submissions||[];
+    document.getElementById('loadingMsg').style.display='none';
+    updateStats(allData);renderTable(allData);
+  }catch(e){document.getElementById('loadingMsg').textContent='❌ Errore nel caricamento.';}
+}
+
+async function loadOperators(token){
+  try{
+    const res=await fetch('/api/get-users',{headers:{'Authorization':'Bearer '+token}});
+    const json=await res.json();
+    operators=(json.users||[]).filter(u=>u.role==='user');
+    const sel=document.getElementById('fOperatore');
+    operators.forEach(u=>{
+      const opt=document.createElement('option');
+      opt.value=u.codice||u.email;
+      opt.textContent=(u.codice?`[${u.codice}]`:'')+' '+(u.nome||u.email);
+      sel.appendChild(opt);
+    });
+  }catch(e){}
 }
 
 function updateStats(data){
-  const now = new Date();
-  document.getElementById('statTotale').textContent = data.length;
-  document.getElementById('statMese').textContent   = data.filter(r=>{const d=new Date(r.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).length;
-  document.getElementById('statRinnovi').textContent = data.filter(r=>r.tipo_richiesta==='Rinnovo').length;
-  document.getElementById('statNuove').textContent   = data.filter(r=>r.tipo_richiesta==='Nuova Proposta').length;
-  document.getElementById('statSem').textContent     = data.filter(r=>r.frazionamento==='Semestrale').length;
+  const now=new Date();
+  document.getElementById('sTot').textContent=data.length;
+  document.getElementById('sMese').textContent=data.filter(r=>{const d=new Date(r.created_at);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}).length;
+  document.getElementById('sRin').textContent=data.filter(r=>r.tipo_richiesta==='Rinnovo').length;
+  document.getElementById('sNuove').textContent=data.filter(r=>r.tipo_richiesta==='Nuova Proposta').length;
+  document.getElementById('sSem').textContent=data.filter(r=>r.frazionamento==='Semestrale').length;
 }
 
 function renderTable(data){
-  const tbl = document.getElementById('dataTable');
-  const empty = document.getElementById('emptyState');
-  const tbody = document.getElementById('tableBody');
-  if(!data.length){ tbl.style.display='none'; empty.style.display='block'; return; }
-  tbl.style.display='table'; empty.style.display='none';
-  const isAdmin = currentRole === 'admin';
-  tbody.innerHTML = data.map((r,i)=>`
-    <tr>
-      <td style="color:#aaa;font-size:.78em">${r.id||i+1}</td>
-      <td style="font-size:.82em">${fmtDate(r.created_at)}</td>
+  const tbl=document.getElementById('tbl'),empty=document.getElementById('emptyMsg'),tbody=document.getElementById('tbody');
+  if(!data.length){tbl.style.display='none';empty.style.display='block';return;}
+  tbl.style.display='table';empty.style.display='none';
+  const isAdmin=currentRole==='admin';
+  tbody.innerHTML=data.map((r,i)=>`
+    <tr id="row-${r.id}">
+      <td style="color:#aaa;font-size:.76em">${r.id||i+1}</td>
+      <td style="font-size:.8em">${fmtDate(r.created_at)}</td>
       <td><strong>${r.numero_proposta||'—'}</strong></td>
       <td>${badgeTipo(r.tipo_richiesta)}</td>
       <td><strong>${r.nome||''} ${r.cognome||''}</strong></td>
-      <td style="font-family:monospace;font-weight:700">${r.targa||'—'}</td>
+      <td style="font-family:monospace;font-weight:800">${r.targa||'—'}</td>
       <td>${r.compagnia_provenienza||'—'}</td>
       <td>${badgeFraz(r.frazionamento)}</td>
-      <td style="text-align:center;font-weight:700;color:#088b03">${r.sconto_richiesto?r.sconto_richiesto+'%':'—'}</td>
+      <td style="text-align:center;font-weight:800;color:#088b03">${r.sconto_richiesto?r.sconto_richiesto+'%':'—'}</td>
       <td style="color:#008000;font-weight:700">${r.premio_rca||'—'}</td>
       <td style="color:#0047a8;font-weight:700">${r.totale_scontato_rca||'—'}</td>
       <td style="color:#0047a8;font-weight:800">${r.preventivo_totale||'—'}</td>
       <td>${badgeCanale(r.canale_invio)}</td>
-      ${isAdmin?`<td style="font-size:.78em;color:#777;max-width:140px;overflow:hidden;text-overflow:ellipsis" title="${r.submitted_by||''}">${r.submitted_by||'—'}</td>`:''}
-      <td><button class="detail-btn" onclick="showDetail(${i})">Vedi</button></td>
+      ${isAdmin?`<td>${opBadge(r.operator_code||r.submitted_by)}</td>`:''}
+      <td style="white-space:nowrap">
+        <button class="btn-detail" onclick="showDetail(${i})">🔍 Vedi</button>
+        ${isAdmin?`<button class="btn-del" onclick="deleteRow(${r.id})">🗑️</button>`:''}
+      </td>
     </tr>
   `).join('');
-  window._filteredData = data;
+  window._filteredData=data;
 }
 
 function applyFilters(){
-  const search  = document.getElementById('fSearch').value.toLowerCase();
-  const tipo    = document.getElementById('fTipo').value;
-  const fraz    = document.getElementById('fFraz').value;
-  const canale  = document.getElementById('fCanale').value;
-  const operatore = document.getElementById('fOperatore').value.toLowerCase();
-  const da      = document.getElementById('fDa').value;
-  const a       = document.getElementById('fA').value;
-  const filtered = allData.filter(r=>{
-    const text = [r.nome,r.cognome,r.targa,r.numero_proposta,r.compagnia_provenienza].join(' ').toLowerCase();
-    if(search && !text.includes(search)) return false;
-    if(tipo && r.tipo_richiesta !== tipo) return false;
-    if(fraz && r.frazionamento !== fraz) return false;
-    if(canale && r.canale_invio !== canale) return false;
-    if(operatore && !(r.submitted_by||'').toLowerCase().includes(operatore)) return false;
-    if(da && new Date(r.created_at) < new Date(da)) return false;
-    if(a  && new Date(r.created_at) > new Date(a+'T23:59:59')) return false;
+  const search=document.getElementById('fSearch').value.toLowerCase();
+  const tipo=document.getElementById('fTipo').value;
+  const fraz=document.getElementById('fFraz').value;
+  const canale=document.getElementById('fCanale').value;
+  const op=document.getElementById('fOperatore').value;
+  const da=document.getElementById('fDa').value;
+  const a=document.getElementById('fA').value;
+  const filtered=allData.filter(r=>{
+    const txt=[r.nome,r.cognome,r.targa,r.numero_proposta,r.compagnia_provenienza].join(' ').toLowerCase();
+    if(search&&!txt.includes(search))return false;
+    if(tipo&&r.tipo_richiesta!==tipo)return false;
+    if(fraz&&r.frazionamento!==fraz)return false;
+    if(canale&&r.canale_invio!==canale)return false;
+    if(op&&(r.operator_code||r.submitted_by)!==op)return false;
+    if(da&&new Date(r.created_at)<new Date(da))return false;
+    if(a&&new Date(r.created_at)>new Date(a+'T23:59:59'))return false;
     return true;
   });
-  updateStats(filtered);
-  renderTable(filtered);
+  updateStats(filtered);renderTable(filtered);
 }
 
 function showDetail(idx){
-  const data = window._filteredData||allData;
-  const r = data[idx]; if(!r) return;
-  document.getElementById('modalTitle').textContent = `#${r.id} — ${r.nome||''} ${r.cognome||''}`;
-  const fields = [
-    ['Data Invio',fmtDate(r.created_at)],['Operatore',r.submitted_by],
-    ['N° Proposta',r.numero_proposta],['Tipo',r.tipo_richiesta],
-    ['Nome',r.nome],['Cognome',r.cognome],['Targa',r.targa],
-    ['Tipo Veicolo',r.tipo_veicolo],['Email Assicurato',r.email_assicurato],
-    ['Telefono',r.telefono],['Compagnia',r.compagnia_provenienza],
-    ['Frazionamento',r.frazionamento],['Sconto',r.sconto_richiesto?r.sconto_richiesto+'%':'—'],
-    ['RCA Netto',r.premio_rca],['Tot. Scontato RCA',r.totale_scontato_rca],
-    ['Preventivo Totale',r.preventivo_totale],['Garanzie',r.garanzie],
-    ['Canale',r.canale_invio],['Note',r.note]
-  ];
-  document.getElementById('modalBody').innerHTML = fields.map(([k,v])=>`
-    <div class="modal-row"><div class="modal-key">${k}</div><div class="modal-val">${v||'—'}</div></div>
-  `).join('');
-  document.getElementById('modalOverlay').classList.add('open');
+  const data=window._filteredData||allData;
+  const r=data[idx];if(!r)return;
+  document.getElementById('mTitle').textContent=`${r.nome||''} ${r.cognome||''}`;
+  document.getElementById('mSub').textContent=`Proposta N° ${r.numero_proposta||'—'} · ${fmtDate(r.created_at)}`;
+
+  const garanzie=(r.garanzie||'').split(',').map(g=>g.trim()).filter(Boolean);
+  const garzHtml=garanzie.length?`<div class="garanzie-wrap">${garanzie.map(g=>`<span class="garz-badge">✓ ${g}</span>`).join('')}</div>`:'<span style="color:#aaa">Nessuna garanzia aggiuntiva</span>';
+
+  document.getElementById('mBody').innerHTML=`
+    <div class="m-section">
+      <div class="m-section-title">🚗 Veicolo</div>
+      <div class="m-grid">
+        <div class="m-field"><div class="mf-label">Targa</div><div class="mf-val" style="font-family:monospace;font-size:1.05em">${r.targa||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Tipo Veicolo</div><div class="mf-val">${r.tipo_veicolo||'—'}</div></div>
+      </div>
+    </div>
+    <div class="m-section">
+      <div class="m-section-title">👤 Assicurato</div>
+      <div class="m-grid">
+        <div class="m-field"><div class="mf-label">Nome</div><div class="mf-val">${r.nome||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Cognome</div><div class="mf-val">${r.cognome||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Email</div><div class="mf-val">${r.email_assicurato||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Telefono</div><div class="mf-val">${r.telefono||'—'}</div></div>
+      </div>
+    </div>
+    <div class="m-section">
+      <div class="m-section-title">📋 Polizza</div>
+      <div class="m-grid">
+        <div class="m-field"><div class="mf-label">Tipo Richiesta</div><div class="mf-val">${r.tipo_richiesta||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Compagnia Prov.</div><div class="mf-val">${r.compagnia_provenienza||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Frazionamento</div><div class="mf-val">${r.frazionamento||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Sconto Richiesto</div><div class="mf-val" style="color:#088b03">${r.sconto_richiesto?r.sconto_richiesto+'%':'—'}</div></div>
+      </div>
+    </div>
+    <div class="m-section">
+      <div class="m-section-title">💰 Importi</div>
+      <div class="m-grid">
+        <div class="m-field"><div class="mf-label">RCA Netto Annuo</div><div class="mf-val" style="color:#1a7a45">€ ${r.premio_rca||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Totale Scontato RCA</div><div class="mf-val" style="color:#0047a8">€ ${r.totale_scontato_rca||'—'}</div></div>
+        <div class="m-field full highlight"><div class="mf-label">Preventivo Totale</div><div class="mf-val">€ ${r.preventivo_totale||'—'}</div></div>
+      </div>
+    </div>
+    <div class="m-section">
+      <div class="m-section-title">🛡️ Garanzie Aggiuntive</div>
+      ${garzHtml}
+    </div>
+    ${r.note?`<div class="m-section"><div class="m-section-title">📝 Note</div><div class="note-box">${r.note}</div></div>`:''}
+    <div class="m-section">
+      <div class="m-section-title">📨 Invio</div>
+      <div class="m-grid">
+        <div class="m-field"><div class="mf-label">Canale</div><div class="mf-val">${r.canale_invio||'—'}</div></div>
+        <div class="m-field"><div class="mf-label">Operatore</div><div class="mf-val">${r.operator_code?`<span class="op-badge">${r.operator_code}</span>`:r.submitted_by||'—'}</div></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('ov').classList.add('open');
 }
 
-function closeModal(e){ if(e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open'); }
+function closeOv(e){if(e.target===document.getElementById('ov'))document.getElementById('ov').classList.remove('open');}
+
+async function deleteRow(id){
+  if(!confirm('Eliminare definitivamente questa richiesta?'))return;
+  const auth=getAuth();if(!auth)return;
+  try{
+    const res=await fetch('/api/delete-submission',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+auth.token},
+      body:JSON.stringify({id})
+    });
+    const d=await res.json();
+    if(d.success){
+      allData=allData.filter(r=>r.id!==id);
+      if(window._filteredData) window._filteredData=window._filteredData.filter(r=>r.id!==id);
+      const row=document.getElementById('row-'+id);
+      if(row){row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(()=>row.remove(),300);}
+      updateStats(window._filteredData||allData);
+    } else alert('Errore: '+(d.error||'impossibile eliminare'));
+  }catch(e){alert('Errore di rete.');}
+}
 
 function exportCSV(){
-  const data = window._filteredData||allData;
-  if(!data.length){ alert('Nessun dato da esportare.'); return; }
-  const H = ['ID','Data','Operatore','N°Proposta','Tipo','Nome','Cognome','Targa','Veicolo','Email','Telefono','Compagnia','Frazionamento','Sconto%','PremioRCA','TotScontatoRCA','Preventivo','Garanzie','Canale','Note'];
-  const rows = data.map(r=>[r.id,fmtDate(r.created_at),r.submitted_by,r.numero_proposta,r.tipo_richiesta,r.nome,r.cognome,r.targa,r.tipo_veicolo,r.email_assicurato,r.telefono,r.compagnia_provenienza,r.frazionamento,r.sconto_richiesto,r.premio_rca,r.totale_scontato_rca,r.preventivo_totale,r.garanzie,r.canale_invio,r.note].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
-  const csv = [H.join(','),...rows].join('\n');
-  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url;
-  a.download=`storico_${new Date().toISOString().slice(0,10)}.csv`;
-  a.click(); URL.revokeObjectURL(url);
+  const data=window._filteredData||allData;
+  if(!data.length){alert('Nessun dato da esportare.');return;}
+  const H=['ID','Data','Operatore','N°Proposta','Tipo','Nome','Cognome','Targa','Veicolo','Email','Telefono','Compagnia','Frazionamento','Sconto%','PremioRCA','TotScontatoRCA','Preventivo','Garanzie','Canale','Note'];
+  const rows=data.map(r=>[r.id,fmtDate(r.created_at),r.operator_code||r.submitted_by,r.numero_proposta,r.tipo_richiesta,r.nome,r.cognome,r.targa,r.tipo_veicolo,r.email_assicurato,r.telefono,r.compagnia_provenienza,r.frazionamento,r.sconto_richiesto,r.premio_rca,r.totale_scontato_rca,r.preventivo_totale,r.garanzie,r.canale_invio,r.note].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
+  const csv=[H.join(','),...rows].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`storico_${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(url);
 }
 
 loadData();
