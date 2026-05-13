@@ -1333,8 +1333,10 @@ function checkSconto5PercentEligibility(){
   // Leggi i valori di Infortuni Esterni e Casa Easy
   const infEsterni2Val = parseFloat((premioInfEsterni2Input && (premioInfEsterni2Input.value||'')).toString().replace(',','.')) || 0;
   const casaEasyVal = parseFloat((premioCasaInput && (premioCasaInput.value||'')).toString().replace(',','.')) || 0;
-  // Abilita checkbox solo se almeno uno dei 2 ha valore > 0
-  const isEligible = (infEsterni2Val > 0 || casaEasyVal > 0);
+  // Abilita checkbox solo se almeno uno dei 2 ha valore > 0 E tipo proposta è "Nuova Proposta"
+  const tipoRichiestaEl = document.getElementById('tipoRichiesta');
+  const isNuovaProposta = tipoRichiestaEl ? tipoRichiestaEl.value === 'Nuova Proposta' : false;
+  const isEligible = (infEsterni2Val > 0 || casaEasyVal > 0) && isNuovaProposta;
   sconto5PercentCheckbox.disabled = !isEligible;
   sconto5PercentCheckbox.parentElement.style.opacity = isEligible ? '1' : '0.5';
   sconto5PercentCheckbox.parentElement.style.pointerEvents = isEligible ? 'auto' : 'none';
@@ -1436,6 +1438,8 @@ function applySuggestedSconto(){
 // Listener per Infortuni Esterni 2 e Casa Easy: abilita/disabilita il checkbox
 if(premioInfEsterni2Input) premioInfEsterni2Input.addEventListener('input', checkSconto5PercentEligibility);
 if(premioCasaInput) premioCasaInput.addEventListener('input', checkSconto5PercentEligibility);
+const tipoRichiestaForSconto5 = document.getElementById('tipoRichiesta');
+if(tipoRichiestaForSconto5) tipoRichiestaForSconto5.addEventListener('change', checkSconto5PercentEligibility);
 
 // Check iniziale al caricamento
 checkSconto5PercentEligibility();
