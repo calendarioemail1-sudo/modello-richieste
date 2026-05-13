@@ -12,6 +12,7 @@ export default async function handler(req, res) {
   if (!user || user.role !== 'admin') return res.status(403).json({ error: 'Accesso negato' });
 
   try {
+    await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS codice TEXT DEFAULT ''`;
     const result = await sql`SELECT id, email, role, nome, codice, created_at FROM users ORDER BY created_at ASC`;
     return res.status(200).json({ users: result.rows });
   } catch (err) {

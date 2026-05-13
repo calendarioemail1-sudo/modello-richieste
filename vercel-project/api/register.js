@@ -12,6 +12,8 @@ export default async function handler(req, res) {
   if (!user || user.role !== 'admin') return res.status(403).json({ error: 'Solo l\'admin può registrare utenti.' });
 
   try {
+    await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS codice TEXT DEFAULT ''`;
+
     const { email, password, nome, codice } = req.body || {};
     if (!email || !password || !codice) return res.status(400).json({ error: 'Email, password e codice operatore sono obbligatori' });
 
