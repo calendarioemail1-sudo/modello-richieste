@@ -5,6 +5,7 @@
     { "src": "/login", "dest": "/login.html" },
     { "src": "/storico", "dest": "/storico.html" },
     { "src": "/registrazione", "dest": "/registrazione.html" },
+    { "src": "/download", "dest": "/download.html" },
     { "src": "^/$", "dest": "/index.html" }
   ]
 }

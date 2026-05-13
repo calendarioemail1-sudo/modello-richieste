@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Area Download — Agenzia Giordano & Valenzise</title>
+  <style>
+    :root{
+      --primary:#0047a8;--accent:#1c7ed6;
+      --grad:linear-gradient(135deg,#0047a8 0%,#1c7ed6 100%);
+      --bg:linear-gradient(160deg,#dde8f8 0%,#edf1f7 50%,#e8eef8 100%);
+      --card:#fff;--text:#1a2540;--border:#ccd6e8;
+      --danger:#e03545;--success:#1a9e50;
+      --shadow:0 4px 20px rgba(0,71,168,0.08),0 1px 4px rgba(0,0,0,0.04);
+    }
+    @media(prefers-color-scheme:dark){
+      :root{--primary:#5ab0ff;--accent:#4da6ff;--bg:linear-gradient(160deg,#0e1622 0%,#121e30 50%,#0e1622 100%);--card:#182030;--text:#c9a04a;--border:#2e3d58;}
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);min-height:100vh;color:var(--text);}
+
+    /* HEADER */
+    .header{background:var(--card);border-bottom:2px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:0 2px 12px rgba(0,71,168,0.07);position:sticky;top:0;z-index:100;}
+    .header-left{display:flex;align-items:center;gap:14px;}
+    .logo-text{font-weight:900;font-size:1em;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .btn{padding:8px 16px;border:none;border-radius:9px;font-weight:700;font-size:0.85em;cursor:pointer;transition:filter .15s,transform .12s;white-space:nowrap;}
+    .btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+    .btn-primary{background:var(--grad);color:#fff;box-shadow:0 3px 10px rgba(0,71,168,0.22);}
+    .btn-ghost{background:none;border:1.5px solid var(--border);color:var(--text);}
+    .btn-ghost:hover{background:rgba(0,71,168,0.06);}
+    .btn-danger{background:linear-gradient(135deg,#e03545,#ff6b6b);color:#fff;}
+    .btn-sm{padding:5px 10px;font-size:0.78em;}
+    .user-info{font-size:0.82em;font-weight:700;color:#888;}
+
+    /* TOOLBAR */
+    .toolbar{padding:18px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+    .search-wrap{position:relative;flex:1;min-width:200px;max-width:420px;}
+    .search-wrap input{width:100%;padding:9px 14px 9px 36px;border:1.5px solid var(--border);border-radius:10px;font-size:0.9em;font-weight:600;background:var(--card);color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s;}
+    .search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(28,126,214,0.12);}
+    .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:1em;opacity:.5;}
+    .view-toggle{display:flex;gap:4px;background:var(--card);border:1.5px solid var(--border);border-radius:9px;padding:3px;}
+    .view-btn{padding:6px 10px;border:none;border-radius:6px;background:none;cursor:pointer;font-size:1.1em;transition:background .15s;color:var(--text);}
+    .view-btn.active{background:var(--grad);color:#fff;}
+    .count-label{font-size:0.82em;font-weight:700;color:#888;margin-left:auto;}
+
+    /* FILE GRID */
+    .files-container{padding:0 24px 32px;}
+    .files-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+    .files-list{display:flex;flex-direction:column;gap:10px;}
+
+    /* FILE CARD — GRID */
+    .file-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;gap:10px;}
+    .file-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,71,168,0.13);}
+    .file-icon{font-size:2.4em;text-align:center;}
+    .file-name{font-weight:800;font-size:0.9em;word-break:break-word;line-height:1.3;}
+    .file-meta{font-size:0.75em;color:#888;display:flex;flex-direction:column;gap:3px;}
+    .file-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:0.7em;font-weight:800;text-transform:uppercase;letter-spacing:.04em;}
+    .badge-all{background:#d0f0dc;color:#0f5132;}
+    .badge-restricted{background:#fff3cd;color:#856404;}
+    .file-actions{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;}
+
+    /* FILE CARD — LIST */
+    .file-row{background:var(--card);border:1.5px solid var(--border);border-radius:11px;padding:14px 18px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;transition:transform .12s;}
+    .file-row:hover{transform:translateX(2px);}
+    .file-row .file-icon{font-size:1.6em;}
+    .file-row-info{flex:1;min-width:0;}
+    .file-row-name{font-weight:800;font-size:0.9em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .file-row-meta{font-size:0.75em;color:#888;display:flex;gap:12px;flex-wrap:wrap;margin-top:3px;}
+    .file-row-actions{display:flex;gap:6px;flex-shrink:0;}
+
+    /* EMPTY */
+    .empty{text-align:center;padding:60px 20px;color:#aaa;}
+    .empty-icon{font-size:3em;margin-bottom:12px;}
+    .empty p{font-size:0.95em;font-weight:600;}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;}
+    .modal-overlay.open{opacity:1;pointer-events:all;}
+    .modal{background:var(--card);border-radius:18px;padding:32px 28px;width:100%;max-width:480px;box-shadow:0 16px 48px rgba(0,0,0,0.18);transform:scale(.96);transition:transform .2s;}
+    .modal-overlay.open .modal{transform:scale(1);}
+    .modal h3{font-size:1.1em;font-weight:900;margin-bottom:20px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .field{margin-bottom:16px;}
+    .field label{display:block;font-size:0.75em;font-weight:800;text-transform:uppercase;color:#888;margin-bottom:6px;letter-spacing:.04em;}
+    .field input,.field select,.field textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:0.9em;font-weight:600;background:var(--card);color:var(--text);outline:none;transition:border-color .15s;}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(28,126,214,0.12);}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;}
+    .upload-area{border:2px dashed var(--border);border-radius:12px;padding:30px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;margin-bottom:4px;}
+    .upload-area:hover,.upload-area.drag{border-color:var(--accent);background:rgba(28,126,214,0.05);}
+    .upload-area input{display:none;}
+    .upload-area p{font-size:0.85em;font-weight:700;color:#888;margin-top:8px;}
+    .upload-preview{font-size:0.82em;font-weight:700;color:var(--accent);margin-top:8px;}
+    .perm-section{margin-top:6px;}
+    .perm-radio{display:flex;gap:12px;margin-bottom:10px;}
+    .perm-radio label{display:flex;align-items:center;gap:6px;font-size:0.85em;font-weight:700;cursor:pointer;}
+    .users-checkboxes{max-height:160px;overflow-y:auto;border:1.5px solid var(--border);border-radius:9px;padding:8px;display:flex;flex-direction:column;gap:6px;}
+    .users-checkboxes label{display:flex;align-items:center;gap:8px;font-size:0.83em;font-weight:600;cursor:pointer;}
+    .toast{position:fixed;bottom:24px;right:24px;background:#1a2540;color:#fff;padding:12px 20px;border-radius:10px;font-size:0.88em;font-weight:700;z-index:9999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px;}
+    .toast.show{transform:translateY(0);opacity:1;}
+    .toast.success{background:linear-gradient(135deg,#1a9e50,#2ecc71);}
+    .toast.error{background:linear-gradient(135deg,#e03545,#ff6b6b);}
+    .loading{text-align:center;padding:60px;font-size:0.9em;font-weight:700;color:#888;}
+    .spinner{display:inline-block;width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:10px;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <span style="font-size:1.6em;">🛡️</span>
+    <div>
+      <div class="logo-text">Agenzia Giordano & Valenzise</div>
+      <div style="font-size:0.72em;color:#888;font-weight:600;">Area Download</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="user-info" id="userInfo"></span>
+    <a href="/" style="text-decoration:none;"><button class="btn btn-ghost">🏠 Home</button></a>
+    <button class="btn btn-primary" id="btnUpload" style="display:none;" onclick="openUploadModal()">⬆️ Carica file</button>
+    <button class="btn btn-ghost" onclick="gvLogout()">🚪 Esci</button>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Cerca file..." oninput="filterFiles()"/>
+  </div>
+  <div class="view-toggle">
+    <button class="view-btn active" id="btnGrid" onclick="setView('grid')" title="Griglia">⊞</button>
+    <button class="view-btn" id="btnList" onclick="setView('list')" title="Lista">☰</button>
+  </div>
+  <span class="count-label" id="countLabel"></span>
+</div>
+
+<!-- FILES -->
+<div class="files-container">
+  <div id="filesOutput"><div class="loading"><div class="spinner"></div><br>Caricamento...</div></div>
+</div>
+
+<!-- MODAL UPLOAD -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <h3>⬆️ Carica nuovo file</h3>
+    <div class="field">
+      <label>File</label>
+      <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+        <div style="font-size:2em;">📁</div>
+        <p>Clicca o trascina un file qui</p>
+        <div class="upload-preview" id="uploadPreview"></div>
+        <input type="file" id="fileInput" onchange="handleFileSelect(event)"/>
+      </div>
+    </div>
+    <div class="field">
+      <label>Nome file (opzionale)</label>
+      <input type="text" id="uploadName" placeholder="lascia vuoto per usare il nome originale"/>
+    </div>
+    <div class="field perm-section">
+      <label>Permessi di download</label>
+      <div class="perm-radio">
+        <label><input type="radio" name="uploadPerm" value="all" checked onchange="toggleUserList(false)"/> Tutti gli utenti</label>
+        <label><input type="radio" name="uploadPerm" value="specific" onchange="toggleUserList(true)"/> Utenti specifici</label>
+      </div>
+      <div id="userListWrap" style="display:none;">
+        <div class="users-checkboxes" id="userCheckboxes"><em style="font-size:0.8em;color:#aaa;">Caricamento utenti...</em></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('uploadModal')">Annulla</button>
+      <button class="btn btn-primary" onclick="doUpload()">⬆️ Carica</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDIT -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ Modifica file</h3>
+    <input type="hidden" id="editFileId"/>
+    <div class="field">
+      <label>Nome file</label>
+      <input type="text" id="editName"/>
+    </div>
+    <div class="field perm-section">
+      <label>Permessi di download</label>
+      <div class="perm-radio">
+        <label><input type="radio" name="editPerm" value="all" onchange="toggleEditUserList(false)"/> Tutti gli utenti</label>
+        <label><input type="radio" name="editPerm" value="specific" onchange="toggleEditUserList(true)"/> Utenti specifici</label>
+      </div>
+      <div id="editUserListWrap" style="display:none;">
+        <div class="users-checkboxes" id="editUserCheckboxes"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('editModal')">Annulla</button>
+      <button class="btn btn-primary" onclick="doEdit()">💾 Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const TOKEN = localStorage.getItem('gv_auth_token');
+const ROLE  = localStorage.getItem('gv_user_role');
+const EMAIL = localStorage.getItem('gv_user_email') || localStorage.getItem('gv_user_codice') || '';
+const NOME  = localStorage.getItem('gv_user_nome') || EMAIL;
+
+if(!TOKEN){ window.location.replace('/login'); }
+
+let allFiles = [];
+let allUsers = [];
+let currentView = 'grid';
+let selectedFile = null;
+
+document.getElementById('userInfo').textContent = NOME ? `👤 ${NOME}` : '';
+if(ROLE === 'admin') document.getElementById('btnUpload').style.display = 'inline-block';
+
+// ——————————————————————————————
+// UTILS
+// ——————————————————————————————
+function formatSize(bytes){
+  if(!bytes || bytes === 0) return '—';
+  if(bytes < 1024) return bytes + ' B';
+  if(bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1048576).toFixed(1) + ' MB';
+}
+
+function formatDate(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'}) + ' ' + d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+}
+
+function getFileIcon(fmt){
+  const f = (fmt||'').toLowerCase();
+  if(['pdf'].includes(f)) return '📄';
+  if(['doc','docx'].includes(f)) return '📝';
+  if(['xls','xlsx','csv'].includes(f)) return '📊';
+  if(['ppt','pptx'].includes(f)) return '📑';
+  if(['jpg','jpeg','png','gif','webp','svg','bmp'].includes(f)) return '🖼️';
+  if(['zip','rar','7z','tar','gz'].includes(f)) return '🗜️';
+  if(['mp4','mov','avi','mkv','webm'].includes(f)) return '🎬';
+  if(['mp3','wav','ogg','aac'].includes(f)) return '🎵';
+  if(['html','htm','css','js','ts','json'].includes(f)) return '💻';
+  if(['txt'].includes(f)) return '📃';
+  return '📁';
+}
+
+function showToast(msg, type='success'){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(()=>t.className='toast', 3000);
+}
+
+function gvLogout(){
+  ['gv_auth_token','gv_user_role','gv_user_email','gv_user_nome','gv_user_codice'].forEach(k=>localStorage.removeItem(k));
+  window.location.replace('/login');
+}
+
+function authHeaders(){
+  return {'Content-Type':'application/json','Authorization':'Bearer '+TOKEN};
+}
+
+// ——————————————————————————————
+// LOAD FILES
+// ——————————————————————————————
+async function loadFiles(){
+  try {
+    const r = await fetch('/api/get-files', { headers: authHeaders() });
+    const data = await r.json();
+    if(!r.ok) throw new Error(data.error || 'Errore');
+    allFiles = data.files || [];
+    renderFiles();
+  } catch(e){
+    document.getElementById('filesOutput').innerHTML = `<div class="empty"><div class="empty-icon">❌</div><p>${e.message}</p></div>`;
+  }
+}
+
+// ——————————————————————————————
+// RENDER
+// ——————————————————————————————
+function filterFiles(){
+  renderFiles();
+}
+
+function renderFiles(){
+  const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+  const filtered = allFiles.filter(f =>
+    f.name.toLowerCase().includes(q) || (f.format||'').toLowerCase().includes(q)
+  );
+
+  document.getElementById('countLabel').textContent = filtered.length + ' file';
+
+  if(filtered.length === 0){
+    document.getElementById('filesOutput').innerHTML = `<div class="empty"><div class="empty-icon">🗂️</div><p>${q ? 'Nessun file trovato per "'+q+'"' : 'Nessun file disponibile'}</p></div>`;
+    return;
+  }
+
+  if(currentView === 'grid'){
+    document.getElementById('filesOutput').innerHTML = `<div class="files-grid">${filtered.map(f=>cardGrid(f)).join('')}</div>`;
+  } else {
+    document.getElementById('filesOutput').innerHTML = `<div class="files-list">${filtered.map(f=>cardList(f)).join('')}</div>`;
+  }
+}
+
+function permBadge(perm){
+  if(perm === 'all') return `<span class="file-badge badge-all">🌐 Tutti</span>`;
+  return `<span class="file-badge badge-restricted">🔒 Limitato</span>`;
+}
+
+function adminActions(f){
+  if(ROLE !== 'admin') return '';
+  return `<button class="btn btn-ghost btn-sm" onclick="openEditModal(${f.id})">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="doDelete(${f.id}, '${f.name.replace(/'/g,"\\'")}')">🗑️</button>`;
+}
+
+function cardGrid(f){
+  return `<div class="file-card">
+    <div class="file-icon">${getFileIcon(f.format)}</div>
+    <div class="file-name">${escHtml(f.name)}</div>
+    <div class="file-meta">
+      <span>📅 ${formatDate(f.upload_date)}</span>
+      <span>📦 ${(f.format||'—').toUpperCase()} · ${formatSize(f.size)}</span>
+      ${ROLE==='admin' ? `<span>👤 ${escHtml(f.uploaded_by)}</span>` : ''}
+    </div>
+    ${ROLE==='admin' ? permBadge(f.permissions) : ''}
+    <div class="file-actions">
+      <button class="btn btn-primary btn-sm" style="flex:1;" onclick="doDownload(${f.id},'${f.name.replace(/'/g,"\\'")}')">⬇️ Scarica</button>
+      ${adminActions(f)}
+    </div>
+  </div>`;
+}
+
+function cardList(f){
+  return `<div class="file-row">
+    <div class="file-icon">${getFileIcon(f.format)}</div>
+    <div class="file-row-info">
+      <div class="file-row-name">${escHtml(f.name)}</div>
+      <div class="file-row-meta">
+        <span>📅 ${formatDate(f.upload_date)}</span>
+        <span>📦 ${(f.format||'—').toUpperCase()}</span>
+        <span>📏 ${formatSize(f.size)}</span>
+        ${ROLE==='admin' ? `<span>${permBadge(f.permissions)}</span>` : ''}
+        ${ROLE==='admin' ? `<span>👤 ${escHtml(f.uploaded_by)}</span>` : ''}
+      </div>
+    </div>
+    <div class="file-row-actions">
+      <button class="btn btn-primary btn-sm" onclick="doDownload(${f.id},'${f.name.replace(/'/g,"\\'")}')">⬇️ Scarica</button>
+      ${adminActions(f)}
+    </div>
+  </div>`;
+}
+
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ——————————————————————————————
+// VIEW TOGGLE
+// ——————————————————————————————
+function setView(v){
+  currentView = v;
+  document.getElementById('btnGrid').classList.toggle('active', v==='grid');
+  document.getElementById('btnList').classList.toggle('active', v==='list');
+  renderFiles();
+}
+
+// ——————————————————————————————
+// DOWNLOAD
+// ——————————————————————————————
+async function doDownload(id, name){
+  try {
+    const r = await fetch('/api/download-file?id='+id, { headers: {'Authorization':'Bearer '+TOKEN} });
+    if(!r.ok){ const d=await r.json(); throw new Error(d.error||'Errore'); }
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = name; a.click();
+    URL.revokeObjectURL(url);
+    showToast('⬇️ Download avviato!');
+  } catch(e){ showToast('❌ '+e.message,'error'); }
+}
+
+// ——————————————————————————————
+// DELETE
+// ——————————————————————————————
+async function doDelete(id, name){
+  if(!confirm(`Eliminare il file "${name}"?`)) return;
+  try {
+    const r = await fetch('/api/delete-file?id='+id, { method:'DELETE', headers: authHeaders() });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error||'Errore');
+    showToast('🗑️ File eliminato');
+    allFiles = allFiles.filter(f=>f.id!==id);
+    renderFiles();
+  } catch(e){ showToast('❌ '+e.message,'error'); }
+}
+
+// ——————————————————————————————
+// UPLOAD MODAL
+// ——————————————————————————————
+let uploadedFile = null;
+
+function openUploadModal(){
+  uploadedFile = null;
+  document.getElementById('uploadPreview').textContent = '';
+  document.getElementById('uploadName').value = '';
+  document.querySelector('input[name="uploadPerm"][value="all"]').checked = true;
+  toggleUserList(false);
+  loadUsersForCheckboxes('userCheckboxes', []);
+  openModal('uploadModal');
+}
+
+function handleFileSelect(e){
+  const file = e.target.files[0];
+  if(file) setUploadFile(file);
+}
+
+function handleDragOver(e){ e.preventDefault(); document.getElementById('uploadArea').classList.add('drag'); }
+
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('uploadArea').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if(file) setUploadFile(file);
+}
+
+function setUploadFile(file){
+  uploadedFile = file;
+  document.getElementById('uploadPreview').textContent = `📎 ${file.name} (${formatSize(file.size)})`;
+  if(!document.getElementById('uploadName').value){
+    document.getElementById('uploadName').value = file.name;
+  }
+}
+
+function toggleUserList(show){
+  document.getElementById('userListWrap').style.display = show ? 'block' : 'none';
+}
+function toggleEditUserList(show){
+  document.getElementById('editUserListWrap').style.display = show ? 'block' : 'none';
+}
+
+async function loadUsersForCheckboxes(containerId, selectedEmails){
+  if(allUsers.length === 0){
+    try {
+      const r = await fetch('/api/get-users', { headers: authHeaders() });
+      const d = await r.json();
+      allUsers = (d.users||[]).filter(u=>u.role!=='admin');
+    } catch(e){ allUsers = []; }
+  }
+  const c = document.getElementById(containerId);
+  if(allUsers.length === 0){ c.innerHTML = '<em style="font-size:0.8em;color:#aaa;">Nessun utente trovato</em>'; return; }
+  c.innerHTML = allUsers.map(u=>`
+    <label>
+      <input type="checkbox" value="${escHtml(u.email)}" ${selectedEmails.includes(u.email)?'checked':''}>
+      ${escHtml(u.nome||u.email)} <span style="color:#aaa;font-size:0.85em;">(${escHtml(u.email)})</span>
+    </label>`).join('');
+}
+
+function getCheckedUsers(containerId){
+  return [...document.getElementById(containerId).querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value);
+}
+
+async function doUpload(){
+  if(!uploadedFile){ showToast('❌ Seleziona un file','error'); return; }
+  const name = document.getElementById('uploadName').value.trim() || uploadedFile.name;
+  const permVal = document.querySelector('input[name="uploadPerm"]:checked').value;
+  let permissions = 'all';
+  if(permVal === 'specific'){
+    const checked = getCheckedUsers('userCheckboxes');
+    if(checked.length === 0){ showToast('❌ Seleziona almeno un utente','error'); return; }
+    permissions = JSON.stringify(checked);
+  }
+
+  const fmt = uploadedFile.name.split('.').pop() || '';
+  const size = uploadedFile.size;
+
+  showToast('⏳ Caricamento in corso...');
+  try {
+    const data = await fileToBase64(uploadedFile);
+    const r = await fetch('/api/upload-file', {
+      method:'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ name, format:fmt, size, data, permissions })
+    });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error||'Errore');
+    showToast('✅ File caricato!');
+    closeModal('uploadModal');
+    loadFiles();
+  } catch(e){ showToast('❌ '+e.message,'error'); }
+}
+
+function fileToBase64(file){
+  return new Promise((res,rej)=>{
+    const reader = new FileReader();
+    reader.onload = e => res(e.target.result.split(',')[1]);
+    reader.onerror = rej;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ——————————————————————————————
+// EDIT MODAL
+// ——————————————————————————————
+async function openEditModal(id){
+  const f = allFiles.find(x=>x.id===id);
+  if(!f) return;
+  selectedFile = f;
+  document.getElementById('editFileId').value = id;
+  document.getElementById('editName').value = f.name;
+
+  const isAll = f.permissions === 'all';
+  document.querySelector(`input[name="editPerm"][value="${isAll?'all':'specific'}"]`).checked = true;
+  toggleEditUserList(!isAll);
+
+  let selectedEmails = [];
+  if(!isAll){ try{ selectedEmails = JSON.parse(f.permissions); }catch{} }
+  await loadUsersForCheckboxes('editUserCheckboxes', selectedEmails);
+  openModal('editModal');
+}
+
+async function doEdit(){
+  const id = document.getElementById('editFileId').value;
+  const name = document.getElementById('editName').value.trim();
+  if(!name){ showToast('❌ Il nome non può essere vuoto','error'); return; }
+  const permVal = document.querySelector('input[name="editPerm"]:checked').value;
+  let permissions = 'all';
+  if(permVal === 'specific'){
+    const checked = getCheckedUsers('editUserCheckboxes');
+    if(checked.length === 0){ showToast('❌ Seleziona almeno un utente','error'); return; }
+    permissions = JSON.stringify(checked);
+  }
+  try {
+    const r = await fetch('/api/update-file?id='+id, {
+      method:'PUT', headers: authHeaders(),
+      body: JSON.stringify({ name, permissions })
+    });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error||'Errore');
+    showToast('✅ File aggiornato');
+    closeModal('editModal');
+    loadFiles();
+  } catch(e){ showToast('❌ '+e.message,'error'); }
+}
+
+// ——————————————————————————————
+// MODAL HELPERS
+// ——————————————————————————————
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click', e=>{ if(e.target===o) o.classList.remove('open'); });
+});
+
+// ——————————————————————————————
+// INIT
+// ——————————————————————————————
+loadFiles();
+</script>
+</body>
+</html>
