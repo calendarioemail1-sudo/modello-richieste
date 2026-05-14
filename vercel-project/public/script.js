@@ -1372,6 +1372,10 @@ ${document.getElementById('note').value}
   if(!token){ window.location.replace('/login'); return; }
   const badge = document.getElementById('userBadge');
   if(badge) badge.textContent = (role==='admin'?'👑 ':'👤 ') + (codice ? '['+codice+'] ' : '') + nome;
+  if(role === 'admin'){
+    const btnN = document.getElementById('btnNotifiche');
+    if(btnN) btnN.style.display = 'inline-flex';
+  }
 })();
 
 function gvLogout(){
@@ -1742,3 +1746,104 @@ document.querySelectorAll('.checkbox-label').forEach(l=>{ l.setAttribute('tabind
     setTimeout(computeSuggestedPercent, 300);
   })();
 
+
+/* ==========================
+   CAMPANELLA NOTIFICHE
+===========================*/
+let _gvBellOpen = false, _gvBellEvs = [];
+
+async function gvBellLoad() {
+  try {
+    const tk = localStorage.getItem('gv_auth_token');
+    if (!tk) return;
+    const r = await fetch('/api/events', { headers: { 'Authorization': 'Bearer ' + tk } });
+    if (!r.ok) return;
+    const d = await r.json();
+    _gvBellEvs = d.events || [];
+    const unread = _gvBellEvs.filter(e => !e.is_read).length;
+    const badge = document.getElementById('gv-bell-badge');
+    if (badge) {
+      if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.style.display = 'block'; }
+      else badge.style.display = 'none';
+    }
+    const lnk = document.getElementById('gv-bell-admin-lnk');
+    if (lnk) lnk.style.display = d.role === 'admin' ? '' : 'none';
+    _gvBellRender();
+  } catch (e) {}
+}
+
+function _gvBellRender() {
+  const list = document.getElementById('gv-bell-list');
+  const empty = document.getElementById('gv-bell-empty');
+  if (!list) return;
+  if (!_gvBellEvs.length) {
+    if (empty) empty.style.display = 'block';
+    list.innerHTML = '';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  list.innerHTML = _gvBellEvs.map(e => {
+    const icon = e.type === 'appuntamento' ? '📅' : '🔔';
+    const bg = e.is_read ? '#fff' : '#f0f6ff';
+    const fw = e.is_read ? '600' : '800';
+    const dateStr = e.event_date
+      ? new Date(e.event_date + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: '2-digit' })
+      : '';
+    return `<div onclick="gvBellRead(${e.id})" style="padding:10px 13px;border-bottom:1px solid #f0f4fa;cursor:pointer;background:${bg};">
+      <div style="display:flex;align-items:flex-start;gap:7px;">
+        <span>${icon}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:${fw};font-size:0.86em;color:#1a2540;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.title}</div>
+          ${e.description ? `<div style="font-size:0.77em;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.description}</div>` : ''}
+          ${dateStr ? `<div style="font-size:0.72em;color:#0047a8;font-weight:700;margin-top:2px;">${dateStr}${e.event_time ? ' ⏰ ' + e.event_time : ''}</div>` : ''}
+        </div>
+        ${!e.is_read ? '<span style="width:8px;height:8px;border-radius:50%;background:#e74c3c;flex-shrink:0;margin-top:3px;"></span>' : ''}
+      </div></div>`;
+  }).join('');
+}
+
+async function gvBellRead(id) {
+  try {
+    const tk = localStorage.getItem('gv_auth_token');
+    await fetch('/api/events?id=' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + tk },
+      body: JSON.stringify({ action: 'read' })
+    });
+    const ev = _gvBellEvs.find(e => e.id === id);
+    if (ev) ev.is_read = true;
+    const unread = _gvBellEvs.filter(e => !e.is_read).length;
+    const badge = document.getElementById('gv-bell-badge');
+    if (badge) {
+      if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.style.display = 'block'; }
+      else badge.style.display = 'none';
+    }
+    _gvBellRender();
+  } catch (e) {}
+}
+
+function gvBellToggle() {
+  const panel = document.getElementById('gv-bell-panel');
+  if (!panel) return;
+  _gvBellOpen = !_gvBellOpen;
+  panel.style.display = _gvBellOpen ? 'block' : 'none';
+  if (_gvBellOpen) gvBellLoad();
+}
+
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('gv-bell-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    const p = document.getElementById('gv-bell-panel');
+    if (p) p.style.display = 'none';
+    _gvBellOpen = false;
+  }
+});
+
+const bellBtn = document.getElementById('gv-bell-btn');
+if (bellBtn) bellBtn.addEventListener('click', gvBellToggle);
+
+const logoutBtn = document.getElementById('btnLogout');
+if (logoutBtn) logoutBtn.addEventListener('click', gvLogout);
+
+setTimeout(gvBellLoad, 800);
+setInterval(gvBellLoad, 120000);
