@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Notifiche & Appuntamenti — Agenzia Giordano & Valenzise</title>
+  <style>
+    :root{--primary:#0047a8;--accent:#1c7ed6;--radius:12px;--grad:linear-gradient(135deg,#0047a8,#1c7ed6);--shadow:0 4px 20px rgba(0,71,168,0.08);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Inter,system-ui,sans-serif;background:linear-gradient(160deg,#dde8f8 0%,#edf1f7 50%,#e8eef8 100%);min-height:100vh;color:#1a2540;}
+    header{background:var(--grad);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,71,168,0.2);flex-wrap:wrap;gap:8px;}
+    header h1{color:#fff;font-size:1.1em;font-weight:800;}
+    .ha{display:flex;gap:8px;align-items:center;}
+    .hbtn{color:#fff;text-decoration:none;font-weight:700;font-size:0.83em;padding:6px 14px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;white-space:nowrap;font-family:inherit;background:rgba(255,255,255,0.15);}
+    .hbtn:hover{background:rgba(255,255,255,0.28);}
+    .session-badge{background:rgba(255,255,255,0.13);border-radius:20px;padding:4px 13px;font-size:0.78em;color:rgba(255,255,255,0.92);font-weight:700;}
+    .container{max-width:1300px;margin:0 auto;padding:20px 14px;}
+    .layout{display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;}
+    @media(max-width:900px){.layout{grid-template-columns:1fr;}}
+
+    /* CALENDAR */
+    .cal-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);overflow:hidden;}
+    .cal-head{background:var(--grad);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+    .cal-head h2{font-size:1.05em;font-weight:800;}
+    .cal-nav{background:rgba(255,255,255,0.2);border:none;color:#fff;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:1.1em;font-weight:700;transition:background .18s;}
+    .cal-nav:hover{background:rgba(255,255,255,0.35);}
+    .cal-grid{padding:12px;}
+    .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
+    .cal-dow span{text-align:center;font-size:0.7em;font-weight:800;text-transform:uppercase;color:#999;padding:4px 0;}
+    .cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+    .cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;transition:background .15s;position:relative;gap:2px;}
+    .cal-day:hover{background:#f0f6ff;}
+    .cal-day.other-month{opacity:0.3;}
+    .cal-day.today{background:#e8f3ff;font-weight:800;color:var(--primary);}
+    .cal-day.selected{background:var(--grad);color:#fff;}
+    .cal-day.selected:hover{background:var(--grad);}
+    .cal-day .day-num{font-size:0.88em;font-weight:700;line-height:1;}
+    .cal-day .dots{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;max-width:28px;}
+    .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+    .dot-app{background:#e67e22;}
+    .dot-avv{background:#e74c3c;}
+    .dot-w{background:#fff;}
+
+    /* ADD BUTTON */
+    .add-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--grad);color:#fff;border:none;border-radius:10px;padding:11px;font-size:0.9em;font-weight:800;cursor:pointer;margin-top:12px;transition:filter .18s;}
+    .add-btn:hover{filter:brightness(1.1);}
+
+    /* RIGHT PANEL */
+    .right-panel{display:flex;flex-direction:column;gap:14px;}
+    .panel-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(28,126,214,0.08);overflow:hidden;}
+    .panel-head{background:var(--grad);color:#fff;padding:11px 16px;font-size:0.9em;font-weight:800;}
+    .panel-body{padding:12px 14px;}
+    .ev-item{background:#f7f9ff;border-radius:10px;padding:11px 13px;margin-bottom:8px;border:1px solid #e8eef8;position:relative;}
+    .ev-item:last-child{margin-bottom:0;}
+    .ev-type{display:inline-flex;align-items:center;gap:4px;font-size:0.7em;font-weight:800;text-transform:uppercase;border-radius:6px;padding:2px 8px;margin-bottom:5px;}
+    .ev-type.app{background:#fff3e0;color:#e67e22;}
+    .ev-type.avv{background:#fff0f0;color:#e74c3c;}
+    .ev-title{font-size:0.9em;font-weight:800;color:#1a2540;margin-bottom:3px;}
+    .ev-desc{font-size:0.8em;color:#555;margin-bottom:4px;white-space:pre-wrap;}
+    .ev-meta{font-size:0.73em;color:#0047a8;font-weight:700;}
+    .ev-perm{font-size:0.7em;color:#888;font-weight:600;margin-top:3px;}
+    .ev-actions{display:flex;gap:6px;margin-top:8px;}
+    .btn-sm{padding:4px 10px;border-radius:6px;font-size:0.76em;font-weight:700;border:none;cursor:pointer;transition:background .18s;}
+    .btn-edit{background:#e8f3ff;color:#0047a8;}
+    .btn-edit:hover{background:#d0e8ff;}
+    .btn-del{background:#fff0f0;color:#e03535;}
+    .btn-del:hover{background:#ffe0e0;}
+    .empty-msg{text-align:center;padding:24px;color:#aaa;font-size:0.85em;font-weight:600;}
+
+    /* UPCOMING */
+    .up-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #f0f4fa;}
+    .up-item:last-child{border-bottom:none;}
+    .up-date{background:var(--grad);color:#fff;border-radius:8px;padding:5px 8px;text-align:center;min-width:42px;flex-shrink:0;}
+    .up-date .ud-d{font-size:1em;font-weight:900;line-height:1;}
+    .up-date .ud-m{font-size:0.6em;font-weight:700;text-transform:uppercase;opacity:.85;}
+    .up-info{flex:1;}
+    .up-title{font-size:0.85em;font-weight:800;color:#1a2540;}
+    .up-sub{font-size:0.75em;color:#888;margin-top:1px;}
+
+    /* MODAL */
+    .ov{display:none;position:fixed;inset:0;background:rgba(10,20,50,0.55);z-index:1000;align-items:center;justify-content:center;padding:16px;}
+    .ov.open{display:flex;}
+    .modal{background:#fff;border-radius:20px;width:100%;max-width:520px;max-height:94vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.22);}
+    .modal-head{background:var(--grad);padding:18px 24px;border-radius:20px 20px 0 0;color:#fff;display:flex;align-items:center;justify-content:space-between;}
+    .modal-head h3{font-size:1.05em;font-weight:800;}
+    .modal-close{background:rgba(255,255,255,0.2);border:none;color:#fff;border-radius:50%;width:30px;height:30px;font-size:1.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    .modal-body{padding:20px 24px 24px;}
+    .form-row{margin-bottom:14px;}
+    .form-row label{display:block;font-size:0.78em;font-weight:800;text-transform:uppercase;color:#555;margin-bottom:5px;}
+    .form-row input,.form-row textarea,.form-row select{width:100%;padding:9px 12px;border:1.5px solid #ccd6e8;border-radius:8px;font-size:0.87em;font-weight:600;color:#1a2540;background:#f5f8ff;outline:none;font-family:inherit;transition:border-color .18s;}
+    .form-row input:focus,.form-row textarea:focus,.form-row select:focus{border-color:var(--accent);}
+    .form-row textarea{resize:vertical;min-height:70px;}
+    .user-list{max-height:160px;overflow-y:auto;border:1.5px solid #ccd6e8;border-radius:8px;background:#f5f8ff;padding:8px;}
+    .user-list label{display:flex;align-items:center;gap:7px;font-size:0.83em;font-weight:600;color:#1a2540;padding:4px 2px;cursor:pointer;}
+    .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .btn-submit{width:100%;background:var(--grad);color:#fff;border:none;border-radius:10px;padding:11px;font-size:0.92em;font-weight:800;cursor:pointer;margin-top:6px;transition:filter .18s;}
+    .btn-submit:hover{filter:brightness(1.1);}
+    .form-err{color:#e03535;font-size:0.8em;font-weight:700;margin-top:-8px;margin-bottom:8px;display:none;}
+    .form-err.show{display:block;}
+    .toast{position:fixed;bottom:24px;right:24px;background:#1a2540;color:#fff;padding:11px 20px;border-radius:10px;font-size:0.88em;font-weight:700;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;}
+    .toast.show{opacity:1;}
+  </style>
+</head>
+<body>
+<header>
+  <h1>🔔 Notifiche & Appuntamenti — Agenzia Giordano & Valenzise</h1>
+  <div class="ha">
+    <span class="session-badge" id="sessionBadge">…</span>
+    <a href="/" class="hbtn">← Modulo</a>
+    <a href="/storico" class="hbtn">📋 Storico</a>
+    <button class="hbtn" onclick="doLogout()">🚪 Esci</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="layout">
+
+    <!-- LEFT: CALENDAR -->
+    <div>
+      <div class="cal-card">
+        <div class="cal-head">
+          <button class="cal-nav" onclick="calMove(-1)">‹</button>
+          <h2 id="calTitle">…</h2>
+          <button class="cal-nav" onclick="calMove(1)">›</button>
+        </div>
+        <div class="cal-grid">
+          <div class="cal-dow">
+            <span>Lun</span><span>Mar</span><span>Mer</span><span>Gio</span><span>Ven</span><span>Sab</span><span>Dom</span>
+          </div>
+          <div class="cal-days" id="calDays"></div>
+        </div>
+        <div style="padding:0 12px 14px;">
+          <button class="add-btn" onclick="openAddModal()">➕ Nuovo Appuntamento / Avviso</button>
+        </div>
+      </div>
+
+      <!-- LEGEND -->
+      <div style="display:flex;gap:16px;margin-top:10px;padding:0 4px;font-size:0.8em;font-weight:700;color:#555;">
+        <div style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#e67e22;display:inline-block;"></span> Appuntamento</div>
+        <div style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#e74c3c;display:inline-block;"></span> Avviso</div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <!-- Selected day events -->
+      <div class="panel-card">
+        <div class="panel-head" id="selectedDayTitle">📅 Seleziona un giorno</div>
+        <div class="panel-body" id="selectedDayEvents">
+          <div class="empty-msg">Clicca su un giorno per vedere gli eventi.</div>
+        </div>
+      </div>
+
+      <!-- Upcoming events -->
+      <div class="panel-card">
+        <div class="panel-head">⏰ Prossimi eventi</div>
+        <div class="panel-body" id="upcomingList">
+          <div class="empty-msg">Nessun evento in programma.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="ov" id="ov" onclick="closeOv(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Nuovo evento</h3>
+      <button class="modal-close" onclick="document.getElementById('ov').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-err" id="formErr"></div>
+      <div class="form-row">
+        <label>Titolo *</label>
+        <input id="fTitle" type="text" placeholder="Titolo evento" maxlength="120">
+      </div>
+      <div class="form-row">
+        <label>Descrizione</label>
+        <textarea id="fDesc" placeholder="Descrizione facoltativa…"></textarea>
+      </div>
+      <div class="form-row-2">
+        <div class="form-row" style="margin:0;">
+          <label>Tipo *</label>
+          <select id="fType">
+            <option value="appuntamento">📅 Appuntamento</option>
+            <option value="avviso">🔔 Avviso</option>
+          </select>
+        </div>
+        <div class="form-row" style="margin:0;">
+          <label>Data *</label>
+          <input id="fDate" type="date">
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:14px;">
+        <label>Ora (facoltativa)</label>
+        <input id="fTime" type="time">
+      </div>
+      <div class="form-row">
+        <label>Visibilità</label>
+        <select id="fPermType" onchange="onPermTypeChange()">
+          <option value="all">Tutti gli operatori</option>
+          <option value="selected">Operatori selezionati</option>
+        </select>
+      </div>
+      <div class="form-row" id="userListWrap" style="display:none;">
+        <label>Seleziona operatori</label>
+        <div class="user-list" id="userList"></div>
+      </div>
+      <button class="btn-submit" id="btnSave" onclick="saveEvent()">💾 Salva evento</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOKEN = localStorage.getItem('gv_auth_token');
+
+function getAuth(){
+  if(!TOKEN) return null;
+  try{
+    const payload = atob(TOKEN.split('.')[0]);
+    const [email,role] = payload.split(':');
+    return {token:TOKEN, email, role};
+  }catch(e){ return null; }
+}
+
+const auth = getAuth();
+if(!auth || auth.role !== 'admin'){
+  alert('Accesso riservato agli amministratori.');
+  window.location.href = '/';
+}
+
+document.getElementById('sessionBadge').textContent = auth ? auth.email : '';
+
+function doLogout(){
+  localStorage.removeItem('gv_auth_token');
+  window.location.href = '/login';
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+function authHeaders(){
+  return {'Content-Type':'application/json','Authorization':'Bearer '+TOKEN};
+}
+
+/* ==============================
+   STATO GLOBALE
+============================== */
+let allEvents = [];
+let allUsers = [];
+let calYear, calMonth;
+let selectedDate = null;
+let editingId = null;
+
+const today = new Date();
+calYear = today.getFullYear();
+calMonth = today.getMonth();
+
+/* ==============================
+   CARICA DATI
+============================== */
+async function loadAll(){
+  await Promise.all([loadEvents(), loadUsers()]);
+  renderCalendar();
+  renderUpcoming();
+}
+
+async function loadEvents(){
+  try{
+    const r = await fetch('/api/events', {headers:{'Authorization':'Bearer '+TOKEN}});
+    const d = await r.json();
+    allEvents = d.events || [];
+  }catch(e){ allEvents = []; }
+}
+
+async function loadUsers(){
+  try{
+    const r = await fetch('/api/users', {headers:{'Authorization':'Bearer '+TOKEN}});
+    const d = await r.json();
+    allUsers = (d.users||[]).filter(u=>u.role!=='admin');
+  }catch(e){ allUsers = []; }
+}
+
+/* ==============================
+   CALENDARIO
+============================== */
+const MONTHS = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+
+function calMove(dir){
+  calMonth += dir;
+  if(calMonth < 0){ calMonth = 11; calYear--; }
+  if(calMonth > 11){ calMonth = 0; calYear++; }
+  renderCalendar();
+}
+
+function renderCalendar(){
+  document.getElementById('calTitle').textContent = MONTHS[calMonth] + ' ' + calYear;
+  const grid = document.getElementById('calDays');
+  grid.innerHTML = '';
+
+  const firstDay = new Date(calYear, calMonth, 1);
+  let startDow = firstDay.getDay(); // 0=Sun
+  startDow = startDow === 0 ? 6 : startDow - 1; // convert to Mon=0
+
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+
+  const todayStr = fmtDate(today);
+
+  // Previous month trailing days
+  for(let i = startDow - 1; i >= 0; i--){
+    const d = daysInPrev - i;
+    const dateStr = fmtDateYMD(calYear, calMonth - 1, d);
+    grid.appendChild(makeCell(d, dateStr, true));
+  }
+
+  // Current month days
+  for(let d = 1; d <= daysInMonth; d++){
+    const dateStr = fmtDateYMD(calYear, calMonth, d);
+    const cell = makeCell(d, dateStr, false);
+    if(dateStr === todayStr) cell.classList.add('today');
+    if(dateStr === selectedDate) cell.classList.add('selected');
+    grid.appendChild(cell);
+  }
+
+  // Next month leading days
+  const total = startDow + daysInMonth;
+  const remaining = total % 7 === 0 ? 0 : 7 - (total % 7);
+  for(let d = 1; d <= remaining; d++){
+    const dateStr = fmtDateYMD(calYear, calMonth + 1, d);
+    grid.appendChild(makeCell(d, dateStr, true));
+  }
+}
+
+function makeCell(dayNum, dateStr, otherMonth){
+  const div = document.createElement('div');
+  div.className = 'cal-day' + (otherMonth ? ' other-month' : '');
+  div.onclick = () => selectDay(dateStr);
+
+  const numEl = document.createElement('div');
+  numEl.className = 'day-num';
+  numEl.textContent = dayNum;
+  div.appendChild(numEl);
+
+  const eventsOnDay = allEvents.filter(e => e.event_date === dateStr);
+  if(eventsOnDay.length > 0){
+    const dotsEl = document.createElement('div');
+    dotsEl.className = 'dots';
+    eventsOnDay.slice(0,5).forEach(e => {
+      const dot = document.createElement('span');
+      dot.className = 'dot ' + (dateStr === selectedDate ? 'dot-w' : (e.type === 'appuntamento' ? 'dot-app' : 'dot-avv'));
+      dotsEl.appendChild(dot);
+    });
+    div.appendChild(dotsEl);
+  }
+
+  return div;
+}
+
+function fmtDate(d){
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function fmtDateYMD(y, m, d){
+  const dt = new Date(y, m, d);
+  return fmtDate(dt);
+}
+
+function selectDay(dateStr){
+  selectedDate = dateStr;
+  renderCalendar();
+  renderSelectedDay();
+}
+
+/* ==============================
+   EVENTI DEL GIORNO SELEZIONATO
+============================== */
+function renderSelectedDay(){
+  if(!selectedDate) return;
+  const parts = selectedDate.split('-');
+  const label = parseInt(parts[2]) + ' ' + MONTHS[parseInt(parts[1])-1] + ' ' + parts[0];
+  document.getElementById('selectedDayTitle').textContent = '📅 ' + label;
+
+  const dayEvs = allEvents.filter(e => e.event_date === selectedDate);
+  const container = document.getElementById('selectedDayEvents');
+
+  if(!dayEvs.length){
+    container.innerHTML = '<div class="empty-msg">Nessun evento in questo giorno.</div>';
+    return;
+  }
+
+  container.innerHTML = dayEvs.map(e => renderEventCard(e)).join('');
+}
+
+function renderEventCard(e){
+  const isApp = e.type === 'appuntamento';
+  const permLabel = e.permissions === 'all' ? 'Tutti' : (() => {
+    try{ const arr = JSON.parse(e.permissions); return arr.join(', '); }catch{ return e.permissions; }
+  })();
+  return `
+    <div class="ev-item">
+      <div class="ev-type ${isApp?'app':'avv'}">${isApp?'📅 Appuntamento':'🔔 Avviso'}</div>
+      <div class="ev-title">${escHtml(e.title)}</div>
+      ${e.description ? `<div class="ev-desc">${escHtml(e.description)}</div>` : ''}
+      <div class="ev-meta">${e.event_date}${e.event_time ? ' ⏰ '+e.event_time : ''}</div>
+      <div class="ev-perm">👥 ${escHtml(permLabel)}</div>
+      <div class="ev-actions">
+        <button class="btn-sm btn-edit" onclick="openEditModal(${e.id})">✏️ Modifica</button>
+        <button class="btn-sm btn-del" onclick="deleteEvent(${e.id})">🗑️ Elimina</button>
+      </div>
+    </div>`;
+}
+
+/* ==============================
+   PROSSIMI EVENTI
+============================== */
+function renderUpcoming(){
+  const todayStr = fmtDate(today);
+  const upcoming = allEvents
+    .filter(e => e.event_date >= todayStr)
+    .sort((a,b) => (a.event_date+a.event_time).localeCompare(b.event_date+b.event_time))
+    .slice(0, 10);
+
+  const container = document.getElementById('upcomingList');
+  if(!upcoming.length){
+    container.innerHTML = '<div class="empty-msg">Nessun evento in programma.</div>';
+    return;
+  }
+
+  container.innerHTML = upcoming.map(e => {
+    const parts = e.event_date.split('-');
+    const d = parseInt(parts[2]);
+    const mStr = MONTHS[parseInt(parts[1])-1].substring(0,3).toUpperCase();
+    const isApp = e.type === 'appuntamento';
+    return `
+      <div class="up-item" onclick="selectDayAndScroll('${e.event_date}')" style="cursor:pointer;">
+        <div class="up-date"><div class="ud-d">${d}</div><div class="ud-m">${mStr}</div></div>
+        <div class="up-info">
+          <div class="up-title">${isApp?'📅':'🔔'} ${escHtml(e.title)}</div>
+          <div class="up-sub">${e.event_time ? '⏰ '+e.event_time+' · ' : ''}${isApp?'Appuntamento':'Avviso'}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function selectDayAndScroll(dateStr){
+  const parts = dateStr.split('-');
+  calYear = parseInt(parts[0]);
+  calMonth = parseInt(parts[1]) - 1;
+  selectDay(dateStr);
+}
+
+/* ==============================
+   MODALE AGGIUNGI / MODIFICA
+============================== */
+function openAddModal(){
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Nuovo evento';
+  document.getElementById('fTitle').value = '';
+  document.getElementById('fDesc').value = '';
+  document.getElementById('fType').value = 'appuntamento';
+  document.getElementById('fDate').value = selectedDate || fmtDate(today);
+  document.getElementById('fTime').value = '';
+  document.getElementById('fPermType').value = 'all';
+  document.getElementById('formErr').classList.remove('show');
+  onPermTypeChange();
+  document.getElementById('ov').classList.add('open');
+}
+
+function openEditModal(id){
+  const e = allEvents.find(ev => ev.id === id);
+  if(!e) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = 'Modifica evento';
+  document.getElementById('fTitle').value = e.title;
+  document.getElementById('fDesc').value = e.description || '';
+  document.getElementById('fType').value = e.type;
+  document.getElementById('fDate').value = e.event_date;
+  document.getElementById('fTime').value = e.event_time || '';
+  document.getElementById('formErr').classList.remove('show');
+
+  let isAll = e.permissions === 'all';
+  document.getElementById('fPermType').value = isAll ? 'all' : 'selected';
+  onPermTypeChange();
+
+  if(!isAll){
+    try{
+      const allowed = JSON.parse(e.permissions);
+      document.querySelectorAll('#userList input[type=checkbox]').forEach(cb => {
+        cb.checked = allowed.includes(cb.value);
+      });
+    }catch{}
+  }
+  document.getElementById('ov').classList.add('open');
+}
+
+function onPermTypeChange(){
+  const wrap = document.getElementById('userListWrap');
+  const isSelected = document.getElementById('fPermType').value === 'selected';
+  wrap.style.display = isSelected ? 'block' : 'none';
+  if(isSelected) renderUserList();
+}
+
+function renderUserList(){
+  const ul = document.getElementById('userList');
+  if(!allUsers.length){ ul.innerHTML = '<div style="color:#888;font-size:0.82em;padding:4px;">Nessun operatore disponibile</div>'; return; }
+  ul.innerHTML = allUsers.map(u => `
+    <label>
+      <input type="checkbox" value="${u.email}">
+      <span>${u.nome ? u.nome+' — ' : ''}${u.email}${u.codice ? ' ('+u.codice+')' : ''}</span>
+    </label>`).join('');
+}
+
+async function saveEvent(){
+  const title = document.getElementById('fTitle').value.trim();
+  const desc = document.getElementById('fDesc').value.trim();
+  const type = document.getElementById('fType').value;
+  const event_date = document.getElementById('fDate').value;
+  const event_time = document.getElementById('fTime').value;
+  const permType = document.getElementById('fPermType').value;
+  const errEl = document.getElementById('formErr');
+
+  if(!title){ errEl.textContent = 'Il titolo è obbligatorio.'; errEl.classList.add('show'); return; }
+  if(!event_date){ errEl.textContent = 'La data è obbligatoria.'; errEl.classList.add('show'); return; }
+
+  let permissions = 'all';
+  if(permType === 'selected'){
+    const checked = [...document.querySelectorAll('#userList input:checked')].map(cb => cb.value);
+    if(!checked.length){ errEl.textContent = 'Seleziona almeno un operatore.'; errEl.classList.add('show'); return; }
+    permissions = JSON.stringify(checked);
+  }
+
+  errEl.classList.remove('show');
+  const btn = document.getElementById('btnSave');
+  btn.disabled = true; btn.textContent = 'Salvataggio…';
+
+  try{
+    let r;
+    if(editingId){
+      r = await fetch('/api/events?id='+editingId, {method:'PUT', headers:authHeaders(), body:JSON.stringify({title,description:desc,type,event_date,event_time,permissions})});
+    } else {
+      r = await fetch('/api/events', {method:'POST', headers:authHeaders(), body:JSON.stringify({title,description:desc,type,event_date,event_time,permissions})});
+    }
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error||'Errore');
+    document.getElementById('ov').classList.remove('open');
+    showToast(editingId ? '✅ Evento modificato' : '✅ Evento creato');
+    await loadEvents();
+    renderCalendar();
+    renderUpcoming();
+    if(selectedDate) renderSelectedDay();
+  }catch(e){ errEl.textContent = '❌ '+e.message; errEl.classList.add('show'); }
+  btn.disabled = false; btn.textContent = '💾 Salva evento';
+}
+
+/* ==============================
+   ELIMINA EVENTO
+============================== */
+async function deleteEvent(id){
+  if(!confirm('Eliminare questo evento? L\'azione è irreversibile.')) return;
+  try{
+    const r = await fetch('/api/events?id='+id, {method:'DELETE', headers:authHeaders()});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error||'Errore');
+    showToast('🗑️ Evento eliminato');
+    await loadEvents();
+    renderCalendar();
+    renderUpcoming();
+    if(selectedDate) renderSelectedDay();
+  }catch(e){ showToast('❌ '+e.message); }
+}
+
+/* ==============================
+   UTILS
+============================== */
+function escHtml(str){
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function closeOv(e){
+  if(e.target === document.getElementById('ov')) document.getElementById('ov').classList.remove('open');
+}
+
+// Init
+loadAll();
+</script>
+</body>
+</html>

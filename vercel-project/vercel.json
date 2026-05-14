@@ -6,6 +6,7 @@
     { "src": "/storico", "dest": "/storico.html" },
     { "src": "/registrazione", "dest": "/registrazione.html" },
     { "src": "/download", "dest": "/download.html" },
+    { "src": "/notifiche", "dest": "/notifiche.html" },
     { "src": "^/$", "dest": "/index.html" }
   ]
 }

@@ -102,6 +102,14 @@
     <span class="session-badge" id="sessionBadge">…</span>
     <a href="/" class="hbtn hbtn-ghost">← Modulo</a>
     <button id="btnRegistra" class="hbtn hbtn-gold" onclick="window.location.href='/registrazione'" style="display:none">👤 Operatori</button>
+    <div style="position:relative;display:inline-flex;align-items:center;" id="gv-bell-wrap">
+      <button id="gv-bell-btn" onclick="gvBellToggle()" title="Notifiche e appuntamenti" class="hbtn hbtn-ghost" style="font-size:1.05em;position:relative;padding:5px 11px;">🔔<span id="gv-bell-badge" style="display:none;position:absolute;top:-6px;right:-6px;background:#e74c3c;color:#fff;border-radius:50%;min-width:17px;height:17px;font-size:10px;font-weight:800;line-height:17px;text-align:center;padding:0 3px;box-sizing:border-box;pointer-events:none;"></span></button>
+      <div id="gv-bell-panel" style="display:none;position:absolute;top:40px;right:0;width:310px;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:9999;overflow:hidden;border:1px solid #e0e8f0;">
+        <div style="background:linear-gradient(135deg,#0047a8,#1c7ed6);padding:11px 15px;color:#fff;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:800;font-size:0.92em;">🔔 Notifiche</span><a href="/notifiche" id="gv-bell-admin-lnk" style="display:none;color:#fff;font-size:0.75em;opacity:.85;text-decoration:none;">Gestisci →</a></div>
+        <div id="gv-bell-list" style="max-height:320px;overflow-y:auto;"></div>
+        <div id="gv-bell-empty" style="display:none;padding:22px;text-align:center;color:#aaa;font-size:0.84em;font-weight:600;">Nessuna notifica</div>
+      </div>
+    </div>
     <button onclick="logout()" class="hbtn hbtn-ghost">🚪 Esci</button>
   </div>
 </header>
@@ -428,6 +436,64 @@ function exportCSV(){
 }
 
 loadData();
+
+/* ====== CAMPANELLA NOTIFICHE ====== */
+let _gvBellOpen=false,_gvBellEvs=[];
+async function gvBellLoad(){
+  try{
+    const auth=getAuth();if(!auth)return;
+    const r=await fetch('/api/events',{headers:{'Authorization':'Bearer '+auth.token}});
+    if(!r.ok)return;
+    const d=await r.json();
+    _gvBellEvs=d.events||[];
+    const unread=_gvBellEvs.filter(e=>!e.is_read).length;
+    const badge=document.getElementById('gv-bell-badge');
+    if(badge){if(unread>0){badge.textContent=unread>99?'99+':unread;badge.style.display='block';}else badge.style.display='none';}
+    const lnk=document.getElementById('gv-bell-admin-lnk');if(lnk)lnk.style.display=d.role==='admin'?'':'none';
+    _gvBellRender();
+  }catch(e){}
+}
+function _gvBellRender(){
+  const list=document.getElementById('gv-bell-list'),empty=document.getElementById('gv-bell-empty');if(!list)return;
+  if(!_gvBellEvs.length){if(empty)empty.style.display='block';list.innerHTML='';return;}
+  if(empty)empty.style.display='none';
+  list.innerHTML=_gvBellEvs.map(e=>{
+    const icon=e.type==='appuntamento'?'📅':'🔔';
+    const bg=e.is_read?'#fff':'#e8f3ff';
+    const fw=e.is_read?'600':'800';
+    const dateStr=e.event_date?new Date(e.event_date+'T12:00:00').toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'}):'';
+    return `<div onclick="gvBellRead(${e.id})" style="padding:10px 13px;border-bottom:1px solid #f0f4fa;cursor:pointer;background:${bg};">
+      <div style="display:flex;align-items:flex-start;gap:7px;"><span>${icon}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:${fw};font-size:0.86em;color:#1a2540;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.title}</div>
+          ${e.description?`<div style="font-size:0.77em;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.description}</div>`:''}
+          ${dateStr?`<div style="font-size:0.72em;color:#0047a8;font-weight:700;margin-top:2px;">${dateStr}${e.event_time?' ⏰ '+e.event_time:''}</div>`:''}
+        </div>
+        ${!e.is_read?'<span style="width:8px;height:8px;border-radius:50%;background:#e74c3c;flex-shrink:0;margin-top:3px;"></span>':''}
+      </div></div>`;
+  }).join('');
+}
+async function gvBellRead(id){
+  try{
+    const auth=getAuth();if(!auth)return;
+    await fetch('/api/events?id='+id,{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+auth.token},body:JSON.stringify({action:'read'})});
+    const ev=_gvBellEvs.find(e=>e.id===id);if(ev)ev.is_read=true;
+    const unread=_gvBellEvs.filter(e=>!e.is_read).length;
+    const badge=document.getElementById('gv-bell-badge');
+    if(badge){if(unread>0){badge.textContent=unread>99?'99+':unread;badge.style.display='block';}else badge.style.display='none';}
+    _gvBellRender();
+  }catch(e){}
+}
+function gvBellToggle(){
+  const panel=document.getElementById('gv-bell-panel');if(!panel)return;
+  _gvBellOpen=!_gvBellOpen;panel.style.display=_gvBellOpen?'block':'none';
+  if(_gvBellOpen)gvBellLoad();
+}
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('gv-bell-wrap');
+  if(wrap&&!wrap.contains(e.target)){const p=document.getElementById('gv-bell-panel');if(p)p.style.display='none';_gvBellOpen=false;}
+});
+setTimeout(gvBellLoad,800);setInterval(gvBellLoad,120000);
 </script>
 </body>
 </html>
