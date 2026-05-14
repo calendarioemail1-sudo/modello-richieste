@@ -131,12 +131,8 @@
               </select>
             </div>
           </div>
-      <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
-              <label for="dataScadenzaVecchia" style="cursor:default;">Data scadenza vecchia polizza</label>
-              <input type="date" id="dataScadenzaVecchia" style="width:100%;">
-      </div>
-        <div>
-          <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
+          <div class="premio-row" style="align-items:flex-end;gap:10px;flex-wrap:nowrap;">
+            <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
               <label for="dataScadenzaVecchia" style="cursor:default;">Data scadenza vecchia polizza</label>
               <input type="date" id="dataScadenzaVecchia" style="width:100%;">
             </div>
@@ -146,8 +142,30 @@
                 <input type="date" id="dataEffetto" required style="flex:1;min-width:0;">
                 <button type="button" id="btnOggiEffetto" style="padding:3px 8px;background:linear-gradient(135deg,#0047a8,#1c7ed6);color:#fff;border:none;border-radius:6px;font-weight:800;font-size:0.72em;cursor:pointer;white-space:nowrap;height:30px;font-family:inherit;flex-shrink:0;box-shadow:0 1px 5px rgba(0,71,168,0.18);" onmouseover="this.style.filter='brightness(1.12)'" onmouseout="this.style.filter=''" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform=''">OGGI</button>
               </div>
-        </div>
-      
+            </div>
+          </div>
+          
+          <div class="premio-row premio-spread">
+              <div class="premio-col">
+              <label for="totaleLordo">TOTALE LORDO ANNUO DA PASS</label>
+              <input id="totaleLordo" name="totaleLordo" type="text" placeholder="1 - Totale lordo annuo €" aria-describedby="totaleLordoHelp" style="color:#055cb9;">
+            </div>
+            <div class="premio-col">
+              <label for="calcoloRapidoGaranzieTotali">TOT. IMPONIBILE ANNUO (NETTO)</label>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <input id="calcoloRapidoGaranzieTotali" name="calcoloRapidoGaranzieTotali" type="text" placeholder=" 2 - Totale netto annuo €" aria-describedby="calcoloRapidoHelp" style="flex:1;">
+              </div>
+            </div>
+              <div class="premio-col" style="display:flex;flex-direction:column;">
+                <label for="PremioAssicuratriceMilanese">IMPORTO NETTO ANNUO RCA</label>
+                <input id="PremioAssicuratriceMilanese" name="PremioAssicuratriceMilanese" type="number" placeholder="3 - RCA Netto annuo €" step="0.01" required style="color:#008000;">
+              </div>
+              <div class="premio-col" style="display:flex;flex-direction:column;">
+                <label for="PremioInfortuniEsterni">GARANZIE INF. ANNUE INT. (€):</label>
+                <input id="PremioInfortuniEsterni" name="PremioInfortuniEsterni" type="number" placeholder="4 - Infortuni interni Netto annuo €" step="0.01" style="color:#972c92;">
+              </div>
+          </div>
+          
           <div class="row-inline">
             <div>
               <label for="Premio_altre_garanzie_totale">ALTRE GAR. ARD ANNUO (€):</label>
