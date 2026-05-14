@@ -59,7 +59,7 @@
 <body>
 <header>
   <h1>👤 Gestione Operatori</h1>
-  <a href="/storico">← Torna allo Storico</a>
+  <a href="/storico.html">← Torna allo Storico</a>
 </header>
 
 <div class="page">
@@ -138,7 +138,7 @@
 <script>
   function getAuth(){
     const t=localStorage.getItem('gv_auth_token'),r=localStorage.getItem('gv_user_role');
-    if(!t||r!=='admin'){window.location.replace('/login');return null;}
+    if(!t||r!=='admin'){window.location.replace('/login.html');return null;}
     return t;
   }
   const token=getAuth();

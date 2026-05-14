@@ -119,10 +119,11 @@
     <span class="user-info" id="userInfo"></span>
     <a href="/" style="text-decoration:none;"><button class="btn btn-ghost">🏠 Home</button></a>
     <button class="btn btn-primary" id="btnUpload" style="display:none;" onclick="openUploadModal()">⬆️ Carica file</button>
+    <a id="btnNotifiche" href="/notifiche.html" class="btn btn-ghost" style="display:none;text-decoration:none;background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.35);color:#7c3aed;">🗓️ Agenda</a>
     <div style="position:relative;display:inline-flex;align-items:center;" id="gv-bell-wrap">
       <button id="gv-bell-btn" onclick="gvBellToggle()" title="Notifiche e appuntamenti" class="btn btn-ghost" style="font-size:1.05em;position:relative;padding:5px 11px;">🔔<span id="gv-bell-badge" style="display:none;position:absolute;top:-6px;right:-6px;background:#e74c3c;color:#fff;border-radius:50%;min-width:17px;height:17px;font-size:10px;font-weight:800;line-height:17px;text-align:center;padding:0 3px;box-sizing:border-box;pointer-events:none;"></span></button>
       <div id="gv-bell-panel" style="display:none;position:absolute;top:40px;right:0;width:310px;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:9999;overflow:hidden;border:1px solid #e0e8f0;">
-        <div style="background:linear-gradient(135deg,#0047a8,#1c7ed6);padding:11px 15px;color:#fff;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:800;font-size:0.92em;">🔔 Notifiche</span><a href="/notifiche" id="gv-bell-admin-lnk" style="display:none;color:#fff;font-size:0.75em;opacity:.85;text-decoration:none;">Gestisci →</a></div>
+        <div style="background:linear-gradient(135deg,#0047a8,#1c7ed6);padding:11px 15px;color:#fff;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:800;font-size:0.92em;">🔔 Notifiche</span><a href="/notifiche.html" id="gv-bell-admin-lnk" style="display:none;color:#fff;font-size:0.75em;opacity:.85;text-decoration:none;">Gestisci →</a></div>
         <div id="gv-bell-list" style="max-height:320px;overflow-y:auto;"></div>
         <div id="gv-bell-empty" style="display:none;padding:22px;text-align:center;color:#aaa;font-size:0.84em;font-weight:600;">Nessuna notifica</div>
       </div>
@@ -218,7 +219,7 @@ const ROLE  = localStorage.getItem('gv_user_role');
 const EMAIL = localStorage.getItem('gv_user_email') || localStorage.getItem('gv_user_codice') || '';
 const NOME  = localStorage.getItem('gv_user_nome') || EMAIL;
 
-if(!TOKEN){ window.location.replace('/login'); }
+if(!TOKEN){ window.location.replace('/login.html'); }
 
 let allFiles = [];
 let allUsers = [];
@@ -226,7 +227,10 @@ let currentView = 'grid';
 let selectedFile = null;
 
 document.getElementById('userInfo').textContent = NOME ? `👤 ${NOME}` : '';
-if(ROLE === 'admin') document.getElementById('btnUpload').style.display = 'inline-block';
+if(ROLE === 'admin'){
+  document.getElementById('btnUpload').style.display = 'inline-block';
+  const btnN=document.getElementById('btnNotifiche');if(btnN)btnN.style.display='inline-flex';
+}
 
 // ——————————————————————————————
 // UTILS
@@ -268,7 +272,7 @@ function showToast(msg, type='success'){
 
 function gvLogout(){
   ['gv_auth_token','gv_user_role','gv_user_email','gv_user_nome','gv_user_codice'].forEach(k=>localStorage.removeItem(k));
-  window.location.replace('/login');
+  window.location.replace('/login.html');
 }
 
 function authHeaders(){

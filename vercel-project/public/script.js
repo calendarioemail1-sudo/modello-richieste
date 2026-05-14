@@ -1369,7 +1369,7 @@ ${document.getElementById('note').value}
   const role  = localStorage.getItem('gv_user_role');
   const nome  = localStorage.getItem('gv_user_nome') || localStorage.getItem('gv_user_email') || '';
   const codice= localStorage.getItem('gv_operator_code') || '';
-  if(!token){ window.location.replace('/login'); return; }
+  if(!token){ window.location.replace('/login.html'); return; }
   const badge = document.getElementById('userBadge');
   if(badge) badge.textContent = (role==='admin'?'👑 ':'👤 ') + (codice ? '['+codice+'] ' : '') + nome;
   if(role === 'admin'){
@@ -1380,7 +1380,7 @@ ${document.getElementById('note').value}
 
 function gvLogout(){
   ['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome','gv_operator_code'].forEach(k=>localStorage.removeItem(k));
-  window.location.replace('/login');
+  window.location.replace('/login.html');
 }
 
 /* ==========================
@@ -1753,11 +1753,15 @@ document.querySelectorAll('.checkbox-label').forEach(l=>{ l.setAttribute('tabind
 let _gvBellOpen = false, _gvBellEvs = [];
 
 async function gvBellLoad() {
+  const list = document.getElementById('gv-bell-list');
+  const empty = document.getElementById('gv-bell-empty');
+  if (list) list.innerHTML = '<div style="padding:14px;text-align:center;color:#aaa;font-size:0.82em;">Caricamento...</div>';
+  if (empty) empty.style.display = 'none';
   try {
     const tk = localStorage.getItem('gv_auth_token');
-    if (!tk) return;
+    if (!tk) { _gvBellRender(); return; }
     const r = await fetch('/api/events', { headers: { 'Authorization': 'Bearer ' + tk } });
-    if (!r.ok) return;
+    if (!r.ok) { _gvBellRender(); return; }
     const d = await r.json();
     _gvBellEvs = d.events || [];
     const unread = _gvBellEvs.filter(e => !e.is_read).length;
@@ -1769,7 +1773,7 @@ async function gvBellLoad() {
     const lnk = document.getElementById('gv-bell-admin-lnk');
     if (lnk) lnk.style.display = d.role === 'admin' ? '' : 'none';
     _gvBellRender();
-  } catch (e) {}
+  } catch (e) { _gvBellRender(); }
 }
 
 function _gvBellRender() {
@@ -1825,9 +1829,11 @@ async function gvBellRead(id) {
 function gvBellToggle() {
   const panel = document.getElementById('gv-bell-panel');
   if (!panel) return;
-  _gvBellOpen = !_gvBellOpen;
-  panel.style.display = _gvBellOpen ? 'block' : 'none';
-  if (_gvBellOpen) gvBellLoad();
+  const badge = document.getElementById('gv-bell-badge');
+  _gvBellOpen = true;
+  panel.style.display = 'block';
+  if (badge) badge.style.display = 'none';
+  gvBellLoad();
 }
 
 document.addEventListener('click', e => {
@@ -1840,7 +1846,7 @@ document.addEventListener('click', e => {
 });
 
 const bellBtn = document.getElementById('gv-bell-btn');
-if (bellBtn) bellBtn.addEventListener('click', gvBellToggle);
+if (bellBtn) bellBtn.addEventListener('click', e => { e.stopPropagation(); gvBellToggle(); });
 
 const logoutBtn = document.getElementById('btnLogout');
 if (logoutBtn) logoutBtn.addEventListener('click', gvLogout);

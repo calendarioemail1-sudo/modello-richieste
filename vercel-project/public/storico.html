@@ -101,7 +101,8 @@
   <div class="ha">
     <span class="session-badge" id="sessionBadge">…</span>
     <a href="/" class="hbtn hbtn-ghost">← Modulo</a>
-    <button id="btnRegistra" class="hbtn hbtn-gold" onclick="window.location.href='/registrazione'" style="display:none">👤 Operatori</button>
+    <button id="btnRegistra" class="hbtn hbtn-gold" onclick="window.location.href='/registrazione.html'" style="display:none">👤 Operatori</button>
+    <a id="btnNotifiche" href="/notifiche.html" class="hbtn" style="display:none;background:rgba(168,85,247,0.25);border:1.5px solid rgba(168,85,247,0.5);">🗓️ Agenda</a>
     <div style="position:relative;display:inline-flex;align-items:center;" id="gv-bell-wrap">
       <button id="gv-bell-btn" onclick="gvBellToggle()" title="Notifiche e appuntamenti" class="hbtn hbtn-ghost" style="font-size:1.05em;position:relative;padding:5px 11px;">🔔<span id="gv-bell-badge" style="display:none;position:absolute;top:-6px;right:-6px;background:#e74c3c;color:#fff;border-radius:50%;min-width:17px;height:17px;font-size:10px;font-weight:800;line-height:17px;text-align:center;padding:0 3px;box-sizing:border-box;pointer-events:none;"></span></button>
       <div id="gv-bell-panel" style="display:none;position:absolute;top:40px;right:0;width:310px;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:9999;overflow:hidden;border:1px solid #e0e8f0;">
@@ -187,10 +188,10 @@ let allData=[], currentRole='';
 
 function getAuth(){
   const t=localStorage.getItem('gv_auth_token'),r=localStorage.getItem('gv_user_role'),e=localStorage.getItem('gv_user_email'),n=localStorage.getItem('gv_user_nome')||e;
-  if(!t){window.location.replace('/login');return null;}
+  if(!t){window.location.replace('/login.html');return null;}
   return{token:t,role:r,email:e,nome:n};
 }
-function logout(){['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome','gv_operator_code'].forEach(k=>localStorage.removeItem(k));window.location.replace('/login');}
+function logout(){['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome','gv_operator_code'].forEach(k=>localStorage.removeItem(k));window.location.replace('/login.html');}
 
 function fmtDate(s){if(!s)return'—';const d=new Date(s);return d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
 function v(val){return val||'—';}
@@ -206,6 +207,7 @@ async function loadData(){
   document.getElementById('sessionBadge').textContent=(auth.role==='admin'?'👑 Admin':'👤 ')+auth.nome;
   if(auth.role==='admin'){
     document.getElementById('btnRegistra').style.display='';
+    const btnN=document.getElementById('btnNotifiche');if(btnN)btnN.style.display='';
     document.getElementById('wOperatore').style.display='';
     document.getElementById('thOp').style.display='';
     const b=document.getElementById('roleBanner');
