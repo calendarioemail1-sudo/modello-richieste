@@ -927,15 +927,6 @@ if(premioInfInput && premioAltreInput){
         dataEffettoInput.dispatchEvent(new Event('change', {bubbles:true}));
       });
     }
-     const btnOggi = document.getElementById('btnOggiEffettoVecchia');
-    if(btnOggi && dataEffettoVecchiaInput){
-      btnOggi.addEventListener('click', function(){
-        const today = formatDateForInput(new Date());
-        dataEffettoInput.value = today;
-        dataEffettoInput.dispatchEvent(new Event('change', {bubbles:true}));
-      });
-    }
-
     // Listeners per validazione in tempo reale
     if(dataEffettoInput){
       dataEffettoInput.addEventListener('blur', validateDataEffetto);
