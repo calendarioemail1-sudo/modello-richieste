@@ -133,8 +133,11 @@
           </div>
           <div class="premio-row" style="align-items:flex-end;gap:10px;flex-wrap:nowrap;">
             <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
-              <label for="dataScadenzaVecchia" style="cursor:default;">Data scadenza vecchia polizza</label>
-              <input type="date" id="dataScadenzaVecchia" style="width:100%;">
+              <label for="dataScadenzaVecchia" style="cursor:default;">Data scadenza vecchia polizza</label
+              <div style="display:flex;align-items:center;gap:5px;width:100%;">                                                                                        
+              <input type="date" id="dataScadenzaVecchia" required style="flex:1;min-width:0;">
+              <button type="button" id="btnOggiEffetto" style="padding:3px 8px;max-widh:50%;background:linear-gradient(135deg,#0047a8,#1c7ed6);color:#fff;border:none;border-radius:6px;font-weight:800;font-size:0.72em;cursor:pointer;white-space:nowrap;height:30px;font-family:inherit;flex-shrink:0;box-shadow:0 1px 5px rgba(0,71,168,0.18);" onmouseover="this.style.filter='brightness(1.12)'" onmouseout="this.style.filter=''" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform=''">OGGI</button>
+            </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
               <label for="dataEffetto" style="cursor:default;">Data effetto nuova polizza</label>
