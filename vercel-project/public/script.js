@@ -927,6 +927,18 @@ if(premioInfInput && premioAltreInput){
         dataEffettoInput.dispatchEvent(new Event('change', {bubbles:true}));
       });
     }
+     //Tasto Oggi scadenza vecchia polizza
+         const btnOggi = document.getElementById('btnOggiEffettoVecchia');
+    if(btnOggi && dataScadenzaVecchiaInput){
+      btnOggi.addEventListener('click', function(){
+        const today = formatDateForInput(new Date());
+        dataScadenzaVecchiaInput.value = today;
+        dataScadenzaVecchiaInput.dispatchEvent(new Event('change', {bubbles:true}));
+      });
+    }
+
+
+     
     // Listeners per validazione in tempo reale
     if(dataEffettoInput){
       dataEffettoInput.addEventListener('blur', validateDataEffetto);
