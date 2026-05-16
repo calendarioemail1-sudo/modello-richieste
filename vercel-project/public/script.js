@@ -929,6 +929,7 @@ if(premioInfInput && premioAltreInput){
     }
      //Tasto Oggi scadenza vecchia polizza
          const btnOggiVecchia = document.getElementById('btnOggiEffettoVecchia');
+     const dataScadenzaVecchiaInput = document.getElementById('dataScadenzaVecchia');
     if(btnOggiVecchia && dataScadenzaVecchiaInput){
       btnOggiVecchia.addEventListener('click', function(){
         const today = formatDateForInput(new Date());
