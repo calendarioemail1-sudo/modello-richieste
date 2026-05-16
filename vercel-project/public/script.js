@@ -928,8 +928,8 @@ if(premioInfInput && premioAltreInput){
       });
     }
      //Tasto Oggi scadenza vecchia polizza
-         const btnOggi = document.getElementById('btnOggiEffettoVecchia');
-    if(btnOggiEffettoVecchia && dataScadenzaVecchiaInput){
+         const btnOggiVecchia = document.getElementById('btnOggiEffettoVecchia');
+    if(btnOggiVecchia && dataScadenzaVecchiaInput){
       btnOggiVecchia.addEventListener('click', function(){
         const today = formatDateForInput(new Date());
         dataScadenzaVecchiaInput.value = today;
