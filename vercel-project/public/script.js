@@ -928,16 +928,6 @@ if(premioInfInput && premioAltreInput){
       });
     }
 
-    // Tasto OGGI per data scadenza vecchia polizza (indipendente da data effetto)
-    const btnOggiScadenza = document.getElementById('btnOggiScadenza');
-    if(btnOggiScadenza && scadenzaVecciaPolizzeInput){
-      btnOggiScadenza.addEventListener('click', function(){
-        const today = formatDateForInput(new Date());
-        scadenzaVecciaPolizzeInput.value = today;
-        scadenzaVecciaPolizzeInput.dispatchEvent(new Event('change', {bubbles:true}));
-      });
-    }
-
     // Listeners per validazione in tempo reale
     if(dataEffettoInput){
       dataEffettoInput.addEventListener('blur', validateDataEffetto);
@@ -1297,7 +1287,7 @@ function generaEmailBody(){
   let preventivoDisplay;
   if(window && typeof window._lastPreventivoDisplayedNumeric !== 'undefined'){
     const lastPreventivo = Number(window._lastPreventivoDisplayedNumeric) || 0;
-    preventivoDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(lastPreventivo/2) + ' (annuo ' + fmtCurrency(lastPreventivo) + ')') : fmtCurrency(lastPreventivo);
+    preventivoDisplay = (window._lastPreventivoIsSemestrale) ? (fmtCurrency(lastPreventivo/2) + ' (annuo ' + fmtCurrency(lastPreventivo) + ')') : fmtCurrency(lastPreventivo);
   } else {
     preventivoDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(preventivoAnnualCalc/2) + ' (annuo ' + fmtCurrency(preventivoAnnualCalc) + ')') : fmtCurrency(preventivoAnnualCalc);
   }
@@ -1318,7 +1308,7 @@ function generaEmailBody(){
     preventivoAnnualCalc = lastPreventivo;
   }
   // Mostra il totale RCA scontato, con nota se 5% è applicato
-  let totaleScontoRcaDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(totaleScontoRcaAnnual/2) + ' (annuo ' + fmtCurrency(totaleScontoRcaAnnual) + ')' : fmtCurrency(totaleScontoRcaAnnual);
+  let totaleScontoRcaDisplay = (window && window._lastPreventivoIsSemestrale) ? fmtCurrency(totaleScontoRcaAnnual/2) + ' (annuo ' + fmtCurrency(totaleScontoRcaAnnual) + ')' : fmtCurrency(totaleScontoRcaAnnual);
   if(rca5PercentDiscount > 0){
     totaleScontoRcaDisplay += ' (sconto 5% POL R.E. già applicato)';
   }
@@ -1345,11 +1335,11 @@ ${sinistriRiga}
 • 🗓 Data effetto: ${dataEffettoInput.value||'N/A'}
 • 💵 Totale Lordo Annuo da PASS: € ${totaleLordoVal}
 • 🎯 Sconto Già Applicato da PASS: ${document.getElementById('scontoPass').value || '0'}%
-• 💶 Premio Netto RCA: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioRcaVal) / 2) + ' (annuo ' + fmtCurrency(parseFloat(premioRcaVal)) + ')' : fmtCurrency(parseFloat(premioRcaVal)) }
-• ➕ Premio Netto Altre Garanzie: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioAltreVal) / 2) + ' (annuo ' + fmtCurrency(parseFloat(premioAltreVal)) + ')' : fmtCurrency(parseFloat(premioAltreVal)) }
+• 💶 Premio Netto RCA: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioRcaVal)) + ' (annuo ' + fmtCurrency(rcaAnnualRaw) + ')' : fmtCurrency(rcaAnnualRaw) }
+• ➕ Premio Netto Altre Garanzie: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioAltreVal)) + ' (annuo ' + fmtCurrency(altreAnnualRaw) + ')' : fmtCurrency(altreAnnualRaw) }
 • 🪙 Importo Imposte e SSN: ${ (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(importoImposteNum) + ' (annuo ' + fmtCurrency(importoImposteAnnual) + ')') : fmtCurrency(importoImposteAnnual) }
-• 🚑 Garanzie Infortuni: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(totalGaranzieInf) / 2) + ' (annuo ' + fmtCurrency(parseFloat(totalGaranzieInf)) + ')' : fmtCurrency(parseFloat(totalGaranzieInf)) }
-• 🏠 Premio Altre polizze R.E. Esterne: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioCasaVal) / 2) + ' (annuo ' + fmtCurrency(parseFloat(premioCasaVal)) + ')' : fmtCurrency(parseFloat(premioCasaVal)) }
+• 🚑 Garanzie Infortuni: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(totalGaranzieInf)) + ' (annuo ' + fmtCurrency(infAnnualiRaw + infEst2AnnualiRaw) + ')' : fmtCurrency(infAnnualiRaw + infEst2AnnualiRaw) }
+• 🏠 Premio Altre polizze R.E. Esterne: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioCasaVal)) + ' (annuo ' + fmtCurrency(casaAnnualRaw) + ')' : fmtCurrency(casaAnnualRaw) }
 • 🧾 Preventivo Precedente: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(prevPreventivoVal)) + ' (annuo ' + fmtCurrency(prevAnnualRaw) + ')' : fmtCurrency(prevAnnualRaw) }
 • 🏢 Compagnia di Provenienza: ${document.getElementById('compagniaProvenienza').value}
 • 🔖 Sconto Richiesto: ${document.getElementById('sconto').value}%
@@ -1379,7 +1369,7 @@ ${document.getElementById('note').value}
   const role  = localStorage.getItem('gv_user_role');
   const nome  = localStorage.getItem('gv_user_nome') || localStorage.getItem('gv_user_email') || '';
   const codice= localStorage.getItem('gv_operator_code') || '';
-  if(!token){ window.location.replace('/login.html'); return; }
+  if(!token){ window.location.replace('/login'); return; }
   const badge = document.getElementById('userBadge');
   if(badge) badge.textContent = (role==='admin'?'👑 ':'👤 ') + (codice ? '['+codice+'] ' : '') + nome;
   if(role === 'admin'){
@@ -1390,7 +1380,7 @@ ${document.getElementById('note').value}
 
 function gvLogout(){
   ['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome','gv_operator_code'].forEach(k=>localStorage.removeItem(k));
-  window.location.replace('/login.html');
+  window.location.replace('/login');
 }
 
 /* ==========================
