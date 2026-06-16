@@ -1187,38 +1187,68 @@ function generaEmailBody(){
   const periodLabel = (frazionamento && frazionamento.value === 'Semestrale') ? ' (semestrale)' : ' (annuale)';
   const isSemestraleEmail = (frazionamento && frazionamento.value === 'Semestrale');
 
-  // valori numerici sicuri per Altre Garanzie e Infortuni Esterni (mostra 0.00 se non inseriti)
-  // Preferisci i valori visualizzati salvati dal form se disponibili
-  let altreNum = (typeof window._lastPremioAltre !== 'undefined') ? Number(window._lastPremioAltre) : ((typeof getPremioAltreAdjusted === 'function') ? getPremioAltreAdjusted() : parseFloat((document.getElementById('Premio_altre_garanzie_totale') && document.getElementById('Premio_altre_garanzie_totale').value ? document.getElementById('Premio_altre_garanzie_totale').value.toString().replace(',','.') : '0')));
-  if(!isFinite(altreNum)) altreNum = 0;
-  if(isSemestraleEmail && !getPremioAltreAdjusted) altreNum /= 2;
+  // Tutte le variabili qui sotto contengono SEMPRE valori ANNUALI.
+  // Se vengono da window._last* sono già annuali (updateCalcolo li riconverte ×2).
+  // Se vengono dal fallback get*Adjusted() che divide già per 2 in semestrale,
+  // normalizziamo moltiplicando ×2 per riportarli ad annuale.
+
+  // Premio Altre Garanzie - annuale
+  let altreNum;
+  if (typeof window._lastPremioAltre !== 'undefined') {
+    altreNum = Number(window._lastPremioAltre);
+  } else {
+    const _adj = (typeof getPremioAltreAdjusted === 'function') ? getPremioAltreAdjusted() : (parseFloat((premioAltreInput && (premioAltreInput.value||'')).toString().replace(',','.')) || 0);
+    altreNum = isSemestraleEmail ? _adj * 2 : _adj;
+  }
+  if (!isFinite(altreNum)) altreNum = 0;
   const premioAltreVal = altreNum.toFixed(2);
 
-  let infNum = (typeof window._lastPremioInfortuni !== 'undefined') ? Number(window._lastPremioInfortuni) : ((typeof getPremioInfortuniAdjusted === 'function') ? getPremioInfortuniAdjusted() : parseFloat((document.getElementById('PremioInfortuniEsterni') && document.getElementById('PremioInfortuniEsterni').value ? document.getElementById('PremioInfortuniEsterni').value.toString().replace(',','.') : '0')));
-  if(!isFinite(infNum)) infNum = 0;
-  if(isSemestraleEmail && !getPremioInfortuniAdjusted) infNum /= 2;
+  // Premio Infortuni (interno) - annuale
+  let infNum;
+  if (typeof window._lastPremioInfortuni !== 'undefined') {
+    infNum = Number(window._lastPremioInfortuni);
+  } else {
+    const _adj = (typeof getPremioInfortuniAdjusted === 'function') ? getPremioInfortuniAdjusted() : (parseFloat((premioInfInput && (premioInfInput.value||'')).toString().replace(',','.')) || 0);
+    infNum = isSemestraleEmail ? _adj * 2 : _adj;
+  }
+  if (!isFinite(infNum)) infNum = 0;
   const premioInfVal = infNum.toFixed(2);
 
-  // Infortuni Esterni
-  let infEst2Num = (typeof window._lastPremioInfortuniEsterni2 !== 'undefined') ? Number(window._lastPremioInfortuniEsterni2) : ((typeof getPremioInfortuniEsterni2Adjusted === 'function') ? getPremioInfortuniEsterni2Adjusted() : parseFloat((document.getElementById('PremioInfortuniEsterni2') && document.getElementById('PremioInfortuniEsterni2').value ? document.getElementById('PremioInfortuniEsterni2').value.toString().replace(',','.') : '0')));
-  if(!isFinite(infEst2Num)) infEst2Num = 0;
-  if(isSemestraleEmail && !getPremioInfortuniEsterni2Adjusted) infEst2Num /= 2;
+  // Premio Infortuni Esterni 2 - annuale
+  let infEst2Num;
+  if (typeof window._lastPremioInfortuniEsterni2 !== 'undefined') {
+    infEst2Num = Number(window._lastPremioInfortuniEsterni2);
+  } else {
+    const _adj = (typeof getPremioInfortuniEsterni2Adjusted === 'function') ? getPremioInfortuniEsterni2Adjusted() : (parseFloat((premioInfEsterni2Input && (premioInfEsterni2Input.value||'')).toString().replace(',','.')) || 0);
+    infEst2Num = isSemestraleEmail ? _adj * 2 : _adj;
+  }
+  if (!isFinite(infEst2Num)) infEst2Num = 0;
   const premioInfEst2Val = infEst2Num.toFixed(2);
 
-  // Totale Garanzie Inf. Annue (Interne + Esterne) - Calcola PRIMA della conversione a stringa
+  // Totale Garanzie Infortuni (interno + esterno) - annuale
   const totalGaranzieInfNum = infNum + infEst2Num;
   const totalGaranzieInf = (isFinite(totalGaranzieInfNum) ? totalGaranzieInfNum : 0).toFixed(2);
 
-  // RCA (applica frazionamento se helper presente)
-  let rcaNum = (typeof window._lastRcaAfterSconto !== 'undefined') ? Number(window._lastRcaAfterSconto) : ((typeof getPremioRCAAdjusted === 'function') ? getPremioRCAAdjusted() : parseFloat((document.getElementById('PremioAssicuratriceMilanese') && document.getElementById('PremioAssicuratriceMilanese').value ? document.getElementById('PremioAssicuratriceMilanese').value.toString().replace(',','.') : '0')));
-  if(!isFinite(rcaNum)) rcaNum = 0;
-  if(isSemestraleEmail && !getPremioRCAAdjusted) rcaNum /= 2;
+  // Premio RCA dopo sconto - annuale
+  let rcaNum;
+  if (typeof window._lastRcaAfterSconto !== 'undefined') {
+    rcaNum = Number(window._lastRcaAfterSconto);
+  } else {
+    const _adj = (typeof getPremioRCAAdjusted === 'function') ? getPremioRCAAdjusted() : (parseFloat((document.getElementById('PremioAssicuratriceMilanese') && document.getElementById('PremioAssicuratriceMilanese').value ? document.getElementById('PremioAssicuratriceMilanese').value.toString().replace(',','.') : '0')) || 0);
+    rcaNum = isSemestraleEmail ? _adj * 2 : _adj;
+  }
+  if (!isFinite(rcaNum)) rcaNum = 0;
   const premioRcaVal = rcaNum.toFixed(2);
 
-  // Casa Easy
-  let casaNum = (typeof window._lastPremioCasa !== 'undefined') ? Number(window._lastPremioCasa) : ((typeof getPremioCasaAdjusted === 'function') ? getPremioCasaAdjusted() : parseFloat((document.getElementById('PremioCasaEasy') && document.getElementById('PremioCasaEasy').value ? document.getElementById('PremioCasaEasy').value.toString().replace(',','.') : '0')));
-  if(!isFinite(casaNum)) casaNum = 0;
-  if(isSemestraleEmail && !getPremioCasaAdjusted) casaNum /= 2;
+  // Premio Casa Easy - annuale
+  let casaNum;
+  if (typeof window._lastPremioCasa !== 'undefined') {
+    casaNum = Number(window._lastPremioCasa);
+  } else {
+    const _adj = (typeof getPremioCasaAdjusted === 'function') ? getPremioCasaAdjusted() : (parseFloat((premioCasaInput && premioCasaInput.value) || 0));
+    casaNum = isSemestraleEmail ? _adj * 2 : _adj;
+  }
+  if (!isFinite(casaNum)) casaNum = 0;
   const premioCasaVal = casaNum.toFixed(2);
 
   // Totale Lordo Annuo da PASS
