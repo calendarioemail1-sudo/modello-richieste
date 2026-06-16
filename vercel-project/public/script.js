@@ -927,7 +927,19 @@ if(premioInfInput && premioAltreInput){
         dataEffettoInput.dispatchEvent(new Event('change', {bubbles:true}));
       });
     }
+     //Tasto Oggi scadenza vecchia polizza
+         const btnOggiVecchia = document.getElementById('btnOggiEffettoVecchia');
+     const dataScadenzaVecchiaInput = document.getElementById('dataScadenzaVecchia');
+    if(btnOggiVecchia && dataScadenzaVecchiaInput){
+      btnOggiVecchia.addEventListener('click', function(){
+        const today = formatDateForInput(new Date());
+        dataScadenzaVecchiaInput.value = today;
+        dataScadenzaVecchiaInput.dispatchEvent(new Event('change', {bubbles:true}));
+      });
+    }
 
+
+     
     // Listeners per validazione in tempo reale
     if(dataEffettoInput){
       dataEffettoInput.addEventListener('blur', validateDataEffetto);
@@ -1369,7 +1381,7 @@ ${document.getElementById('note').value}
   const role  = localStorage.getItem('gv_user_role');
   const nome  = localStorage.getItem('gv_user_nome') || localStorage.getItem('gv_user_email') || '';
   const codice= localStorage.getItem('gv_operator_code') || '';
-  if(!token){ window.location.replace('/login'); return; }
+  if(!token){ window.location.replace('/login.html'); return; }
   const badge = document.getElementById('userBadge');
   if(badge) badge.textContent = (role==='admin'?'👑 ':'👤 ') + (codice ? '['+codice+'] ' : '') + nome;
   if(role === 'admin'){
@@ -1380,7 +1392,7 @@ ${document.getElementById('note').value}
 
 function gvLogout(){
   ['gv_auth_token','gv_user_email','gv_user_role','gv_user_nome','gv_operator_code'].forEach(k=>localStorage.removeItem(k));
-  window.location.replace('/login');
+  window.location.replace('/login.html');
 }
 
 /* ==========================
@@ -1746,3 +1758,110 @@ document.querySelectorAll('.checkbox-label').forEach(l=>{ l.setAttribute('tabind
     setTimeout(computeSuggestedPercent, 300);
   })();
 
+
+/* ==========================
+   CAMPANELLA NOTIFICHE
+===========================*/
+let _gvBellOpen = false, _gvBellEvs = [];
+
+async function gvBellLoad() {
+  const list = document.getElementById('gv-bell-list');
+  const empty = document.getElementById('gv-bell-empty');
+  if (list) list.innerHTML = '<div style="padding:14px;text-align:center;color:#aaa;font-size:0.82em;">Caricamento...</div>';
+  if (empty) empty.style.display = 'none';
+  try {
+    const tk = localStorage.getItem('gv_auth_token');
+    if (!tk) { _gvBellRender(); return; }
+    const r = await fetch('/api/events', { headers: { 'Authorization': 'Bearer ' + tk } });
+    if (!r.ok) { _gvBellRender(); return; }
+    const d = await r.json();
+    _gvBellEvs = d.events || [];
+    const unread = _gvBellEvs.filter(e => !e.is_read).length;
+    const badge = document.getElementById('gv-bell-badge');
+    if (badge) {
+      if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.style.display = 'block'; }
+      else badge.style.display = 'none';
+    }
+    const lnk = document.getElementById('gv-bell-admin-lnk');
+    if (lnk) lnk.style.display = d.role === 'admin' ? '' : 'none';
+    _gvBellRender();
+  } catch (e) { _gvBellRender(); }
+}
+
+function _gvBellRender() {
+  const list = document.getElementById('gv-bell-list');
+  const empty = document.getElementById('gv-bell-empty');
+  if (!list) return;
+  if (!_gvBellEvs.length) {
+    if (empty) empty.style.display = 'block';
+    list.innerHTML = '';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  list.innerHTML = _gvBellEvs.map(e => {
+    const icon = e.type === 'appuntamento' ? '📅' : '🔔';
+    const bg = e.is_read ? '#fff' : '#f0f6ff';
+    const fw = e.is_read ? '600' : '800';
+    const dateStr = e.event_date
+      ? new Date(e.event_date + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: '2-digit' })
+      : '';
+    return `<div onclick="gvBellRead(${e.id})" style="padding:10px 13px;border-bottom:1px solid #f0f4fa;cursor:pointer;background:${bg};">
+      <div style="display:flex;align-items:flex-start;gap:7px;">
+        <span>${icon}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:${fw};font-size:0.86em;color:#1a2540;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.title}</div>
+          ${e.description ? `<div style="font-size:0.77em;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.description}</div>` : ''}
+          ${dateStr ? `<div style="font-size:0.72em;color:#0047a8;font-weight:700;margin-top:2px;">${dateStr}${e.event_time ? ' ⏰ ' + e.event_time : ''}</div>` : ''}
+        </div>
+        ${!e.is_read ? '<span style="width:8px;height:8px;border-radius:50%;background:#e74c3c;flex-shrink:0;margin-top:3px;"></span>' : ''}
+      </div></div>`;
+  }).join('');
+}
+
+async function gvBellRead(id) {
+  try {
+    const tk = localStorage.getItem('gv_auth_token');
+    await fetch('/api/events?id=' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + tk },
+      body: JSON.stringify({ action: 'read' })
+    });
+    const ev = _gvBellEvs.find(e => e.id === id);
+    if (ev) ev.is_read = true;
+    const unread = _gvBellEvs.filter(e => !e.is_read).length;
+    const badge = document.getElementById('gv-bell-badge');
+    if (badge) {
+      if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.style.display = 'block'; }
+      else badge.style.display = 'none';
+    }
+    _gvBellRender();
+  } catch (e) {}
+}
+
+function gvBellToggle() {
+  const panel = document.getElementById('gv-bell-panel');
+  if (!panel) return;
+  const badge = document.getElementById('gv-bell-badge');
+  _gvBellOpen = true;
+  panel.style.display = 'block';
+  if (badge) badge.style.display = 'none';
+  gvBellLoad();
+}
+
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('gv-bell-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    const p = document.getElementById('gv-bell-panel');
+    if (p) p.style.display = 'none';
+    _gvBellOpen = false;
+  }
+});
+
+const bellBtn = document.getElementById('gv-bell-btn');
+if (bellBtn) bellBtn.addEventListener('click', e => { e.stopPropagation(); gvBellToggle(); });
+
+const logoutBtn = document.getElementById('btnLogout');
+if (logoutBtn) logoutBtn.addEventListener('click', gvLogout);
+
+setTimeout(gvBellLoad, 800);
+setInterval(gvBellLoad, 120000);
