@@ -1299,7 +1299,7 @@ function generaEmailBody(){
   let preventivoDisplay;
   if(window && typeof window._lastPreventivoDisplayedNumeric !== 'undefined'){
     const lastPreventivo = Number(window._lastPreventivoDisplayedNumeric) || 0;
-    preventivoDisplay = (window._lastPreventivoIsSemestrale) ? (fmtCurrency(lastPreventivo/2) + ' (annuo ' + fmtCurrency(lastPreventivo) + ')') : fmtCurrency(lastPreventivo);
+    preventivoDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(lastPreventivo/2) + ' (annuo ' + fmtCurrency(lastPreventivo) + ')') : fmtCurrency(lastPreventivo);
   } else {
     preventivoDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(preventivoAnnualCalc/2) + ' (annuo ' + fmtCurrency(preventivoAnnualCalc) + ')') : fmtCurrency(preventivoAnnualCalc);
   }
@@ -1320,7 +1320,7 @@ function generaEmailBody(){
     preventivoAnnualCalc = lastPreventivo;
   }
   // Mostra il totale RCA scontato, con nota se 5% è applicato
-  let totaleScontoRcaDisplay = (window && window._lastPreventivoIsSemestrale) ? fmtCurrency(totaleScontoRcaAnnual/2) + ' (annuo ' + fmtCurrency(totaleScontoRcaAnnual) + ')' : fmtCurrency(totaleScontoRcaAnnual);
+  let totaleScontoRcaDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(totaleScontoRcaAnnual/2) + ' (annuo ' + fmtCurrency(totaleScontoRcaAnnual) + ')' : fmtCurrency(totaleScontoRcaAnnual);
   if(rca5PercentDiscount > 0){
     totaleScontoRcaDisplay += ' (sconto 5% POL R.E. già applicato)';
   }
@@ -1347,11 +1347,11 @@ ${sinistriRiga}
 • 🗓 Data effetto: ${dataEffettoInput.value||'N/A'}
 • 💵 Totale Lordo Annuo da PASS: € ${totaleLordoVal}
 • 🎯 Sconto Già Applicato da PASS: ${document.getElementById('scontoPass').value || '0'}%
-• 💶 Premio Netto RCA: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioRcaVal)) + ' (annuo ' + fmtCurrency(rcaAnnualRaw) + ')' : fmtCurrency(rcaAnnualRaw) }
-• ➕ Premio Netto Altre Garanzie: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioAltreVal)) + ' (annuo ' + fmtCurrency(altreAnnualRaw) + ')' : fmtCurrency(altreAnnualRaw) }
+• 💶 Premio Netto RCA: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioRcaVal)/2) + ' (annuo ' + fmtCurrency(parseFloat(premioRcaVal)) + ')' : fmtCurrency(parseFloat(premioRcaVal)) }
+• ➕ Premio Netto Altre Garanzie: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioAltreVal)/2) + ' (annuo ' + fmtCurrency(parseFloat(premioAltreVal)) + ')' : fmtCurrency(parseFloat(premioAltreVal)) }
 • 🪙 Importo Imposte e SSN: ${ (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(importoImposteNum) + ' (annuo ' + fmtCurrency(importoImposteAnnual) + ')') : fmtCurrency(importoImposteAnnual) }
-• 🚑 Garanzie Infortuni: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(totalGaranzieInf)) + ' (annuo ' + fmtCurrency(infAnnualiRaw + infEst2AnnualiRaw) + ')' : fmtCurrency(infAnnualiRaw + infEst2AnnualiRaw) }
-• 🏠 Premio Altre polizze R.E. Esterne: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioCasaVal)) + ' (annuo ' + fmtCurrency(casaAnnualRaw) + ')' : fmtCurrency(casaAnnualRaw) }
+• 🚑 Garanzie Infortuni: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(totalGaranzieInf)/2) + ' (annuo ' + fmtCurrency(parseFloat(totalGaranzieInf)) + ')' : fmtCurrency(parseFloat(totalGaranzieInf)) }
+• 🏠 Premio Altre polizze R.E. Esterne: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioCasaVal)/2) + ' (annuo ' + fmtCurrency(parseFloat(premioCasaVal)) + ')' : fmtCurrency(parseFloat(premioCasaVal)) }
 • 🧾 Preventivo Precedente: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(prevPreventivoVal)) + ' (annuo ' + fmtCurrency(prevAnnualRaw) + ')' : fmtCurrency(prevAnnualRaw) }
 • 🏢 Compagnia di Provenienza: ${document.getElementById('compagniaProvenienza').value}
 • 🔖 Sconto Richiesto: ${document.getElementById('sconto').value}%
