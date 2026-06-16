@@ -5,27 +5,27 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Richiesta Proposta - Agenzia Giordano & Valenzise (Modificata)</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </head>
 
 <body>
-  <div style="display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 12px;max-width:1400px;gap:10px;flex-wrap:wrap;">
-    <h1 style="flex:1;min-width:200px;">Richiesta Proposta - Agenzia Giordano & Valenzise</h1>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-      <span id="userBadge" style="background:rgba(0,71,168,0.08);border:1.5px solid rgba(0,71,168,0.15);border-radius:20px;padding:4px 13px;font-size:0.78em;font-weight:700;color:#0047a8;"></span>
-      <a href="/storico.html" style="text-decoration:none;background:var(--grad-primary);color:#fff;font-weight:700;font-size:0.83em;padding:7px 14px;border-radius:8px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,71,168,0.2);transition:filter .18s;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">📋 Storico</a>
-      <a href="/download.html" style="text-decoration:none;background:linear-gradient(135deg,#1a9e50,#2ecc71);color:#fff;font-weight:700;font-size:0.83em;padding:7px 14px;border-radius:8px;white-space:nowrap;box-shadow:0 3px 10px rgba(26,158,80,0.25);transition:filter .18s;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">⬇️ Area Download</a>
+  <div style="display:flex;align-items:center;width:100%;padding:0 12px;max-width:1400px;gap:10px;">
+    <h1 style="font-size:1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:1;min-width:0;">Richiesta Proposta — Agenzia Giordano &amp; Valenzise</h1>
+    <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;overflow-x:auto;padding:2px 0;">
+      <span id="userBadge" style="background:rgba(0,71,168,0.08);border:1.5px solid rgba(0,71,168,0.15);border-radius:20px;padding:4px 11px;font-size:0.76em;font-weight:700;color:#0047a8;white-space:nowrap;"></span>
+      <a href="/storico" style="text-decoration:none;background:var(--grad-primary);color:#fff;font-weight:700;font-size:0.8em;padding:6px 12px;border-radius:8px;white-space:nowrap;transition:filter .18s;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">📋 Storico</a>
+      <a href="/download" style="text-decoration:none;background:linear-gradient(135deg,#1a9e50,#2ecc71);color:#fff;font-weight:700;font-size:0.8em;padding:6px 12px;border-radius:8px;white-space:nowrap;transition:filter .18s;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">⬇️ Download</a>
+      <a id="btnNotifiche" href="/notifiche" style="display:none;text-decoration:none;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;font-weight:700;font-size:0.8em;padding:6px 12px;border-radius:8px;white-space:nowrap;transition:filter .18s;" onmouseover="this.style.filter='brightness(1.15)'" onmouseout="this.style.filter=''">🗓️ Agenda</a>
       <div style="position:relative;display:inline-flex;align-items:center;" id="gv-bell-wrap">
-        <button id="gv-bell-btn" onclick="gvBellToggle()" title="Notifiche e appuntamenti" style="background:rgba(0,71,168,0.07);border:1.5px solid #ccd6e8;border-radius:8px;padding:5px 11px;cursor:pointer;font-size:1.05em;color:#333;position:relative;transition:background .18s;" onmouseover="this.style.background='#e8f0fb'" onmouseout="this.style.background='rgba(0,71,168,0.07)'">🔔<span id="gv-bell-badge" style="display:none;position:absolute;top:-6px;right:-6px;background:#e74c3c;color:#fff;border-radius:50%;min-width:17px;height:17px;font-size:10px;font-weight:800;line-height:17px;text-align:center;padding:0 3px;box-sizing:border-box;pointer-events:none;"></span></button>
+        <button id="gv-bell-btn" onclick="gvBellToggle()" title="Notifiche" style="background:rgba(0,71,168,0.07);border:1.5px solid #ccd6e8;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:1em;color:#333;position:relative;transition:background .18s;white-space:nowrap;" onmouseover="this.style.background='#e8f0fb'" onmouseout="this.style.background='rgba(0,71,168,0.07)'">🔔<span id="gv-bell-badge" style="display:none;position:absolute;top:-6px;right:-6px;background:#e74c3c;color:#fff;border-radius:50%;min-width:17px;height:17px;font-size:10px;font-weight:800;line-height:17px;text-align:center;padding:0 3px;box-sizing:border-box;pointer-events:none;"></span></button>
         <div id="gv-bell-panel" style="display:none;position:absolute;top:38px;right:0;width:310px;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:9999;overflow:hidden;border:1px solid #e0e8f0;">
-          <div style="background:linear-gradient(135deg,#0047a8,#1c7ed6);padding:11px 15px;color:#fff;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:800;font-size:0.92em;">🔔 Notifiche</span><a href="/notifiche.html" id="gv-bell-admin-lnk" style="display:none;color:#fff;font-size:0.75em;opacity:.85;text-decoration:none;">Gestisci →</a></div>
+          <div style="background:linear-gradient(135deg,#0047a8,#1c7ed6);padding:11px 15px;color:#fff;display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:800;font-size:0.92em;">🔔 Notifiche</span><a href="/notifiche" id="gv-bell-admin-lnk" style="display:none;color:#fff;font-size:0.75em;opacity:.85;text-decoration:none;">Gestisci →</a></div>
           <div id="gv-bell-list" style="max-height:320px;overflow-y:auto;"></div>
           <div id="gv-bell-empty" style="display:none;padding:22px;text-align:center;color:#aaa;font-size:0.84em;font-weight:600;">Nessuna notifica</div>
         </div>
       </div>
-      <button onclick="gvLogout()" style="background:none;border:1.5px solid #ccd6e8;color:#555;font-weight:700;font-size:0.83em;padding:6px 13px;border-radius:8px;cursor:pointer;transition:background .18s;" onmouseover="this.style.background='#f0f4fa'" onmouseout="this.style.background='none'">🚪 Esci</button>
+      <button onclick="gvLogout()" style="background:none;border:1.5px solid #ccd6e8;color:#555;font-weight:700;font-size:0.8em;padding:5px 11px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .18s;" onmouseover="this.style.background='#f0f4fa'" onmouseout="this.style.background='none'">🚪 Esci</button>
     </div>
-  </div>
   </div>
 
   <!-- Popup errore validazione (usiamo una classe .show per animazione) -->
@@ -105,12 +105,9 @@
 
         <!-- IMPORTO DA PASS -->
         <div class="importi">
-          <!-- IMPORTI SU UNA RIGA -->
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-    <h2 style="margin:0;">Importo da Pass</h2>
-    <h3 style="margin:0; text-align:right; font-size:14px;">*INSERIRE SEMPRE TUTTI I VALORI ANNUALI SELEZIONARE ALLA FINE IL FRAZ. SEMESTRALE</h3>
-            </div>
-          <!-- IMPORTI SU UNA RIGA -->
+          <h2>Importo da Pass</h2>
+           <h3>*INSERIRE SEMPRE TUTTI I VALORI ANNUALI SELEZIONARE ALLA FINE IL FRAZ. SEMESTRALE</h3>
+          <!-- select per provenienza attestato -->
           <div class="row-inline" style="align-items:center;">
             <div style="min-width:280px;">
               <label for="provenienzaAttestato">PROVENIENZA ATTESTATO:</label>
@@ -134,15 +131,14 @@
               </select>
             </div>
           </div>
-          <!-- CALENDARIO E TASTO OGGI -->
           <div class="premio-row" style="align-items:flex-end;gap:10px;flex-wrap:nowrap;">
             <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
               <label for="dataScadenzaVecchia" style="cursor:default;">Data scadenza vecchia polizza</label>
-               <div style="display:flex;align-items:center;gap:5px;width:100%;">
-              <input type="date" id="dataScadenzaVecchia" required style="flex:1;min-width:0;">
-              <button type="button" id="btnOggiEffettoVecchia" style="padding:3px 8px;max-width:50%;background:linear-gradient(135deg,#0047a8,#1c7ed6);color:#fff;border:none;border-radius:6px;font-weight:800;font-size:0.72em;cursor:pointer;white-space:nowrap;height:30px;font-family:inherit;flex-shrink:0;box-shadow:0 1px 5px rgba(0,71,168,0.18);" onmouseover="this.style.filter='brightness(1.12)'" onmouseout="this.style.filter=''" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform=''">OGGI</button>
-            </div>
+              <div style="display:flex;align-items:center;gap:5px;width:100%;">
+                <input type="date" id="dataScadenzaVecchia" style="flex:1;min-width:0;">
+                <button type="button" id="btnOggiScadenza" style="padding:3px 8px;background:linear-gradient(135deg,#0047a8,#1c7ed6);color:#fff;border:none;border-radius:6px;font-weight:800;font-size:0.72em;cursor:pointer;white-space:nowrap;height:30px;font-family:inherit;flex-shrink:0;box-shadow:0 1px 5px rgba(0,71,168,0.18);" onmouseover="this.style.filter='brightness(1.12)'" onmouseout="this.style.filter=''" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform=''">OGGI</button>
               </div>
+            </div>
             <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
               <label for="dataEffetto" style="cursor:default;">Data effetto nuova polizza</label>
               <div style="display:flex;align-items:center;gap:5px;width:100%;">
@@ -150,8 +146,8 @@
                 <button type="button" id="btnOggiEffetto" style="padding:3px 8px;background:linear-gradient(135deg,#0047a8,#1c7ed6);color:#fff;border:none;border-radius:6px;font-weight:800;font-size:0.72em;cursor:pointer;white-space:nowrap;height:30px;font-family:inherit;flex-shrink:0;box-shadow:0 1px 5px rgba(0,71,168,0.18);" onmouseover="this.style.filter='brightness(1.12)'" onmouseout="this.style.filter=''" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform=''">OGGI</button>
               </div>
             </div>
-            </div>
-          <!-- CALENDARIO E TASTO OGGI -->
+          </div>
+          
           <div class="premio-row premio-spread">
               <div class="premio-col">
               <label for="totaleLordo">TOTALE LORDO ANNUO DA PASS</label>
@@ -355,10 +351,72 @@
     <!-- BOTTONI FINE FORM -->
     <div class="btn-container">
       <button type="reset" class="btn-reset" title="Pulisci il modulo">🧹 Pulisci</button>
-      <button type="button" id="btnGmail" class="btn-gmail" title="Invia via Gmail" aria-label="Invia la richiesta tramite Gmail">📧 Gmail</button>
+      <!-- aria-labels added for screen readers; will open in new tab -->
+      <button type="button" id="btnGmail" class="btn-gmail" title="Invia via Gmail (apre in nuova scheda)" aria-label="Invia la richiesta tramite Gmail">📧 Gmail</button>
       <button type="button" id="btnOutlook" class="btn-outlook" title="Invia via Outlook" aria-label="Invia la richiesta tramite Outlook">📨 Outlook</button>
-      <button type="button" id="btnDebug" style="background:#6c757d; display:none;" title="Debug">🔧 Debug</button>
+      <button type="button" id="btnDebug" style="background:#6c757d; display:none;" title="Debug - Mostra info per finanziamento">🔧 Debug</button>
     </div>
   </form>
+
+<script>
+/* ====== CAMPANELLA NOTIFICHE ====== */
+let _gvBellOpen=false,_gvBellEvs=[];
+async function gvBellLoad(){
+  try{
+    const tk=localStorage.getItem('gv_auth_token');if(!tk)return;
+    const r=await fetch('/api/events',{headers:{'Authorization':'Bearer '+tk}});
+    if(!r.ok)return;
+    const d=await r.json();
+    _gvBellEvs=d.events||[];
+    const unread=_gvBellEvs.filter(e=>!e.is_read).length;
+    const badge=document.getElementById('gv-bell-badge');
+    if(badge){if(unread>0){badge.textContent=unread>99?'99+':unread;badge.style.display='block';}else badge.style.display='none';}
+    const lnk=document.getElementById('gv-bell-admin-lnk');if(lnk)lnk.style.display=d.role==='admin'?'':'none';
+    _gvBellRender();
+  }catch(e){}
+}
+function _gvBellRender(){
+  const list=document.getElementById('gv-bell-list'),empty=document.getElementById('gv-bell-empty');if(!list)return;
+  if(!_gvBellEvs.length){if(empty)empty.style.display='block';list.innerHTML='';return;}
+  if(empty)empty.style.display='none';
+  list.innerHTML=_gvBellEvs.map(e=>{
+    const icon=e.type==='appuntamento'?'📅':'🔔';
+    const bg=e.is_read?'#fff':'#f0f6ff';
+    const fw=e.is_read?'600':'800';
+    const dateStr=e.event_date?new Date(e.event_date+'T12:00:00').toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'}):'';
+    return `<div onclick="gvBellRead(${e.id})" style="padding:10px 13px;border-bottom:1px solid #f0f4fa;cursor:pointer;background:${bg};">
+      <div style="display:flex;align-items:flex-start;gap:7px;">
+        <span>${icon}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:${fw};font-size:0.86em;color:#1a2540;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.title}</div>
+          ${e.description?`<div style="font-size:0.77em;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.description}</div>`:''}
+          ${dateStr?`<div style="font-size:0.72em;color:#0047a8;font-weight:700;margin-top:2px;">${dateStr}${e.event_time?' ⏰ '+e.event_time:''}</div>`:''}
+        </div>
+        ${!e.is_read?'<span style="width:8px;height:8px;border-radius:50%;background:#e74c3c;flex-shrink:0;margin-top:3px;"></span>':''}
+      </div></div>`;
+  }).join('');
+}
+async function gvBellRead(id){
+  try{
+    const tk=localStorage.getItem('gv_auth_token');
+    await fetch('/api/events?id='+id,{method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tk},body:JSON.stringify({action:'read'})});
+    const ev=_gvBellEvs.find(e=>e.id===id);if(ev)ev.is_read=true;
+    const unread=_gvBellEvs.filter(e=>!e.is_read).length;
+    const badge=document.getElementById('gv-bell-badge');
+    if(badge){if(unread>0){badge.textContent=unread>99?'99+':unread;badge.style.display='block';}else badge.style.display='none';}
+    _gvBellRender();
+  }catch(e){}
+}
+function gvBellToggle(){
+  const panel=document.getElementById('gv-bell-panel');if(!panel)return;
+  _gvBellOpen=!_gvBellOpen;panel.style.display=_gvBellOpen?'block':'none';
+  if(_gvBellOpen)gvBellLoad();
+}
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('gv-bell-wrap');
+  if(wrap&&!wrap.contains(e.target)){const p=document.getElementById('gv-bell-panel');if(p)p.style.display='none';_gvBellOpen=false;}
+});
+setTimeout(gvBellLoad,800);setInterval(gvBellLoad,120000);
+</script>
 </body>
 </html>

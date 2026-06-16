@@ -928,6 +928,16 @@ if(premioInfInput && premioAltreInput){
       });
     }
 
+    // Tasto OGGI per data scadenza vecchia polizza (indipendente da data effetto)
+    const btnOggiScadenza = document.getElementById('btnOggiScadenza');
+    if(btnOggiScadenza && scadenzaVecciaPolizzeInput){
+      btnOggiScadenza.addEventListener('click', function(){
+        const today = formatDateForInput(new Date());
+        scadenzaVecciaPolizzeInput.value = today;
+        scadenzaVecciaPolizzeInput.dispatchEvent(new Event('change', {bubbles:true}));
+      });
+    }
+
     // Listeners per validazione in tempo reale
     if(dataEffettoInput){
       dataEffettoInput.addEventListener('blur', validateDataEffetto);
