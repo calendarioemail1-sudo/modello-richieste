@@ -1229,14 +1229,9 @@ function generaEmailBody(){
   const totalGaranzieInfNum = infNum + infEst2Num;
   const totalGaranzieInf = (isFinite(totalGaranzieInfNum) ? totalGaranzieInfNum : 0).toFixed(2);
 
-  // Premio RCA dopo sconto - annuale
-  let rcaNum;
-  if (typeof window._lastRcaAfterSconto !== 'undefined') {
-    rcaNum = Number(window._lastRcaAfterSconto);
-  } else {
-    const _adj = (typeof getPremioRCAAdjusted === 'function') ? getPremioRCAAdjusted() : (parseFloat((document.getElementById('PremioAssicuratriceMilanese') && document.getElementById('PremioAssicuratriceMilanese').value ? document.getElementById('PremioAssicuratriceMilanese').value.toString().replace(',','.') : '0')) || 0);
-    rcaNum = isSemestraleEmail ? _adj * 2 : _adj;
-  }
+  // Premio Netto RCA: usa SEMPRE il valore grezzo inserito dall'utente (annuale, pre-sconto, invariato)
+  const _rcaInputEl = document.getElementById('PremioAssicuratriceMilanese');
+  let rcaNum = parseFloat((_rcaInputEl && _rcaInputEl.value ? _rcaInputEl.value.toString().replace(',','.') : '0')) || 0;
   if (!isFinite(rcaNum)) rcaNum = 0;
   const premioRcaVal = rcaNum.toFixed(2);
 
@@ -1252,11 +1247,9 @@ function generaEmailBody(){
   const premioCasaVal = casaNum.toFixed(2);
 
   // Totale Lordo Annuo da PASS
-  // IMPORTANTE: visualizzare SEMPRE il valore ANNUALE nella mail, indipendentemente dal frazionamento
-  // Totale Lordo: preferisci valore salvato se presente
-  let totaleLordoNum = (typeof window._lastPreventivoDisplayedNumeric !== 'undefined') ? Number(window._lastPreventivoDisplayedNumeric) : (parseExpression((totaleLordoInput && (totaleLordoInput.value||'')).toString()) || 0);
+  // Totale Lordo Annuo da PASS: usa SEMPRE il valore grezzo inserito dall'utente (annuale, invariato)
+  let totaleLordoNum = parseExpression((totaleLordoInput && (totaleLordoInput.value||'')).toString()) || 0;
   if(!isFinite(totaleLordoNum)) totaleLordoNum = 0;
-  // NON dividiamo per 2: il valore deve rimanere annuale nella mail
   const totaleLordoVal = totaleLordoNum.toFixed(2);
 
   // Calcola l'importo Imposte e SSN = Totale Lordo da PASS - Totale Preventivo Netto da PASS
