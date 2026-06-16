@@ -927,19 +927,7 @@ if(premioInfInput && premioAltreInput){
         dataEffettoInput.dispatchEvent(new Event('change', {bubbles:true}));
       });
     }
-     //Tasto Oggi scadenza vecchia polizza
-         const btnOggiVecchia = document.getElementById('btnOggiEffettoVecchia');
-     const dataScadenzaVecchiaInput = document.getElementById('dataScadenzaVecchia');
-    if(btnOggiVecchia && dataScadenzaVecchiaInput){
-      btnOggiVecchia.addEventListener('click', function(){
-        const today = formatDateForInput(new Date());
-        dataScadenzaVecchiaInput.value = today;
-        dataScadenzaVecchiaInput.dispatchEvent(new Event('change', {bubbles:true}));
-      });
-    }
 
-
-     
     // Listeners per validazione in tempo reale
     if(dataEffettoInput){
       dataEffettoInput.addEventListener('blur', validateDataEffetto);
@@ -1299,7 +1287,7 @@ function generaEmailBody(){
   let preventivoDisplay;
   if(window && typeof window._lastPreventivoDisplayedNumeric !== 'undefined'){
     const lastPreventivo = Number(window._lastPreventivoDisplayedNumeric) || 0;
-    preventivoDisplay = (window._lastPreventivoIsSemestrale) ? (fmtCurrency(lastPreventivo/2) + ' (annuo ' + fmtCurrency(lastPreventivo) + ')') : fmtCurrency(lastPreventivo);
+    preventivoDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(lastPreventivo/2) + ' (annuo ' + fmtCurrency(lastPreventivo) + ')') : fmtCurrency(lastPreventivo);
   } else {
     preventivoDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(preventivoAnnualCalc/2) + ' (annuo ' + fmtCurrency(preventivoAnnualCalc) + ')') : fmtCurrency(preventivoAnnualCalc);
   }
@@ -1320,7 +1308,7 @@ function generaEmailBody(){
     preventivoAnnualCalc = lastPreventivo;
   }
   // Mostra il totale RCA scontato, con nota se 5% è applicato
-  let totaleScontoRcaDisplay = (window && window._lastPreventivoIsSemestrale) ? fmtCurrency(totaleScontoRcaAnnual/2) + ' (annuo ' + fmtCurrency(totaleScontoRcaAnnual) + ')' : fmtCurrency(totaleScontoRcaAnnual);
+  let totaleScontoRcaDisplay = (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(totaleScontoRcaAnnual/2) + ' (annuo ' + fmtCurrency(totaleScontoRcaAnnual) + ')' : fmtCurrency(totaleScontoRcaAnnual);
   if(rca5PercentDiscount > 0){
     totaleScontoRcaDisplay += ' (sconto 5% POL R.E. già applicato)';
   }
@@ -1347,11 +1335,11 @@ ${sinistriRiga}
 • 🗓 Data effetto: ${dataEffettoInput.value||'N/A'}
 • 💵 Totale Lordo Annuo da PASS: € ${totaleLordoVal}
 • 🎯 Sconto Già Applicato da PASS: ${document.getElementById('scontoPass').value || '0'}%
-• 💶 Premio Netto RCA: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioRcaVal)) + ' (annuo ' + fmtCurrency(rcaAnnualRaw) + ')' : fmtCurrency(rcaAnnualRaw) }
-• ➕ Premio Netto Altre Garanzie: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioAltreVal)) + ' (annuo ' + fmtCurrency(altreAnnualRaw) + ')' : fmtCurrency(altreAnnualRaw) }
+• 💶 Premio Netto RCA: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioRcaVal) / 2) + ' (annuo ' + fmtCurrency(parseFloat(premioRcaVal)) + ')' : fmtCurrency(parseFloat(premioRcaVal)) }
+• ➕ Premio Netto Altre Garanzie: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioAltreVal) / 2) + ' (annuo ' + fmtCurrency(parseFloat(premioAltreVal)) + ')' : fmtCurrency(parseFloat(premioAltreVal)) }
 • 🪙 Importo Imposte e SSN: ${ (frazionamento && frazionamento.value === 'Semestrale') ? (fmtCurrency(importoImposteNum) + ' (annuo ' + fmtCurrency(importoImposteAnnual) + ')') : fmtCurrency(importoImposteAnnual) }
-• 🚑 Garanzie Infortuni: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(totalGaranzieInf)) + ' (annuo ' + fmtCurrency(infAnnualiRaw + infEst2AnnualiRaw) + ')' : fmtCurrency(infAnnualiRaw + infEst2AnnualiRaw) }
-• 🏠 Premio Altre polizze R.E. Esterne: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioCasaVal)) + ' (annuo ' + fmtCurrency(casaAnnualRaw) + ')' : fmtCurrency(casaAnnualRaw) }
+• 🚑 Garanzie Infortuni: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(totalGaranzieInf) / 2) + ' (annuo ' + fmtCurrency(parseFloat(totalGaranzieInf)) + ')' : fmtCurrency(parseFloat(totalGaranzieInf)) }
+• 🏠 Premio Altre polizze R.E. Esterne: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(premioCasaVal) / 2) + ' (annuo ' + fmtCurrency(parseFloat(premioCasaVal)) + ')' : fmtCurrency(parseFloat(premioCasaVal)) }
 • 🧾 Preventivo Precedente: ${ (frazionamento && frazionamento.value === 'Semestrale') ? fmtCurrency(parseFloat(prevPreventivoVal)) + ' (annuo ' + fmtCurrency(prevAnnualRaw) + ')' : fmtCurrency(prevAnnualRaw) }
 • 🏢 Compagnia di Provenienza: ${document.getElementById('compagniaProvenienza').value}
 • 🔖 Sconto Richiesto: ${document.getElementById('sconto').value}%
@@ -1758,110 +1746,3 @@ document.querySelectorAll('.checkbox-label').forEach(l=>{ l.setAttribute('tabind
     setTimeout(computeSuggestedPercent, 300);
   })();
 
-
-/* ==========================
-   CAMPANELLA NOTIFICHE
-===========================*/
-let _gvBellOpen = false, _gvBellEvs = [];
-
-async function gvBellLoad() {
-  const list = document.getElementById('gv-bell-list');
-  const empty = document.getElementById('gv-bell-empty');
-  if (list) list.innerHTML = '<div style="padding:14px;text-align:center;color:#aaa;font-size:0.82em;">Caricamento...</div>';
-  if (empty) empty.style.display = 'none';
-  try {
-    const tk = localStorage.getItem('gv_auth_token');
-    if (!tk) { _gvBellRender(); return; }
-    const r = await fetch('/api/events', { headers: { 'Authorization': 'Bearer ' + tk } });
-    if (!r.ok) { _gvBellRender(); return; }
-    const d = await r.json();
-    _gvBellEvs = d.events || [];
-    const unread = _gvBellEvs.filter(e => !e.is_read).length;
-    const badge = document.getElementById('gv-bell-badge');
-    if (badge) {
-      if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.style.display = 'block'; }
-      else badge.style.display = 'none';
-    }
-    const lnk = document.getElementById('gv-bell-admin-lnk');
-    if (lnk) lnk.style.display = d.role === 'admin' ? '' : 'none';
-    _gvBellRender();
-  } catch (e) { _gvBellRender(); }
-}
-
-function _gvBellRender() {
-  const list = document.getElementById('gv-bell-list');
-  const empty = document.getElementById('gv-bell-empty');
-  if (!list) return;
-  if (!_gvBellEvs.length) {
-    if (empty) empty.style.display = 'block';
-    list.innerHTML = '';
-    return;
-  }
-  if (empty) empty.style.display = 'none';
-  list.innerHTML = _gvBellEvs.map(e => {
-    const icon = e.type === 'appuntamento' ? '📅' : '🔔';
-    const bg = e.is_read ? '#fff' : '#f0f6ff';
-    const fw = e.is_read ? '600' : '800';
-    const dateStr = e.event_date
-      ? new Date(e.event_date + 'T12:00:00').toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: '2-digit' })
-      : '';
-    return `<div onclick="gvBellRead(${e.id})" style="padding:10px 13px;border-bottom:1px solid #f0f4fa;cursor:pointer;background:${bg};">
-      <div style="display:flex;align-items:flex-start;gap:7px;">
-        <span>${icon}</span>
-        <div style="flex:1;min-width:0;">
-          <div style="font-weight:${fw};font-size:0.86em;color:#1a2540;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.title}</div>
-          ${e.description ? `<div style="font-size:0.77em;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.description}</div>` : ''}
-          ${dateStr ? `<div style="font-size:0.72em;color:#0047a8;font-weight:700;margin-top:2px;">${dateStr}${e.event_time ? ' ⏰ ' + e.event_time : ''}</div>` : ''}
-        </div>
-        ${!e.is_read ? '<span style="width:8px;height:8px;border-radius:50%;background:#e74c3c;flex-shrink:0;margin-top:3px;"></span>' : ''}
-      </div></div>`;
-  }).join('');
-}
-
-async function gvBellRead(id) {
-  try {
-    const tk = localStorage.getItem('gv_auth_token');
-    await fetch('/api/events?id=' + id, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + tk },
-      body: JSON.stringify({ action: 'read' })
-    });
-    const ev = _gvBellEvs.find(e => e.id === id);
-    if (ev) ev.is_read = true;
-    const unread = _gvBellEvs.filter(e => !e.is_read).length;
-    const badge = document.getElementById('gv-bell-badge');
-    if (badge) {
-      if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.style.display = 'block'; }
-      else badge.style.display = 'none';
-    }
-    _gvBellRender();
-  } catch (e) {}
-}
-
-function gvBellToggle() {
-  const panel = document.getElementById('gv-bell-panel');
-  if (!panel) return;
-  const badge = document.getElementById('gv-bell-badge');
-  _gvBellOpen = true;
-  panel.style.display = 'block';
-  if (badge) badge.style.display = 'none';
-  gvBellLoad();
-}
-
-document.addEventListener('click', e => {
-  const wrap = document.getElementById('gv-bell-wrap');
-  if (wrap && !wrap.contains(e.target)) {
-    const p = document.getElementById('gv-bell-panel');
-    if (p) p.style.display = 'none';
-    _gvBellOpen = false;
-  }
-});
-
-const bellBtn = document.getElementById('gv-bell-btn');
-if (bellBtn) bellBtn.addEventListener('click', e => { e.stopPropagation(); gvBellToggle(); });
-
-const logoutBtn = document.getElementById('btnLogout');
-if (logoutBtn) logoutBtn.addEventListener('click', gvLogout);
-
-setTimeout(gvBellLoad, 800);
-setInterval(gvBellLoad, 120000);
