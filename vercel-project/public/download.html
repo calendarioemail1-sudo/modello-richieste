@@ -94,7 +94,34 @@
     .perm-radio{display:flex;gap:12px;margin-bottom:10px;}
     .perm-radio label{display:flex;align-items:center;gap:6px;font-size:0.85em;font-weight:700;cursor:pointer;}
     .users-checkboxes{max-height:160px;overflow-y:auto;border:1.5px solid var(--border);border-radius:9px;padding:8px;display:flex;flex-direction:column;gap:6px;}
-    .users-checkboxes label{display:flex;align-items:center;gap:8px;font-size:0.83em;font-weight:600;cursor:pointer;}
+   
+    .users-checkboxes label{
+  display:grid;
+  grid-template-columns:28px 1fr 230px;
+  align-items:center;
+  width:100%;
+  min-height:38px;
+  margin:0;
+  padding:4px 2px;
+  font-size:0.83em;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.users-checkboxes label input[type="checkbox"]{
+  width:16px;
+  height:16px;
+  margin:0 auto;
+  cursor:pointer;
+}
+
+.users-checkboxes label span{
+  color:#aaa;
+  font-size:0.85em;
+  white-space:nowrap;
+  text-align:right;
+}
+    
     .toast{position:fixed;bottom:24px;right:24px;background:#1a2540;color:#fff;padding:12px 20px;border-radius:10px;font-size:0.88em;font-weight:700;z-index:9999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px;}
     .toast.show{transform:translateY(0);opacity:1;}
     .toast.success{background:linear-gradient(135deg,#1a9e50,#2ecc71);}
@@ -462,16 +489,31 @@ async function loadUsersForCheckboxes(containerId, selectedEmails){
       const r = await fetch('/api/users', { headers: authHeaders() });
       const d = await r.json();
       allUsers = (d.users||[]).filter(u=>u.role!=='admin');
-    } catch(e){ allUsers = []; }
+    } catch(e){
+      allUsers = [];
+    }
   }
+
   const c = document.getElementById(containerId);
-  if(allUsers.length === 0){ c.innerHTML = '<em style="font-size:0.8em;color:#aaa;">Nessun utente trovato</em>'; return; }
+
+  if(allUsers.length === 0){
+    c.innerHTML = '<em style="font-size:0.8em;color:#aaa;">Nessun utente trovato</em>';
+    return;
+  }
+
   c.innerHTML = allUsers.map(u=>`
     <label>
-      <input type="checkbox" value="${escHtml(u.email)}" ${selectedEmails.includes(u.email)?'checked':''}>
-      ${escHtml(u.nome||u.email)} <span style="color:#aaa;font-size:0.85em;">(${escHtml(u.email)})</span>
-    </label>`).join('');
+      <input
+        type="checkbox"
+        value="${escHtml(u.email)}"
+        ${selectedEmails.includes(u.email)?'checked':''}
+      >
+      <span class="user-name">${escHtml(u.nome||u.email)}</span>
+      <span class="user-email">(${escHtml(u.email)})</span>
+    </label>
+  `).join('');
 }
+
 
 function getCheckedUsers(containerId){
   return [...document.getElementById(containerId).querySelectorAll('input[type=checkbox]:checked')].map(c=>c.value);
