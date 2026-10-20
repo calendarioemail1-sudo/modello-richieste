@@ -1007,25 +1007,28 @@ function markInvalidFields(){
   requiredEls.forEach(el=>{ if(!el.checkValidity()){ el.classList.add('invalid'); anyInvalid=true; }});
   const telefono=document.getElementById('telefono');
   if(telefono && !telefono.checkValidity()){ telefono.classList.add('invalid'); anyInvalid=true; }
-  // Controllo specifico: numero proposta deve essere esattamente 9 cifre
-  const numero=document.getElementById('numeroProposta');
-  if(numero){
-    const val=(numero.value||'').toString();
-    if(!/^\d{7}$/.test(val)){
-      numero.classList.add('invalid');
-      anyInvalid=true;
-    }
+  // Controllo specifico: numero proposta deve essere esattamente 7 o 9 cifre
+  const numero = document.getElementById('numeroProposta');
+if (numero) {
+  const val = (numero.value || '').toString();
+  if (!/^(?:\d{7}|\d{9})$/.test(val)) {
+    numero.classList.add('invalid');
+    anyInvalid = true;
   }
-  return anyInvalid;
 }
-
-function attachAutoClearInvalid(){
-  [...form.querySelectorAll('input, select, textarea')].forEach(control=>{
-    const clearIfValid=()=>{
-      if(control.type==='radio' && control.name){
-        const group=form.querySelectorAll(`input[name="${control.name}"]`);
-        group.forEach(r=>{ if(r.checkValidity()) r.classList.remove('invalid'); });
-      } else { if(control.checkValidity()) control.classList.remove('invalid'); }
+return anyInvalid;
+}
+function attachAutoClearInvalid() {
+  [...form.querySelectorAll('input, select, textarea')].forEach(control => {
+    const clearIfValid = () => {
+      if (control.type === 'radio' && control.name) {
+        const group = form.querySelectorAll(`input[name="${control.name}"]`);
+        group.forEach(r => {
+          if (r.checkValidity()) r.classList.remove('invalid');
+        });
+      } else {
+        if (control.checkValidity()) control.classList.remove('invalid');
+      }
     };
     control.addEventListener('input', clearIfValid);
     control.addEventListener('change', clearIfValid);
@@ -1033,17 +1036,25 @@ function attachAutoClearInvalid(){
   });
 }
 attachAutoClearInvalid();
-
-// Sanitize numeroProposta input: allow only digits and cap to 9 characters
-if(numeroPropostaInput){
-  numeroPropostaInput.addEventListener('input', ()=>{
-    let v = (numeroPropostaInput.value||'').toString().replace(/\D/g,'').slice(0,9);
-    if(numeroPropostaInput.value !== v) numeroPropostaInput.value = v;
-    if(/^\d{7}$/.test(v)) numeroPropostaInput.classList.remove('invalid');
+// Accetta solo cifre e limita il numero proposta a 9 caratteri
+if (numeroPropostaInput) {
+  numeroPropostaInput.addEventListener('input', () => {
+    const v = (numeroPropostaInput.value || '')
+      .toString()
+      .replace(/\D/g, '')
+      .slice(0, 9);
+    if (numeroPropostaInput.value !== v) {
+      numeroPropostaInput.value = v;
+    }
+    if (/^(?:\d{7}|\d{9})$/.test(v)) {
+      numeroPropostaInput.classList.remove('invalid');
+    }
   });
-  numeroPropostaInput.addEventListener('blur', ()=>{
-    // optional: if shorter than 9, keep as-is but mark invalid visually
-    if(!/^\d{9}$/.test(numeroPropostaInput.value)) numeroPropostaInput.classList.add('invalid');
+  numeroPropostaInput.addEventListener('blur', () => {
+    // Mantiene il valore, ma segnala come non valido se non ha 7 o 9 cifre
+    if (!/^(?:\d{7}|\d{9})$/.test(numeroPropostaInput.value)) {
+      numeroPropostaInput.classList.add('invalid');
+    }
   });
 }
 
